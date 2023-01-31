@@ -8,7 +8,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/patient_endpoint.dart' as _i2;
-import 'package:serverpod_auth_server/module.dart' as _i3;
+import 'package:healthcare_app_server/src/generated/patient.dart' as _i3;
+import 'package:serverpod_auth_server/module.dart' as _i4;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -30,7 +31,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'patient': _i1.ParameterDescription(
               name: 'patient',
-              type: _i1.getType<dynamic>(),
+              type: _i1.getType<_i3.Patient>(),
               nullable: false,
             )
           },
@@ -42,9 +43,18 @@ class Endpoints extends _i1.EndpointDispatch {
             session,
             params['patient'],
           ),
-        )
+        ),
+        'getPatient': _i1.MethodConnector(
+          name: 'getPatient',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['patient'] as _i2.PatientEndpoint).getPatient(session),
+        ),
       },
     );
-    modules['serverpod_auth'] = _i3.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i4.Endpoints()..initializeEndpoints(server);
   }
 }

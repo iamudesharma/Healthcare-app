@@ -8,9 +8,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:serverpod_auth_client/module.dart' as _i3;
-import 'dart:io' as _i4;
-import 'protocol.dart' as _i5;
+import 'package:healthcare_app_client/src/protocol/patient.dart' as _i3;
+import 'package:serverpod_auth_client/module.dart' as _i4;
+import 'dart:io' as _i5;
+import 'protocol.dart' as _i6;
 
 class _EndpointPatient extends _i1.EndpointRef {
   _EndpointPatient(_i1.EndpointCaller caller) : super(caller);
@@ -18,30 +19,37 @@ class _EndpointPatient extends _i1.EndpointRef {
   @override
   String get name => 'patient';
 
-  _i2.Future<void> cratePatient(dynamic patient) =>
+  _i2.Future<void> cratePatient(_i3.Patient patient) =>
       caller.callServerEndpoint<void>(
         'patient',
         'cratePatient',
         {'patient': patient},
       );
+
+  _i2.Future<List<_i3.Patient?>> getPatient() =>
+      caller.callServerEndpoint<List<_i3.Patient?>>(
+        'patient',
+        'getPatient',
+        {},
+      );
 }
 
 class _Modules {
   _Modules(Client client) {
-    auth = _i3.Caller(client);
+    auth = _i4.Caller(client);
   }
 
-  late final _i3.Caller auth;
+  late final _i4.Caller auth;
 }
 
 class Client extends _i1.ServerpodClient {
   Client(
     String host, {
-    _i4.SecurityContext? context,
+    _i5.SecurityContext? context,
     _i1.AuthenticationKeyManager? authenticationKeyManager,
   }) : super(
           host,
-          _i5.Protocol(),
+          _i6.Protocol(),
           context: context,
           authenticationKeyManager: authenticationKeyManager,
         ) {

@@ -9,8 +9,9 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'patient.dart' as _i2;
-import 'package:serverpod_auth_server/module.dart' as _i3;
-import 'package:serverpod/protocol.dart' as _i4;
+import 'package:healthcare_app_server/src/generated/patient.dart' as _i3;
+import 'package:serverpod_auth_server/module.dart' as _i4;
+import 'package:serverpod/protocol.dart' as _i5;
 export 'patient.dart'; // ignore_for_file: equal_keys_in_map
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -37,11 +38,15 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i2.Patient?>()) {
       return (data != null ? _i2.Patient.fromJson(data, this) : null) as T;
     }
-    try {
-      return _i3.Protocol().deserialize<T>(data, t);
-    } catch (_) {}
+    if (t == List<_i3.Patient?>) {
+      return (data as List).map((e) => deserialize<_i3.Patient?>(e)).toList()
+          as dynamic;
+    }
     try {
       return _i4.Protocol().deserialize<T>(data, t);
+    } catch (_) {}
+    try {
+      return _i5.Protocol().deserialize<T>(data, t);
     } catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -49,7 +54,7 @@ class Protocol extends _i1.SerializationManagerServer {
   @override
   String? getClassNameForObject(Object data) {
     String? className;
-    className = _i3.Protocol().getClassNameForObject(data);
+    className = _i4.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
@@ -63,7 +68,7 @@ class Protocol extends _i1.SerializationManagerServer {
   dynamic deserializeByClassName(Map<String, dynamic> data) {
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);
-      return _i3.Protocol().deserializeByClassName(data);
+      return _i4.Protocol().deserializeByClassName(data);
     }
     if (data['className'] == 'Patient') {
       return deserialize<_i2.Patient>(data['data']);
@@ -74,13 +79,13 @@ class Protocol extends _i1.SerializationManagerServer {
   @override
   _i1.Table? getTableForType(Type t) {
     {
-      var table = _i3.Protocol().getTableForType(t);
+      var table = _i4.Protocol().getTableForType(t);
       if (table != null) {
         return table;
       }
     }
     {
-      var table = _i4.Protocol().getTableForType(t);
+      var table = _i5.Protocol().getTableForType(t);
       if (table != null) {
         return table;
       }

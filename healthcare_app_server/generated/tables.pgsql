@@ -10,7 +10,7 @@ CREATE TABLE "patient" (
   "weight" text,
   "height" text,
   "createdAt" timestamp without time zone NOT NULL,
-  "userInfo" json NOT NULL
+  "userId" integer NOT NULL
 );
 
 ALTER TABLE ONLY "patient"

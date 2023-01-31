@@ -7,7 +7,6 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
-import 'package:serverpod_auth_client/module.dart' as _i2;
 
 class Patient extends _i1.SerializableEntity {
   Patient({
@@ -18,7 +17,7 @@ class Patient extends _i1.SerializableEntity {
     this.weight,
     this.height,
     required this.createdAt,
-    required this.userInfo,
+    required this.userId,
   });
 
   factory Patient.fromJson(
@@ -37,8 +36,8 @@ class Patient extends _i1.SerializableEntity {
           .deserialize<String?>(jsonSerialization['height']),
       createdAt: serializationManager
           .deserialize<DateTime>(jsonSerialization['createdAt']),
-      userInfo: serializationManager
-          .deserialize<_i2.UserInfo>(jsonSerialization['userInfo']),
+      userId:
+          serializationManager.deserialize<int>(jsonSerialization['userId']),
     );
   }
 
@@ -59,7 +58,7 @@ class Patient extends _i1.SerializableEntity {
 
   DateTime createdAt;
 
-  _i2.UserInfo userInfo;
+  int userId;
 
   @override
   Map<String, dynamic> toJson() {
@@ -71,7 +70,7 @@ class Patient extends _i1.SerializableEntity {
       'weight': weight,
       'height': height,
       'createdAt': createdAt,
-      'userInfo': userInfo,
+      'userId': userId,
     };
   }
 }

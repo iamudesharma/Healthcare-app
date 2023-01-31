@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +12,9 @@ import 'package:serverpod_flutter/serverpod_flutter.dart';
 // The client is set up to connect to a Serverpod running on a local server on
 // the default port. You will need to modify this to connect to staging or
 // production servers.
+
 var client = Client(
-  'http://localhost:8080/',
+  'http://${Platform.isAndroid ? "10.0.2.2" : "localhost"}:8080/',
   authenticationKeyManager: FlutterAuthenticationKeyManager(),
 )..connectivityMonitor = FlutterConnectivityMonitor();
 
@@ -64,7 +67,19 @@ class HomePage extends StatelessWidget {
       body: Center(
           child: GestureDetector(
               onTap: () async {
-                // await client.example.hello("hi");
+                final patient = Patient(
+                    name: sessionManager.signedInUser!.userName,
+                    age: 12,
+                    createdAt: DateTime.now(),
+                    gender: "male",
+                    userId: sessionManager.signedInUser!.id!,
+                    weight: "12",
+                    height: "12");
+                final data = await client.patient.getPatient();
+
+                print(data.length);
+                print(data[0]?.name ?? "hjhjxjwxbhw");
+                // // await client.example.hello("hi");
               },
               child: const Text(
                 "Cick me",
@@ -87,7 +102,10 @@ class SignInPage extends StatelessWidget {
           caller: sessionManager.caller,
           onSignedIn: () {
             Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const HomePage()));
+              MaterialPageRoute(
+                builder: (context) => const HomePage(),
+              ),
+            );
           },
         ),
       ),

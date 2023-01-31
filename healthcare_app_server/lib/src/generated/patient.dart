@@ -7,7 +7,6 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import 'package:serverpod_auth_server/module.dart' as _i2;
 
 class Patient extends _i1.TableRow {
   Patient({
@@ -18,7 +17,7 @@ class Patient extends _i1.TableRow {
     this.weight,
     this.height,
     required this.createdAt,
-    required this.userInfo,
+    required this.userId,
   }) : super(id);
 
   factory Patient.fromJson(
@@ -37,8 +36,8 @@ class Patient extends _i1.TableRow {
           .deserialize<String?>(jsonSerialization['height']),
       createdAt: serializationManager
           .deserialize<DateTime>(jsonSerialization['createdAt']),
-      userInfo: serializationManager
-          .deserialize<_i2.UserInfo>(jsonSerialization['userInfo']),
+      userId:
+          serializationManager.deserialize<int>(jsonSerialization['userId']),
     );
   }
 
@@ -56,7 +55,7 @@ class Patient extends _i1.TableRow {
 
   DateTime createdAt;
 
-  _i2.UserInfo userInfo;
+  int userId;
 
   @override
   String get tableName => 'patient';
@@ -70,7 +69,7 @@ class Patient extends _i1.TableRow {
       'weight': weight,
       'height': height,
       'createdAt': createdAt,
-      'userInfo': userInfo,
+      'userId': userId,
     };
   }
 
@@ -84,7 +83,7 @@ class Patient extends _i1.TableRow {
       'weight': weight,
       'height': height,
       'createdAt': createdAt,
-      'userInfo': userInfo,
+      'userId': userId,
     };
   }
 
@@ -98,7 +97,7 @@ class Patient extends _i1.TableRow {
       'weight': weight,
       'height': height,
       'createdAt': createdAt,
-      'userInfo': userInfo,
+      'userId': userId,
     };
   }
 
@@ -129,8 +128,8 @@ class Patient extends _i1.TableRow {
       case 'createdAt':
         createdAt = value;
         return;
-      case 'userInfo':
-        userInfo = value;
+      case 'userId':
+        userId = value;
         return;
       default:
         throw UnimplementedError();
@@ -268,7 +267,7 @@ class PatientTable extends _i1.Table {
 
   final createdAt = _i1.ColumnDateTime('createdAt');
 
-  final userInfo = _i1.ColumnSerializable('userInfo');
+  final userId = _i1.ColumnInt('userId');
 
   @override
   List<_i1.Column> get columns => [
@@ -279,7 +278,7 @@ class PatientTable extends _i1.Table {
         weight,
         height,
         createdAt,
-        userInfo,
+        userId,
       ];
 }
 
