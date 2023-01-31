@@ -1,0 +1,15 @@
+class: Chemists
+
+table: chemists
+
+fields:
+  name: String
+  address: String?
+  geoPoint: GeoPoint?
+  images: List<String?>
+  openTime: DateTime?
+  closeTime: DateTime?
+  email: String?
+  phoneNo: int?
+  
+

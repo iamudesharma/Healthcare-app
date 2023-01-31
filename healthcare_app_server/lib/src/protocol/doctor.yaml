@@ -1,0 +1,10 @@
+class: Doctor
+table: doctor
+
+fields:
+  name: String?
+  age: int?
+  address: String?
+  fees: int?
+  experience: int?
+  geoPoint: GeoPoint? 

@@ -1,0 +1,8 @@
+class: GeoPoint
+
+table: geopoint
+
+fields:
+  lat: double
+  long: double
+  

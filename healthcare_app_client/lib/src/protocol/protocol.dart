@@ -8,9 +8,15 @@
 library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixes
 
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
-import 'patient.dart' as _i2;
-import 'package:healthcare_app_client/src/protocol/patient.dart' as _i3;
-import 'package:serverpod_auth_client/module.dart' as _i4;
+import 'chemists.dart' as _i2;
+import 'doctor.dart' as _i3;
+import 'geopoint.dart' as _i4;
+import 'patient.dart' as _i5;
+import 'package:healthcare_app_client/src/protocol/patient.dart' as _i6;
+import 'package:serverpod_auth_client/module.dart' as _i7;
+export 'chemists.dart';
+export 'doctor.dart';
+export 'geopoint.dart';
 export 'patient.dart';
 export 'client.dart'; // ignore_for_file: equal_keys_in_map
 
@@ -32,18 +38,40 @@ class Protocol extends _i1.SerializationManager {
     if (customConstructors.containsKey(t)) {
       return customConstructors[t]!(data, this) as T;
     }
-    if (t == _i2.Patient) {
-      return _i2.Patient.fromJson(data, this) as T;
+    if (t == _i2.Chemists) {
+      return _i2.Chemists.fromJson(data, this) as T;
     }
-    if (t == _i1.getType<_i2.Patient?>()) {
-      return (data != null ? _i2.Patient.fromJson(data, this) : null) as T;
+    if (t == _i3.Doctor) {
+      return _i3.Doctor.fromJson(data, this) as T;
     }
-    if (t == List<_i3.Patient>) {
-      return (data as List).map((e) => deserialize<_i3.Patient>(e)).toList()
+    if (t == _i4.GeoPoint) {
+      return _i4.GeoPoint.fromJson(data, this) as T;
+    }
+    if (t == _i5.Patient) {
+      return _i5.Patient.fromJson(data, this) as T;
+    }
+    if (t == _i1.getType<_i2.Chemists?>()) {
+      return (data != null ? _i2.Chemists.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<_i3.Doctor?>()) {
+      return (data != null ? _i3.Doctor.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<_i4.GeoPoint?>()) {
+      return (data != null ? _i4.GeoPoint.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<_i5.Patient?>()) {
+      return (data != null ? _i5.Patient.fromJson(data, this) : null) as T;
+    }
+    if (t == List<String?>) {
+      return (data as List).map((e) => deserialize<String?>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i6.Patient>) {
+      return (data as List).map((e) => deserialize<_i6.Patient>(e)).toList()
           as dynamic;
     }
     try {
-      return _i4.Protocol().deserialize<T>(data, t);
+      return _i7.Protocol().deserialize<T>(data, t);
     } catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -51,11 +79,20 @@ class Protocol extends _i1.SerializationManager {
   @override
   String? getClassNameForObject(Object data) {
     String? className;
-    className = _i4.Protocol().getClassNameForObject(data);
+    className = _i7.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
-    if (data is _i2.Patient) {
+    if (data is _i2.Chemists) {
+      return 'Chemists';
+    }
+    if (data is _i3.Doctor) {
+      return 'Doctor';
+    }
+    if (data is _i4.GeoPoint) {
+      return 'GeoPoint';
+    }
+    if (data is _i5.Patient) {
       return 'Patient';
     }
     return super.getClassNameForObject(data);
@@ -65,10 +102,19 @@ class Protocol extends _i1.SerializationManager {
   dynamic deserializeByClassName(Map<String, dynamic> data) {
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);
-      return _i4.Protocol().deserializeByClassName(data);
+      return _i7.Protocol().deserializeByClassName(data);
+    }
+    if (data['className'] == 'Chemists') {
+      return deserialize<_i2.Chemists>(data['data']);
+    }
+    if (data['className'] == 'Doctor') {
+      return deserialize<_i3.Doctor>(data['data']);
+    }
+    if (data['className'] == 'GeoPoint') {
+      return deserialize<_i4.GeoPoint>(data['data']);
     }
     if (data['className'] == 'Patient') {
-      return deserialize<_i2.Patient>(data['data']);
+      return deserialize<_i5.Patient>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
