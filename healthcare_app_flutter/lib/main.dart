@@ -64,7 +64,7 @@ class HomePage extends StatelessWidget {
       body: Center(
           child: GestureDetector(
               onTap: () async {
-                await client.example.hello("hi");
+                // await client.example.hello("hi");
               },
               child: const Text(
                 "Cick me",
