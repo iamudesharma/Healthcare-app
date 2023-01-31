@@ -4,6 +4,7 @@ import 'package:healthcare_app_server/src/web/routes/root.dart';
 
 import 'src/generated/protocol.dart';
 import 'src/generated/endpoints.dart';
+import 'package:serverpod_auth_server/module.dart' as auth;
 
 // This is the starting point of your Serverpod server. In most cases, you will
 // only need to make additions to this file if you add future calls,  are
@@ -28,6 +29,23 @@ void run(List<String> args) async {
     RouteStaticDirectory(serverDirectory: 'static', basePath: '/'),
     '/*',
   );
+
+  auth.AuthConfig.set(auth.AuthConfig(
+    sendValidationEmail: (session, email, validationCode) async {
+      session.log('Sending validation email to $email');
+      session.log('Sending validation code to $validationCode');
+
+      return true;
+
+      // Send your validation email here.
+    },
+    sendPasswordResetEmail: (session, userInfo, validationCode) async {
+      session.log('Sending validation email to $userInfo');
+
+      return true;
+      // Send a password reset email here.
+    },
+  ));
 
   // Start the server.
   await pod.start();
