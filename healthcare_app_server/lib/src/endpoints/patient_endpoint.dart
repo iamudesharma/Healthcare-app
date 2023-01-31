@@ -1,5 +1,6 @@
 import 'package:healthcare_app_server/src/generated/protocol.dart';
 import 'package:serverpod/server.dart';
+import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_server/module.dart';
 
 class PatientEndpoint extends Endpoint {
@@ -11,18 +12,33 @@ class PatientEndpoint extends Endpoint {
     await Patient.insert(session, patient);
   }
 
-  Future<List<Patient?>> getPatient(
+  Future<Patient?> currentPatient(
     Session session,
-    // int id,
   ) async {
-    // session.log("Getting patient: $id");
-
     final userId = await session.auth.authenticatedUserId;
     session.log("Getting patient: $userId");
 
+    final data = await Patient.findById(
+      session,
+      userId!,
+    );
+
+    if (data != null) {
+      return data;
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<Patient>> getPatient(
+    Session session,
+  ) async {
+    session.log("Getting patient: ");
+
     return await Patient.find(
       session,
-      where: (p0) => p0.userId.equals(userId),
+      limit: 10,
+      orderBy: Patient.t.createdAt,
     );
   }
 }

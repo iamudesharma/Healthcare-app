@@ -38,8 +38,8 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i1.getType<_i2.Patient?>()) {
       return (data != null ? _i2.Patient.fromJson(data, this) : null) as T;
     }
-    if (t == List<_i3.Patient?>) {
-      return (data as List).map((e) => deserialize<_i3.Patient?>(e)).toList()
+    if (t == List<_i3.Patient>) {
+      return (data as List).map((e) => deserialize<_i3.Patient>(e)).toList()
           as dynamic;
     }
     try {

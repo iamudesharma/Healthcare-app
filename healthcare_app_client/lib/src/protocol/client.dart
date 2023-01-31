@@ -26,8 +26,15 @@ class _EndpointPatient extends _i1.EndpointRef {
         {'patient': patient},
       );
 
-  _i2.Future<List<_i3.Patient?>> getPatient() =>
-      caller.callServerEndpoint<List<_i3.Patient?>>(
+  _i2.Future<_i3.Patient?> currentPatient() =>
+      caller.callServerEndpoint<_i3.Patient?>(
+        'patient',
+        'currentPatient',
+        {},
+      );
+
+  _i2.Future<List<_i3.Patient>> getPatient() =>
+      caller.callServerEndpoint<List<_i3.Patient>>(
         'patient',
         'getPatient',
         {},

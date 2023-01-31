@@ -44,6 +44,16 @@ class Endpoints extends _i1.EndpointDispatch {
             params['patient'],
           ),
         ),
+        'currentPatient': _i1.MethodConnector(
+          name: 'currentPatient',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['patient'] as _i2.PatientEndpoint)
+                  .currentPatient(session),
+        ),
         'getPatient': _i1.MethodConnector(
           name: 'getPatient',
           params: {},
