@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:14.1
+    ports:
+      - '8090:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: healthcare_app
+      POSTGRES_PASSWORD: "sH6ONPLcZrza2dWZWSnXcM2z-qbWQ119"
+    volumes:
+      - healthcare_app_data:/var/lib/postgresql/data
+  redis:
+    image: redis:6.2.6
+    ports:
+      - '8091:6379'
+    command: redis-server --requirepass "h5y6jSJecBotky9PZArFrN79c4IY4Tbf"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+volumes:
+  healthcare_app_data:
