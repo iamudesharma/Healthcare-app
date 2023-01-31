@@ -11,7 +11,8 @@ CREATE TABLE "chemists" (
   "openTime" timestamp without time zone,
   "closeTime" timestamp without time zone,
   "email" text,
-  "phoneNo" integer
+  "phoneNo" integer,
+  "userId" integer NOT NULL
 );
 
 ALTER TABLE ONLY "chemists"
@@ -49,6 +50,29 @@ CREATE TABLE "geopoint" (
 ALTER TABLE ONLY "geopoint"
   ADD CONSTRAINT geopoint_pkey PRIMARY KEY (id);
 
+
+--
+-- Class Medicine as table medicine
+--
+
+CREATE TABLE "medicine" (
+  "id" serial,
+  "name" text NOT NULL,
+  "price" integer NOT NULL,
+  "discountPrice" integer,
+  "images" json NOT NULL,
+  "chemistsId" integer NOT NULL,
+  "description" text
+);
+
+ALTER TABLE ONLY "medicine"
+  ADD CONSTRAINT medicine_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY "medicine"
+  ADD CONSTRAINT medicine_fk_0
+    FOREIGN KEY("chemistsId")
+      REFERENCES chemists(id)
+        ON DELETE CASCADE;
 
 --
 -- Class Patient as table patient

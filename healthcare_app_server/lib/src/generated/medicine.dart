@@ -7,83 +7,63 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import 'protocol.dart' as _i2;
 
-class Chemists extends _i1.TableRow {
-  Chemists({
+class Medicine extends _i1.TableRow {
+  Medicine({
     int? id,
     required this.name,
-    this.address,
-    this.geoPoint,
+    required this.price,
+    this.discountPrice,
     required this.images,
-    this.openTime,
-    this.closeTime,
-    this.email,
-    this.phoneNo,
-    required this.userId,
+    required this.chemistsId,
+    this.description,
   }) : super(id);
 
-  factory Chemists.fromJson(
+  factory Medicine.fromJson(
     Map<String, dynamic> jsonSerialization,
     _i1.SerializationManager serializationManager,
   ) {
-    return Chemists(
+    return Medicine(
       id: serializationManager.deserialize<int?>(jsonSerialization['id']),
       name: serializationManager.deserialize<String>(jsonSerialization['name']),
-      address: serializationManager
-          .deserialize<String?>(jsonSerialization['address']),
-      geoPoint: serializationManager
-          .deserialize<_i2.GeoPoint?>(jsonSerialization['geoPoint']),
+      price: serializationManager.deserialize<int>(jsonSerialization['price']),
+      discountPrice: serializationManager
+          .deserialize<int?>(jsonSerialization['discountPrice']),
       images: serializationManager
           .deserialize<List<String?>>(jsonSerialization['images']),
-      openTime: serializationManager
-          .deserialize<DateTime?>(jsonSerialization['openTime']),
-      closeTime: serializationManager
-          .deserialize<DateTime?>(jsonSerialization['closeTime']),
-      email:
-          serializationManager.deserialize<String?>(jsonSerialization['email']),
-      phoneNo:
-          serializationManager.deserialize<int?>(jsonSerialization['phoneNo']),
-      userId:
-          serializationManager.deserialize<int>(jsonSerialization['userId']),
+      chemistsId: serializationManager
+          .deserialize<int>(jsonSerialization['chemistsId']),
+      description: serializationManager
+          .deserialize<String?>(jsonSerialization['description']),
     );
   }
 
-  static final t = ChemistsTable();
+  static final t = MedicineTable();
 
   String name;
 
-  String? address;
+  int price;
 
-  _i2.GeoPoint? geoPoint;
+  int? discountPrice;
 
   List<String?> images;
 
-  DateTime? openTime;
+  int chemistsId;
 
-  DateTime? closeTime;
-
-  String? email;
-
-  int? phoneNo;
-
-  int userId;
+  String? description;
 
   @override
-  String get tableName => 'chemists';
+  String get tableName => 'medicine';
   @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
-      'address': address,
-      'geoPoint': geoPoint,
+      'price': price,
+      'discountPrice': discountPrice,
       'images': images,
-      'openTime': openTime,
-      'closeTime': closeTime,
-      'email': email,
-      'phoneNo': phoneNo,
-      'userId': userId,
+      'chemistsId': chemistsId,
+      'description': description,
     };
   }
 
@@ -92,14 +72,11 @@ class Chemists extends _i1.TableRow {
     return {
       'id': id,
       'name': name,
-      'address': address,
-      'geoPoint': geoPoint,
+      'price': price,
+      'discountPrice': discountPrice,
       'images': images,
-      'openTime': openTime,
-      'closeTime': closeTime,
-      'email': email,
-      'phoneNo': phoneNo,
-      'userId': userId,
+      'chemistsId': chemistsId,
+      'description': description,
     };
   }
 
@@ -108,14 +85,11 @@ class Chemists extends _i1.TableRow {
     return {
       'id': id,
       'name': name,
-      'address': address,
-      'geoPoint': geoPoint,
+      'price': price,
+      'discountPrice': discountPrice,
       'images': images,
-      'openTime': openTime,
-      'closeTime': closeTime,
-      'email': email,
-      'phoneNo': phoneNo,
-      'userId': userId,
+      'chemistsId': chemistsId,
+      'description': description,
     };
   }
 
@@ -131,38 +105,29 @@ class Chemists extends _i1.TableRow {
       case 'name':
         name = value;
         return;
-      case 'address':
-        address = value;
+      case 'price':
+        price = value;
         return;
-      case 'geoPoint':
-        geoPoint = value;
+      case 'discountPrice':
+        discountPrice = value;
         return;
       case 'images':
         images = value;
         return;
-      case 'openTime':
-        openTime = value;
+      case 'chemistsId':
+        chemistsId = value;
         return;
-      case 'closeTime':
-        closeTime = value;
-        return;
-      case 'email':
-        email = value;
-        return;
-      case 'phoneNo':
-        phoneNo = value;
-        return;
-      case 'userId':
-        userId = value;
+      case 'description':
+        description = value;
         return;
       default:
         throw UnimplementedError();
     }
   }
 
-  static Future<List<Chemists>> find(
+  static Future<List<Medicine>> find(
     _i1.Session session, {
-    ChemistsExpressionBuilder? where,
+    MedicineExpressionBuilder? where,
     int? limit,
     int? offset,
     _i1.Column? orderBy,
@@ -171,8 +136,8 @@ class Chemists extends _i1.TableRow {
     bool useCache = true,
     _i1.Transaction? transaction,
   }) async {
-    return session.db.find<Chemists>(
-      where: where != null ? where(Chemists.t) : null,
+    return session.db.find<Medicine>(
+      where: where != null ? where(Medicine.t) : null,
       limit: limit,
       offset: offset,
       orderBy: orderBy,
@@ -183,17 +148,17 @@ class Chemists extends _i1.TableRow {
     );
   }
 
-  static Future<Chemists?> findSingleRow(
+  static Future<Medicine?> findSingleRow(
     _i1.Session session, {
-    ChemistsExpressionBuilder? where,
+    MedicineExpressionBuilder? where,
     int? offset,
     _i1.Column? orderBy,
     bool orderDescending = false,
     bool useCache = true,
     _i1.Transaction? transaction,
   }) async {
-    return session.db.findSingleRow<Chemists>(
-      where: where != null ? where(Chemists.t) : null,
+    return session.db.findSingleRow<Medicine>(
+      where: where != null ? where(Medicine.t) : null,
       offset: offset,
       orderBy: orderBy,
       orderDescending: orderDescending,
@@ -202,27 +167,27 @@ class Chemists extends _i1.TableRow {
     );
   }
 
-  static Future<Chemists?> findById(
+  static Future<Medicine?> findById(
     _i1.Session session,
     int id,
   ) async {
-    return session.db.findById<Chemists>(id);
+    return session.db.findById<Medicine>(id);
   }
 
   static Future<int> delete(
     _i1.Session session, {
-    required ChemistsExpressionBuilder where,
+    required MedicineExpressionBuilder where,
     _i1.Transaction? transaction,
   }) async {
-    return session.db.delete<Chemists>(
-      where: where(Chemists.t),
+    return session.db.delete<Medicine>(
+      where: where(Medicine.t),
       transaction: transaction,
     );
   }
 
   static Future<bool> deleteRow(
     _i1.Session session,
-    Chemists row, {
+    Medicine row, {
     _i1.Transaction? transaction,
   }) async {
     return session.db.deleteRow(
@@ -233,7 +198,7 @@ class Chemists extends _i1.TableRow {
 
   static Future<bool> update(
     _i1.Session session,
-    Chemists row, {
+    Medicine row, {
     _i1.Transaction? transaction,
   }) async {
     return session.db.update(
@@ -244,7 +209,7 @@ class Chemists extends _i1.TableRow {
 
   static Future<void> insert(
     _i1.Session session,
-    Chemists row, {
+    Medicine row, {
     _i1.Transaction? transaction,
   }) async {
     return session.db.insert(
@@ -255,13 +220,13 @@ class Chemists extends _i1.TableRow {
 
   static Future<int> count(
     _i1.Session session, {
-    ChemistsExpressionBuilder? where,
+    MedicineExpressionBuilder? where,
     int? limit,
     bool useCache = true,
     _i1.Transaction? transaction,
   }) async {
-    return session.db.count<Chemists>(
-      where: where != null ? where(Chemists.t) : null,
+    return session.db.count<Medicine>(
+      where: where != null ? where(Medicine.t) : null,
       limit: limit,
       useCache: useCache,
       transaction: transaction,
@@ -269,10 +234,10 @@ class Chemists extends _i1.TableRow {
   }
 }
 
-typedef ChemistsExpressionBuilder = _i1.Expression Function(ChemistsTable);
+typedef MedicineExpressionBuilder = _i1.Expression Function(MedicineTable);
 
-class ChemistsTable extends _i1.Table {
-  ChemistsTable() : super(tableName: 'chemists');
+class MedicineTable extends _i1.Table {
+  MedicineTable() : super(tableName: 'medicine');
 
   /// The database id, set if the object has been inserted into the
   /// database or if it has been fetched from the database. Otherwise,
@@ -281,36 +246,27 @@ class ChemistsTable extends _i1.Table {
 
   final name = _i1.ColumnString('name');
 
-  final address = _i1.ColumnString('address');
+  final price = _i1.ColumnInt('price');
 
-  final geoPoint = _i1.ColumnSerializable('geoPoint');
+  final discountPrice = _i1.ColumnInt('discountPrice');
 
   final images = _i1.ColumnSerializable('images');
 
-  final openTime = _i1.ColumnDateTime('openTime');
+  final chemistsId = _i1.ColumnInt('chemistsId');
 
-  final closeTime = _i1.ColumnDateTime('closeTime');
-
-  final email = _i1.ColumnString('email');
-
-  final phoneNo = _i1.ColumnInt('phoneNo');
-
-  final userId = _i1.ColumnInt('userId');
+  final description = _i1.ColumnString('description');
 
   @override
   List<_i1.Column> get columns => [
         id,
         name,
-        address,
-        geoPoint,
+        price,
+        discountPrice,
         images,
-        openTime,
-        closeTime,
-        email,
-        phoneNo,
-        userId,
+        chemistsId,
+        description,
       ];
 }
 
-@Deprecated('Use ChemistsTable.t instead.')
-ChemistsTable tChemists = ChemistsTable();
+@Deprecated('Use MedicineTable.t instead.')
+MedicineTable tMedicine = MedicineTable();

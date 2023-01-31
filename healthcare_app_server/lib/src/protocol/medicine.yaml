@@ -1,0 +1,11 @@
+class: Medicine
+
+table: medicine
+
+fields:
+  name: String
+  price: int
+  discountPrice: int?
+  images: List<String?>
+  chemistsId: int, parent=chemists
+  description: String? 

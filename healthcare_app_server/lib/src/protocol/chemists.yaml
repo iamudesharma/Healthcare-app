@@ -11,5 +11,7 @@ fields:
   closeTime: DateTime?
   email: String?
   phoneNo: int?
-  
+  userId: int
+  # medicines: List<Medicine?>
+
 
