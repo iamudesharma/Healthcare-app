@@ -1,11 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthcare_app_client/healthcare_app_client.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthcare_app_flutter/routes/app_route.dart';
 import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
+
+import 'package:healthcare_app_client/healthcare_app_client.dart';
 
 // Sets up a singleton client object that can be used to talk to the server from
 // anywhere in our app. The client is generated from your server code.
@@ -30,6 +34,8 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
+final _appRouter = AppRouter();
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -48,12 +54,48 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      // routeInformationParser: _appRouter.,
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
       title: 'Serverpod Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      themeMode: ThemeMode.dark,
+      theme: FlexThemeData.light(
+        scheme: FlexScheme.tealM3,
+        surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+        blendLevel: 9,
+        tabBarStyle: null,
+        subThemesData: const FlexSubThemesData(
+          blendOnLevel: 10,
+          blendOnColors: false,
+          useM2StyleDividerInM3: true,
+        ),
+        visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        useMaterial3: true,
+        swapLegacyOnMaterial3: true,
+        // To use the playground font, add GoogleFonts package and uncomment
+        // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
-      home: sessionManager.isSignedIn ? const HomePage() : const SignInPage(),
+      darkTheme: FlexThemeData.dark(
+        scheme: FlexScheme.tealM3,
+        surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+        blendLevel: 15,
+        tabBarStyle: null,
+        subThemesData: const FlexSubThemesData(
+          blendOnLevel: 20,
+          useM2StyleDividerInM3: true,
+        ),
+        visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        useMaterial3: true,
+        swapLegacyOnMaterial3: true,
+        // To use the Playground font, add GoogleFonts package and uncomment
+        // fontFamily: GoogleFonts.notoSans().fontFamily,
+      ),
+// If you do not have a themeMode switch, uncomment this line
+// to let the device system mode control the theme mode:
+// themeMode: ThemeMode.system,
+
+      // home: sessionManager.isSignedIn ? const HomePage() : const SignInPage(),
     );
   }
 }
@@ -66,23 +108,9 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: Center(
           child: GestureDetector(
-              onTap: () async {
-                final patient = Patient(
-                    name: sessionManager.signedInUser!.userName,
-                    age: 12,
-                    createdAt: DateTime.now(),
-                    gender: "male",
-                    userId: sessionManager.signedInUser!.id!,
-                    weight: "12",
-                    height: "12");
-                final data = await client.patient.getPatient();
-
-                print(data.length);
-                print(data[0]?.name ?? "hjhjxjwxbhw");
-                // // await client.example.hello("hi");
-              },
+              onTap: () async {},
               child: const Text(
-                "Cick me",
+                "Home Page",
               ))),
     );
   }
@@ -107,6 +135,105 @@ class SignInPage extends StatelessWidget {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class SetupPage extends StatefulWidget {
+  const SetupPage({super.key});
+
+  @override
+  State<SetupPage> createState() => _SetupPageState();
+}
+
+class _SetupPageState extends State<SetupPage> {
+  int? _selected;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+                child: Text(
+              "Choose One of the following",
+              style: Theme.of(context).textTheme.headlineSmall,
+            )),
+            const SizedBox(
+              height: 50,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ...List.generate(3, (index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 7.0),
+                child: ButtonWithBorder(
+                  borderColor: index == _selected
+                      ? Theme.of(context).primaryColor
+                      : Theme.of(context).textTheme.headlineSmall!.color!,
+                  onTap: () {
+                    setState(() {
+                      _selected = index;
+                    });
+                  },
+                  title: _titele[index],
+                ),
+              );
+            }),
+            const SizedBox(
+              height: 50,
+            ),
+            _selected == null
+                ? const SizedBox.shrink()
+                : ElevatedButton(
+                    child: const Text("Save"),
+                    onPressed: () {},
+                  )
+          ],
+        ),
+      ),
+    );
+  }
+
+  final List _titele = [
+    "Medical Shop",
+    "Patient",
+    "Doctor",
+  ];
+}
+
+class ButtonWithBorder extends StatelessWidget {
+  const ButtonWithBorder({
+    Key? key,
+    required this.borderColor,
+    required this.title,
+    required this.onTap,
+  }) : super(key: key);
+  final Color borderColor;
+  final String title;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 30,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: borderColor,
+          ),
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+        ),
+        child: Center(
+          child: Text(title),
         ),
       ),
     );
