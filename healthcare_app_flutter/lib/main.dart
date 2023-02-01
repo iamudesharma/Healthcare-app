@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_flutter/routes/app_route.dart';
+import 'package:healthcare_app_flutter/routes/route_guard.dart';
 import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
@@ -34,7 +37,7 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-final _appRouter = AppRouter();
+final _appRouter = AppRouter(authGuard: AuthGuard());
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -129,11 +132,7 @@ class SignInPage extends StatelessWidget {
         child: SignInWithEmailButton(
           caller: sessionManager.caller,
           onSignedIn: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ),
-            );
+            AutoRouter.of(context).push(SetupRoute());
           },
         ),
       ),
