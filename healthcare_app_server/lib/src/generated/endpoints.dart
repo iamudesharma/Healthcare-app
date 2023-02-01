@@ -7,21 +7,141 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../endpoints/patient_endpoint.dart' as _i2;
-import 'package:healthcare_app_server/src/generated/patient.dart' as _i3;
-import 'package:serverpod_auth_server/module.dart' as _i4;
+import '../endpoints/doctor_endpoint.dart' as _i2;
+import '../endpoints/patient_endpoint.dart' as _i3;
+import 'package:healthcare_app_server/src/generated/doctor.dart' as _i4;
+import 'package:healthcare_app_server/src/generated/patient.dart' as _i5;
+import 'package:serverpod_auth_server/module.dart' as _i6;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'patient': _i2.PatientEndpoint()
+      'doctor': _i2.DoctorEndpoint()
+        ..initialize(
+          server,
+          'doctor',
+          null,
+        ),
+      'patient': _i3.PatientEndpoint()
         ..initialize(
           server,
           'patient',
           null,
-        )
+        ),
     };
+    connectors['doctor'] = _i1.EndpointConnector(
+      name: 'doctor',
+      endpoint: endpoints['doctor']!,
+      methodConnectors: {
+        'addDoctor': _i1.MethodConnector(
+          name: 'addDoctor',
+          params: {
+            'doctor': _i1.ParameterDescription(
+              name: 'doctor',
+              type: _i1.getType<_i4.Doctor>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['doctor'] as _i2.DoctorEndpoint).addDoctor(
+            session,
+            params['doctor'],
+          ),
+        ),
+        'currentDoctor': _i1.MethodConnector(
+          name: 'currentDoctor',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['doctor'] as _i2.DoctorEndpoint)
+                  .currentDoctor(session),
+        ),
+        'getDoctor': _i1.MethodConnector(
+          name: 'getDoctor',
+          params: {
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['doctor'] as _i2.DoctorEndpoint).getDoctor(
+            session,
+            params['name'],
+          ),
+        ),
+        'getDoctorByAge': _i1.MethodConnector(
+          name: 'getDoctorByAge',
+          params: {
+            'age': _i1.ParameterDescription(
+              name: 'age',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['doctor'] as _i2.DoctorEndpoint).getDoctorByAge(
+            session,
+            params['age'],
+          ),
+        ),
+        'getDoctorByAgeAndName': _i1.MethodConnector(
+          name: 'getDoctorByAgeAndName',
+          params: {
+            'age': _i1.ParameterDescription(
+              name: 'age',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'name': _i1.ParameterDescription(
+              name: 'name',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['doctor'] as _i2.DoctorEndpoint).getDoctorByAgeAndName(
+            session,
+            params['age'],
+            params['name'],
+          ),
+        ),
+        'updateDoctor': _i1.MethodConnector(
+          name: 'updateDoctor',
+          params: {
+            'doctor': _i1.ParameterDescription(
+              name: 'doctor',
+              type: _i1.getType<_i4.Doctor>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['doctor'] as _i2.DoctorEndpoint).updateDoctor(
+            session,
+            params['doctor'],
+          ),
+        ),
+      },
+    );
     connectors['patient'] = _i1.EndpointConnector(
       name: 'patient',
       endpoint: endpoints['patient']!,
@@ -31,7 +151,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'patient': _i1.ParameterDescription(
               name: 'patient',
-              type: _i1.getType<_i3.Patient>(),
+              type: _i1.getType<_i5.Patient>(),
               nullable: false,
             )
           },
@@ -39,7 +159,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['patient'] as _i2.PatientEndpoint).cratePatient(
+              (endpoints['patient'] as _i3.PatientEndpoint).cratePatient(
             session,
             params['patient'],
           ),
@@ -51,7 +171,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['patient'] as _i2.PatientEndpoint)
+              (endpoints['patient'] as _i3.PatientEndpoint)
                   .currentPatient(session),
         ),
         'getPatient': _i1.MethodConnector(
@@ -61,10 +181,10 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['patient'] as _i2.PatientEndpoint).getPatient(session),
+              (endpoints['patient'] as _i3.PatientEndpoint).getPatient(session),
         ),
       },
     );
-    modules['serverpod_auth'] = _i4.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i6.Endpoints()..initializeEndpoints(server);
   }
 }
