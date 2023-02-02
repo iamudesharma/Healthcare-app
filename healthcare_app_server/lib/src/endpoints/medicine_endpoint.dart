@@ -12,4 +12,14 @@ class MedicineEndpoint extends Endpoint {
       return e.toString();
     }
   }
+
+  Future<List<Medicine?>> getMedicines(Session session) async {
+    return await Medicine.find(
+      session,
+      limit: 10,
+    );
+  }
+
+  @override
+  bool get requireLogin => true;
 }

@@ -59,6 +59,9 @@ class DoctorEndpoint extends Endpoint {
     await Doctor.update(session, doctor);
   }
 
+@override
+  bool get requireLogin => true;
+
   // Future<List<Doctor>> getDoctorByGeoPoint(Session session) {
   //   // return Doctor.find(session, where: (p0) => p0.geoPoint))
   //   //

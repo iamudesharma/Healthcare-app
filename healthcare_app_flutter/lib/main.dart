@@ -24,7 +24,7 @@ import 'package:healthcare_app_client/healthcare_app_client.dart';
 // production servers.
 
 var client = Client(
-  'http://${Platform.isAndroid ? "10.0.2.2" : "localhost"}:8080/',
+  'http://localhost:8080/',
   authenticationKeyManager: FlutterAuthenticationKeyManager(),
 )..connectivityMonitor = FlutterConnectivityMonitor();
 
@@ -62,51 +62,51 @@ class _MyAppState extends State<MyApp> {
   void didChangeDependencies() async {
     /* Your blah blah code here */
 
-    ByteData data = await rootBundle.load(
-        "assets/Medicines_output_european_public_assessment_reports.xlsx");
-    var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-    var excel = Excel.decodeBytes(bytes);
+    // ByteData data = await rootBundle.load(
+    //     "assets/Medicines_output_european_public_assessment_reports.xlsx");
+    // var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    // var excel = Excel.decodeBytes(bytes);
 
-    for (var table in excel.tables.keys) {
-      for (var i = 9; i < excel.tables[table]!.rows.length; i++) {
-        // print(excel.tables[table]!.rows[i][1]?.value);
-        // print(excel.tables[table]!.rows[i][2]?.value);
+    // for (var table in excel.tables.keys) {
+    //   for (var i = 9; i < excel.tables[table]!.rows.length; i++) {
+    //     // print(excel.tables[table]!.rows[i][1]?.value);
+    //     // print(excel.tables[table]!.rows[i][2]?.value);
 
-        // print(excel.tables[table]!.rows[i][4]?.value);
-        // print(excel.tables[table]!.rows[i][8]?.value);
-        // print(excel.tables[table]!.rows[i][10]?.value);
-        // print(excel.tables[table]!.rows[i][24]?.value);
-        // print(excel.tables[table]!.rows[i][25]?.value);
-        // print(excel.tables[table]!.rows[i][29]?.value);
+    //     // print(excel.tables[table]!.rows[i][4]?.value);
+    //     // print(excel.tables[table]!.rows[i][8]?.value);
+    //     // print(excel.tables[table]!.rows[i][10]?.value);
+    //     // print(excel.tables[table]!.rows[i][24]?.value);
+    //     // print(excel.tables[table]!.rows[i][25]?.value);
+    //     // print(excel.tables[table]!.rows[i][29]?.value);
 
-        if (i < 200) {
-          if (excel.tables[table]!.rows[i][1]?.value != null) {
-            await client.medicine.addMedicine(
-              Medicine(
-                images: [],
-                name: excel.tables[table]!.rows[i][1]?.value.toString() ?? '',
-                therapeuticArea:
-                    excel.tables[table]!.rows[i][2]?.value.toString(),
-                activeSubstance:
-                    excel.tables[table]!.rows[i][4]?.value.toString(),
-                atcCode: excel.tables[table]!.rows[i][8]?.value.toString(),
-                generic: excel.tables[table]!.rows[i][10]?.value.toString(),
-                condition: excel.tables[table]!.rows[i][24]?.value.toString(),
-                description: excel.tables[table]!.rows[i][29]?.value.toString(),
-              ),
-            );
-          }
+    //     if (i < 200) {
+    //       if (excel.tables[table]!.rows[i][1]?.value != null) {
+    //         await client.medicine.addMedicine(
+    //           Medicine(
+    //             images: [],
+    //             name: excel.tables[table]!.rows[i][1]?.value.toString() ?? '',
+    //             therapeuticArea:
+    //                 excel.tables[table]!.rows[i][2]?.value.toString(),
+    //             activeSubstance:
+    //                 excel.tables[table]!.rows[i][4]?.value.toString(),
+    //             atcCode: excel.tables[table]!.rows[i][8]?.value.toString(),
+    //             generic: excel.tables[table]!.rows[i][10]?.value.toString(),
+    //             condition: excel.tables[table]!.rows[i][24]?.value.toString(),
+    //             description: excel.tables[table]!.rows[i][29]?.value.toString(),
+    //           ),
+    //         );
+    //       }
 
-          await Future.delayed(const Duration(milliseconds: 500));
-        }
-      }
-      // for (var row in excel.tables[table]!.rows) {
-      //   print(row[1]?.value);
-      //   print(row[3]?.value);
-      //   print(row[8]?.value);
-      //   print(row[9]?.value);
-      // }
-    }
+    //       await Future.delayed(const Duration(milliseconds: 500));
+    //     }
+    //   }
+    //   // for (var row in excel.tables[table]!.rows) {
+    //   //   print(row[1]?.value);
+    //   //   print(row[3]?.value);
+    //   //   print(row[8]?.value);
+    //   //   print(row[9]?.value);
+    //   // }
+    // }
     super.didChangeDependencies();
   }
 
@@ -165,11 +165,23 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: GestureDetector(
-              onTap: () async {},
-              child: const Text(
-                "Home Page",
-              ))),
+          child: FutureBuilder<List<Medicine?>>(
+              future: client.medicine.getMedicines(),
+              builder: (context, snap) {
+                if (snap.hasData) {
+                  return ListView.builder(
+                    itemCount: snap.data!.length,
+                    itemBuilder: (context, index) {
+                      return Text(snap.data![index]!.name);
+                    },
+                  );
+                }
+                return GestureDetector(
+                    onTap: () async {},
+                    child: const Text(
+                      "Home Page",
+                    ));
+              })),
     );
   }
 }
@@ -247,7 +259,9 @@ class _SetupPageState extends State<SetupPage> {
                 ? const SizedBox.shrink()
                 : ElevatedButton(
                     child: const Text("Save"),
-                    onPressed: () {},
+                    onPressed: () {
+                      AutoRouter.of(context).push(const HomeRoute());
+                    },
                   )
           ],
         ),

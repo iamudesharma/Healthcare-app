@@ -40,4 +40,8 @@ class PatientEndpoint extends Endpoint {
       orderBy: Patient.t.createdAt,
     );
   }
+
+  @override
+  // TODO: implement requireLogin
+  bool get requireLogin => true;
 }

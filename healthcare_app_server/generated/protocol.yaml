@@ -7,6 +7,7 @@ doctor:
   - updateDoctor:
 medicine:
   - addMedicine:
+  - getMedicines:
 patient:
   - cratePatient:
   - currentPatient:

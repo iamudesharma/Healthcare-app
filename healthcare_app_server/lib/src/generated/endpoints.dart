@@ -171,7 +171,17 @@ class Endpoints extends _i1.EndpointDispatch {
             session,
             params['medicine'],
           ),
-        )
+        ),
+        'getMedicines': _i1.MethodConnector(
+          name: 'getMedicines',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['medicine'] as _i3.MedicineEndpoint)
+                  .getMedicines(session),
+        ),
       },
     );
     connectors['patient'] = _i1.EndpointConnector(

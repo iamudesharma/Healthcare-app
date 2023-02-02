@@ -82,6 +82,13 @@ class _EndpointMedicine extends _i1.EndpointRef {
         'addMedicine',
         {'medicine': medicine},
       );
+
+  _i2.Future<List<_i4.Medicine?>> getMedicines() =>
+      caller.callServerEndpoint<List<_i4.Medicine?>>(
+        'medicine',
+        'getMedicines',
+        {},
+      );
 }
 
 class _EndpointPatient extends _i1.EndpointRef {

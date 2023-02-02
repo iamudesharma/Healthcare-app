@@ -8,9 +8,10 @@ class AuthGuard extends AutoRouteGuard {
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     print('AuthGuard: ${sessionManager.signedInUser?.email}');
 
-    if (sessionManager.signedInUser == null) {
-      router.push(const SetupRoute());
-      resolver.next(false);
+    if (sessionManager.isSignedIn) {
+      print('AuthGuard: Signed in ${sessionManager.isSignedIn}}');
+      // router.push(const SetupRoute());
+      resolver.next(true);
     } else {
       resolver.next(false);
       router.push(const SignInRoute());

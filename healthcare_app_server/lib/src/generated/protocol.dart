@@ -15,9 +15,10 @@ import 'invertory.dart' as _i5;
 import 'medicine.dart' as _i6;
 import 'patient.dart' as _i7;
 import 'package:healthcare_app_server/src/generated/doctor.dart' as _i8;
-import 'package:healthcare_app_server/src/generated/patient.dart' as _i9;
-import 'package:serverpod_auth_server/module.dart' as _i10;
-import 'package:serverpod/protocol.dart' as _i11;
+import 'package:healthcare_app_server/src/generated/medicine.dart' as _i9;
+import 'package:healthcare_app_server/src/generated/patient.dart' as _i10;
+import 'package:serverpod_auth_server/module.dart' as _i11;
+import 'package:serverpod/protocol.dart' as _i12;
 export 'chemists.dart';
 export 'doctor.dart';
 export 'geopoint.dart';
@@ -87,15 +88,19 @@ class Protocol extends _i1.SerializationManagerServer {
       return (data as List).map((e) => deserialize<_i8.Doctor>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i9.Patient>) {
-      return (data as List).map((e) => deserialize<_i9.Patient>(e)).toList()
+    if (t == List<_i9.Medicine?>) {
+      return (data as List).map((e) => deserialize<_i9.Medicine?>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i10.Patient>) {
+      return (data as List).map((e) => deserialize<_i10.Patient>(e)).toList()
           as dynamic;
     }
     try {
-      return _i10.Protocol().deserialize<T>(data, t);
+      return _i11.Protocol().deserialize<T>(data, t);
     } catch (_) {}
     try {
-      return _i11.Protocol().deserialize<T>(data, t);
+      return _i12.Protocol().deserialize<T>(data, t);
     } catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -103,7 +108,7 @@ class Protocol extends _i1.SerializationManagerServer {
   @override
   String? getClassNameForObject(Object data) {
     String? className;
-    className = _i10.Protocol().getClassNameForObject(data);
+    className = _i11.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
@@ -132,7 +137,7 @@ class Protocol extends _i1.SerializationManagerServer {
   dynamic deserializeByClassName(Map<String, dynamic> data) {
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);
-      return _i10.Protocol().deserializeByClassName(data);
+      return _i11.Protocol().deserializeByClassName(data);
     }
     if (data['className'] == 'Chemists') {
       return deserialize<_i2.Chemists>(data['data']);
@@ -158,13 +163,13 @@ class Protocol extends _i1.SerializationManagerServer {
   @override
   _i1.Table? getTableForType(Type t) {
     {
-      var table = _i10.Protocol().getTableForType(t);
+      var table = _i11.Protocol().getTableForType(t);
       if (table != null) {
         return table;
       }
     }
     {
-      var table = _i11.Protocol().getTableForType(t);
+      var table = _i12.Protocol().getTableForType(t);
       if (table != null) {
         return table;
       }
