@@ -5,3 +5,4 @@ client_package_path: ../healthcare_app_client
 modules:
   serverpod_auth:
     nickname: auth
+    

@@ -23,24 +23,25 @@ import 'package:healthcare_app_client/healthcare_app_client.dart';
 // the default port. You will need to modify this to connect to staging or
 // production servers.
 
-var client = Client(
-  'http://localhost:8080/',
-  authenticationKeyManager: FlutterAuthenticationKeyManager(),
-)..connectivityMonitor = FlutterConnectivityMonitor();
+late Client client;
 
 late SessionManager sessionManager;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  client = Client(
+    'http://localhost:8080/',
+    authenticationKeyManager: FlutterAuthenticationKeyManager(),
+  )..connectivityMonitor = FlutterConnectivityMonitor();
+
   sessionManager = SessionManager(
     caller: client.modules.auth,
   );
 
-  sessionManager.initialize();
+  await sessionManager.initialize();
   // sessionManager.a
   runApp(const ProviderScope(child: MyApp()));
 }
-
-final _appRouter = AppRouter(authGuard: AuthGuard());
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -109,6 +110,8 @@ class _MyAppState extends State<MyApp> {
     // }
     super.didChangeDependencies();
   }
+
+  final _appRouter = AppRouter(authGuard: AuthGuard());
 
   @override
   Widget build(BuildContext context) {
