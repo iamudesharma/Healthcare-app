@@ -1,0 +1,10 @@
+class: Inventory
+
+table: inventory 
+
+fields:
+  medicineId: int, parent=medicine
+  price: int
+  stock: int
+  
+
