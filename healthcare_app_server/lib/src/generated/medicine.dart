@@ -12,11 +12,13 @@ class Medicine extends _i1.TableRow {
   Medicine({
     int? id,
     required this.name,
-    required this.price,
-    this.discountPrice,
     required this.images,
-    required this.chemistsId,
     this.description,
+    this.therapeuticArea,
+    this.activeSubstance,
+    this.atcCode,
+    this.generic,
+    this.condition,
   }) : super(id);
 
   factory Medicine.fromJson(
@@ -26,15 +28,20 @@ class Medicine extends _i1.TableRow {
     return Medicine(
       id: serializationManager.deserialize<int?>(jsonSerialization['id']),
       name: serializationManager.deserialize<String>(jsonSerialization['name']),
-      price: serializationManager.deserialize<int>(jsonSerialization['price']),
-      discountPrice: serializationManager
-          .deserialize<int?>(jsonSerialization['discountPrice']),
       images: serializationManager
           .deserialize<List<String?>>(jsonSerialization['images']),
-      chemistsId: serializationManager
-          .deserialize<int>(jsonSerialization['chemistsId']),
       description: serializationManager
           .deserialize<String?>(jsonSerialization['description']),
+      therapeuticArea: serializationManager
+          .deserialize<String?>(jsonSerialization['therapeuticArea']),
+      activeSubstance: serializationManager
+          .deserialize<String?>(jsonSerialization['activeSubstance']),
+      atcCode: serializationManager
+          .deserialize<String?>(jsonSerialization['atcCode']),
+      generic: serializationManager
+          .deserialize<String?>(jsonSerialization['generic']),
+      condition: serializationManager
+          .deserialize<String?>(jsonSerialization['condition']),
     );
   }
 
@@ -42,15 +49,19 @@ class Medicine extends _i1.TableRow {
 
   String name;
 
-  int price;
-
-  int? discountPrice;
-
   List<String?> images;
 
-  int chemistsId;
-
   String? description;
+
+  String? therapeuticArea;
+
+  String? activeSubstance;
+
+  String? atcCode;
+
+  String? generic;
+
+  String? condition;
 
   @override
   String get tableName => 'medicine';
@@ -59,11 +70,13 @@ class Medicine extends _i1.TableRow {
     return {
       'id': id,
       'name': name,
-      'price': price,
-      'discountPrice': discountPrice,
       'images': images,
-      'chemistsId': chemistsId,
       'description': description,
+      'therapeuticArea': therapeuticArea,
+      'activeSubstance': activeSubstance,
+      'atcCode': atcCode,
+      'generic': generic,
+      'condition': condition,
     };
   }
 
@@ -72,11 +85,13 @@ class Medicine extends _i1.TableRow {
     return {
       'id': id,
       'name': name,
-      'price': price,
-      'discountPrice': discountPrice,
       'images': images,
-      'chemistsId': chemistsId,
       'description': description,
+      'therapeuticArea': therapeuticArea,
+      'activeSubstance': activeSubstance,
+      'atcCode': atcCode,
+      'generic': generic,
+      'condition': condition,
     };
   }
 
@@ -85,11 +100,13 @@ class Medicine extends _i1.TableRow {
     return {
       'id': id,
       'name': name,
-      'price': price,
-      'discountPrice': discountPrice,
       'images': images,
-      'chemistsId': chemistsId,
       'description': description,
+      'therapeuticArea': therapeuticArea,
+      'activeSubstance': activeSubstance,
+      'atcCode': atcCode,
+      'generic': generic,
+      'condition': condition,
     };
   }
 
@@ -105,20 +122,26 @@ class Medicine extends _i1.TableRow {
       case 'name':
         name = value;
         return;
-      case 'price':
-        price = value;
-        return;
-      case 'discountPrice':
-        discountPrice = value;
-        return;
       case 'images':
         images = value;
         return;
-      case 'chemistsId':
-        chemistsId = value;
-        return;
       case 'description':
         description = value;
+        return;
+      case 'therapeuticArea':
+        therapeuticArea = value;
+        return;
+      case 'activeSubstance':
+        activeSubstance = value;
+        return;
+      case 'atcCode':
+        atcCode = value;
+        return;
+      case 'generic':
+        generic = value;
+        return;
+      case 'condition':
+        condition = value;
         return;
       default:
         throw UnimplementedError();
@@ -246,25 +269,31 @@ class MedicineTable extends _i1.Table {
 
   final name = _i1.ColumnString('name');
 
-  final price = _i1.ColumnInt('price');
-
-  final discountPrice = _i1.ColumnInt('discountPrice');
-
   final images = _i1.ColumnSerializable('images');
 
-  final chemistsId = _i1.ColumnInt('chemistsId');
-
   final description = _i1.ColumnString('description');
+
+  final therapeuticArea = _i1.ColumnString('therapeuticArea');
+
+  final activeSubstance = _i1.ColumnString('activeSubstance');
+
+  final atcCode = _i1.ColumnString('atcCode');
+
+  final generic = _i1.ColumnString('generic');
+
+  final condition = _i1.ColumnString('condition');
 
   @override
   List<_i1.Column> get columns => [
         id,
         name,
-        price,
-        discountPrice,
         images,
-        chemistsId,
         description,
+        therapeuticArea,
+        activeSubstance,
+        atcCode,
+        generic,
+        condition,
       ];
 }
 

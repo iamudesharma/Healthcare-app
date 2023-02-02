@@ -58,20 +58,37 @@ ALTER TABLE ONLY "geopoint"
 CREATE TABLE "medicine" (
   "id" serial,
   "name" text NOT NULL,
-  "price" integer NOT NULL,
-  "discountPrice" integer,
   "images" json NOT NULL,
-  "chemistsId" integer NOT NULL,
-  "description" text
+  "description" text,
+  "therapeuticArea" text,
+  "activeSubstance" text,
+  "atcCode" text,
+  "generic" text,
+  "condition" text
 );
 
 ALTER TABLE ONLY "medicine"
   ADD CONSTRAINT medicine_pkey PRIMARY KEY (id);
 
-ALTER TABLE ONLY "medicine"
-  ADD CONSTRAINT medicine_fk_0
-    FOREIGN KEY("chemistsId")
-      REFERENCES chemists(id)
+
+--
+-- Class Inventory as table inventory
+--
+
+CREATE TABLE "inventory" (
+  "id" serial,
+  "medicineId" integer NOT NULL,
+  "price" integer NOT NULL,
+  "stock" integer NOT NULL
+);
+
+ALTER TABLE ONLY "inventory"
+  ADD CONSTRAINT inventory_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY "inventory"
+  ADD CONSTRAINT inventory_fk_0
+    FOREIGN KEY("medicineId")
+      REFERENCES medicine(id)
         ON DELETE CASCADE;
 
 --

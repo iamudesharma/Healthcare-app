@@ -9,10 +9,11 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:healthcare_app_client/src/protocol/doctor.dart' as _i3;
-import 'package:healthcare_app_client/src/protocol/patient.dart' as _i4;
-import 'package:serverpod_auth_client/module.dart' as _i5;
-import 'dart:io' as _i6;
-import 'protocol.dart' as _i7;
+import 'package:healthcare_app_client/src/protocol/medicine.dart' as _i4;
+import 'package:healthcare_app_client/src/protocol/patient.dart' as _i5;
+import 'package:serverpod_auth_client/module.dart' as _i6;
+import 'dart:io' as _i7;
+import 'protocol.dart' as _i8;
 
 class _EndpointDoctor extends _i1.EndpointRef {
   _EndpointDoctor(_i1.EndpointCaller caller) : super(caller);
@@ -69,28 +70,42 @@ class _EndpointDoctor extends _i1.EndpointRef {
       );
 }
 
+class _EndpointMedicine extends _i1.EndpointRef {
+  _EndpointMedicine(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'medicine';
+
+  _i2.Future<String?> addMedicine(_i4.Medicine medicine) =>
+      caller.callServerEndpoint<String?>(
+        'medicine',
+        'addMedicine',
+        {'medicine': medicine},
+      );
+}
+
 class _EndpointPatient extends _i1.EndpointRef {
   _EndpointPatient(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'patient';
 
-  _i2.Future<void> cratePatient(_i4.Patient patient) =>
+  _i2.Future<void> cratePatient(_i5.Patient patient) =>
       caller.callServerEndpoint<void>(
         'patient',
         'cratePatient',
         {'patient': patient},
       );
 
-  _i2.Future<_i4.Patient?> currentPatient() =>
-      caller.callServerEndpoint<_i4.Patient?>(
+  _i2.Future<_i5.Patient?> currentPatient() =>
+      caller.callServerEndpoint<_i5.Patient?>(
         'patient',
         'currentPatient',
         {},
       );
 
-  _i2.Future<List<_i4.Patient>> getPatient() =>
-      caller.callServerEndpoint<List<_i4.Patient>>(
+  _i2.Future<List<_i5.Patient>> getPatient() =>
+      caller.callServerEndpoint<List<_i5.Patient>>(
         'patient',
         'getPatient',
         {},
@@ -99,29 +114,32 @@ class _EndpointPatient extends _i1.EndpointRef {
 
 class _Modules {
   _Modules(Client client) {
-    auth = _i5.Caller(client);
+    auth = _i6.Caller(client);
   }
 
-  late final _i5.Caller auth;
+  late final _i6.Caller auth;
 }
 
 class Client extends _i1.ServerpodClient {
   Client(
     String host, {
-    _i6.SecurityContext? context,
+    _i7.SecurityContext? context,
     _i1.AuthenticationKeyManager? authenticationKeyManager,
   }) : super(
           host,
-          _i7.Protocol(),
+          _i8.Protocol(),
           context: context,
           authenticationKeyManager: authenticationKeyManager,
         ) {
     doctor = _EndpointDoctor(this);
+    medicine = _EndpointMedicine(this);
     patient = _EndpointPatient(this);
     modules = _Modules(this);
   }
 
   late final _EndpointDoctor doctor;
+
+  late final _EndpointMedicine medicine;
 
   late final _EndpointPatient patient;
 
@@ -130,6 +148,7 @@ class Client extends _i1.ServerpodClient {
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'doctor': doctor,
+        'medicine': medicine,
         'patient': patient,
       };
   @override

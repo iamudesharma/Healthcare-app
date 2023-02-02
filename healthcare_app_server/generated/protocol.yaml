@@ -5,6 +5,8 @@ doctor:
   - getDoctorByAge:
   - getDoctorByAgeAndName:
   - updateDoctor:
+medicine:
+  - addMedicine:
 patient:
   - cratePatient:
   - currentPatient:

@@ -17,3 +17,10 @@ class AuthGuard extends AutoRouteGuard {
     }
   }
 }
+// String? String? getData (){
+//   return ('','');
+// }
+
+
+
+

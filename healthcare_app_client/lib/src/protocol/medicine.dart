@@ -12,11 +12,13 @@ class Medicine extends _i1.SerializableEntity {
   Medicine({
     this.id,
     required this.name,
-    required this.price,
-    this.discountPrice,
     required this.images,
-    required this.chemistsId,
     this.description,
+    this.therapeuticArea,
+    this.activeSubstance,
+    this.atcCode,
+    this.generic,
+    this.condition,
   });
 
   factory Medicine.fromJson(
@@ -26,15 +28,20 @@ class Medicine extends _i1.SerializableEntity {
     return Medicine(
       id: serializationManager.deserialize<int?>(jsonSerialization['id']),
       name: serializationManager.deserialize<String>(jsonSerialization['name']),
-      price: serializationManager.deserialize<int>(jsonSerialization['price']),
-      discountPrice: serializationManager
-          .deserialize<int?>(jsonSerialization['discountPrice']),
       images: serializationManager
           .deserialize<List<String?>>(jsonSerialization['images']),
-      chemistsId: serializationManager
-          .deserialize<int>(jsonSerialization['chemistsId']),
       description: serializationManager
           .deserialize<String?>(jsonSerialization['description']),
+      therapeuticArea: serializationManager
+          .deserialize<String?>(jsonSerialization['therapeuticArea']),
+      activeSubstance: serializationManager
+          .deserialize<String?>(jsonSerialization['activeSubstance']),
+      atcCode: serializationManager
+          .deserialize<String?>(jsonSerialization['atcCode']),
+      generic: serializationManager
+          .deserialize<String?>(jsonSerialization['generic']),
+      condition: serializationManager
+          .deserialize<String?>(jsonSerialization['condition']),
     );
   }
 
@@ -45,26 +52,32 @@ class Medicine extends _i1.SerializableEntity {
 
   String name;
 
-  int price;
-
-  int? discountPrice;
-
   List<String?> images;
 
-  int chemistsId;
-
   String? description;
+
+  String? therapeuticArea;
+
+  String? activeSubstance;
+
+  String? atcCode;
+
+  String? generic;
+
+  String? condition;
 
   @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
-      'price': price,
-      'discountPrice': discountPrice,
       'images': images,
-      'chemistsId': chemistsId,
       'description': description,
+      'therapeuticArea': therapeuticArea,
+      'activeSubstance': activeSubstance,
+      'atcCode': atcCode,
+      'generic': generic,
+      'condition': condition,
     };
   }
 }

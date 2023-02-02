@@ -4,8 +4,11 @@ table: medicine
 
 fields:
   name: String
-  price: int
-  discountPrice: int?
   images: List<String?>
-  chemistsId: int, parent=chemists
-  description: String? 
+  description: String?
+  therapeuticArea: String?
+  activeSubstance: String?
+  atcCode: String?
+  generic: String?
+  condition: String?
+
