@@ -14,6 +14,7 @@ class Inventory extends _i1.SerializableEntity {
     required this.medicineId,
     required this.price,
     required this.stock,
+    required this.chemistsId,
   });
 
   factory Inventory.fromJson(
@@ -26,6 +27,8 @@ class Inventory extends _i1.SerializableEntity {
           .deserialize<int>(jsonSerialization['medicineId']),
       price: serializationManager.deserialize<int>(jsonSerialization['price']),
       stock: serializationManager.deserialize<int>(jsonSerialization['stock']),
+      chemistsId: serializationManager
+          .deserialize<int>(jsonSerialization['chemistsId']),
     );
   }
 
@@ -40,6 +43,8 @@ class Inventory extends _i1.SerializableEntity {
 
   int stock;
 
+  int chemistsId;
+
   @override
   Map<String, dynamic> toJson() {
     return {
@@ -47,6 +52,7 @@ class Inventory extends _i1.SerializableEntity {
       'medicineId': medicineId,
       'price': price,
       'stock': stock,
+      'chemistsId': chemistsId,
     };
   }
 }
