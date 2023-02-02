@@ -1,19 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:io';
 
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:excel/excel.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_flutter/routes/app_route.dart';
 import 'package:healthcare_app_flutter/routes/route_guard.dart';
+import 'package:healthcare_app_flutter/widgets/button_with_border.dart';
 import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
-import 'package:flutter/services.dart' show ByteData, rootBundle;
 
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 
@@ -26,6 +23,14 @@ import 'package:healthcare_app_client/healthcare_app_client.dart';
 late Client client;
 
 late SessionManager sessionManager;
+
+final clientProvider = Provider<Client>((ref) {
+  return client;
+});
+
+final sessionManagerProvider = Provider<SessionManager>((ref) {
+  return sessionManager;
+});
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,17 +45,25 @@ void main() async {
 
   await sessionManager.initialize();
   // sessionManager.a
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+    ProviderScope(
+      overrides: [
+        clientProvider.overrideWithValue(client),
+        sessionManagerProvider.overrideWithValue(sessionManager),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     sessionManager.addListener(() {
@@ -111,10 +124,10 @@ class _MyAppState extends State<MyApp> {
     super.didChangeDependencies();
   }
 
-  final _appRouter = AppRouter(authGuard: AuthGuard());
-
   @override
   Widget build(BuildContext context) {
+    final _appRouter = ref.watch(appRouteProvider);
+
     return MaterialApp.router(
       // routeInformationParser: _appRouter.,
       routerDelegate: _appRouter.delegate(),
@@ -279,34 +292,17 @@ class _SetupPageState extends State<SetupPage> {
   ];
 }
 
-class ButtonWithBorder extends StatelessWidget {
-  const ButtonWithBorder({
-    Key? key,
-    required this.borderColor,
-    required this.title,
-    required this.onTap,
-  }) : super(key: key);
-  final Color borderColor;
-  final String title;
-  final VoidCallback onTap;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 30,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: borderColor,
-          ),
-          borderRadius: BorderRadius.circular(
-            10,
-          ),
-        ),
-        child: Center(
-          child: Text(title),
-        ),
-      ),
-    );
+void CheckUser(int userId, BuildContext context) async {
+  final router = AutoRouter.of(context);
+  if (await client.patient.currentPatient() == null) {
+    if (await client.doctor.currentDoctor() == null) {
+      // if (await client.m.currentMedicalShop()==null) {
+
+      //   AutoRouter.of(context).push(const SetupRoute());
+    } else {
+      router.push(const HomeRoute());
+    }
+  } else {
+    router.push(const HomeRoute());
   }
 }

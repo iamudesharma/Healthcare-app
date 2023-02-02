@@ -4,11 +4,17 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_flutter/main.dart';
 import 'package:healthcare_app_flutter/routes/route_guard.dart';
 
 // part 'package:healthcare_app_flutter/routes/app_route.gr.dart';
 part 'app_route.gr.dart';
+
+
+final appRouteProvider = Provider<AppRouter>((ref) {
+  return AppRouter(authGuard: AuthGuard(ref)) ;
+});
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
