@@ -14,6 +14,8 @@ import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 
+import 'dependency/app_dependency.dart';
+
 // Sets up a singleton client object that can be used to talk to the server from
 // anywhere in our app. The client is generated from your server code.
 // The client is set up to connect to a Serverpod running on a local server on
@@ -23,14 +25,6 @@ import 'package:healthcare_app_client/healthcare_app_client.dart';
 late Client client;
 
 late SessionManager sessionManager;
-
-final clientProvider = Provider<Client>((ref) {
-  return client;
-});
-
-final sessionManagerProvider = Provider<SessionManager>((ref) {
-  return sessionManager;
-});
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,8 +42,8 @@ void main() async {
   runApp(
     ProviderScope(
       overrides: [
-        clientProvider.overrideWithValue(client),
-        sessionManagerProvider.overrideWithValue(sessionManager),
+        AppDependency.clientProvider.overrideWithValue(client),
+        AppDependency.sessionManagerProvider.overrideWithValue(sessionManager),
       ],
       child: MyApp(),
     ),
@@ -126,7 +120,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final _appRouter = ref.watch(appRouteProvider);
+    final _appRouter = ref.watch(AppDependency.routeProvider);
 
     return MaterialApp.router(
       // routeInformationParser: _appRouter.,
