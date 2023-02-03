@@ -58,6 +58,12 @@ class _$AppRouter extends RootStackRouter {
         child: const AddMedicalStorePage(),
       );
     },
+    PatientHomeRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const PatientHomePage(),
+      );
+    },
   };
 
   @override
@@ -86,6 +92,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           AddMedicalStoreRoute.name,
           path: '/add-medical-store-page',
+        ),
+        RouteConfig(
+          PatientHomeRoute.name,
+          path: '/patient-home-page',
         ),
       ];
 }
@@ -160,4 +170,16 @@ class AddMedicalStoreRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AddMedicalStoreRoute';
+}
+
+/// generated route for
+/// [PatientHomePage]
+class PatientHomeRoute extends PageRouteInfo<void> {
+  const PatientHomeRoute()
+      : super(
+          PatientHomeRoute.name,
+          path: '/patient-home-page',
+        );
+
+  static const String name = 'PatientHomeRoute';
 }

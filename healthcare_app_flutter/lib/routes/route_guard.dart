@@ -29,8 +29,6 @@ class AuthGuard extends AutoRouteGuard {
         }
       } else {
         resolver.next(true);
-
-        // router.push(const HomeRoute());
       }
     } else {
       resolver.next(false);

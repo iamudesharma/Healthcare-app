@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthcare_app_client/healthcare_app_client.dart';
 
 import 'package:healthcare_app_flutter/dependency/app_dependency.dart';
+import 'package:healthcare_app_flutter/main.dart';
 
 class AddPatientPage extends ConsumerStatefulWidget {
   const AddPatientPage({super.key});
@@ -32,6 +34,7 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
     super.initState();
   }
 
+  String? _gender;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -69,9 +72,11 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                   },
                   controller: _ageController,
                   label: "Age",
+                  keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 10),
                 CustomTextField(
+                  keyboardType: TextInputType.number,
                   controller: _phoneController,
                   label: "Phone No",
                   validator: (p0) {
@@ -95,6 +100,7 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                 ),
                 const SizedBox(height: 10),
                 CustomTextField(
+                  keyboardType: TextInputType.number,
                   validator: (p0) {
                     if (p0!.isEmpty) {
                       return 'Weight is required';
@@ -129,8 +135,18 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                 const SizedBox(height: 30),
                 ElevatedButton(
                   child: const Text("Save"),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      await patient.cratePatient(Patient(
+                          name: _nameController.text,
+                          age: int.parse(
+                            _ageController.text,
+                          ),
+                          createdAt: DateTime.now(),
+                          gender: _gender ?? "",
+                          height: _heightController.text,
+                          weight: _weightController.text,
+                          userId: sessionManager.signedInUser!.id!));
                       // patient.addPatient(
                       //   name: _nameController.text,
                       //   age: int.parse(_ageController.text),

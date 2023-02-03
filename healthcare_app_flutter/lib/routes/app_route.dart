@@ -10,13 +10,13 @@ import 'package:healthcare_app_flutter/main.dart';
 import 'package:healthcare_app_flutter/routes/route_guard.dart';
 
 import '../features/features.dart';
+import '../features/patient/pages/patient_home_page.dart';
 
 // part 'package:healthcare_app_flutter/routes/app_route.gr.dart';
 part 'app_route.gr.dart';
 
-
 final appRouteProvider = Provider<AppRouter>((ref) {
-  return AppRouter(authGuard: AuthGuard(ref)) ;
+  return AppRouter(authGuard: AuthGuard(ref));
 });
 
 @MaterialAutoRouter(
@@ -27,15 +27,13 @@ final appRouteProvider = Provider<AppRouter>((ref) {
     AutoRoute(
       page: SignInPage,
     ),
-
-    AutoRoute(
-      page: AddDoctorPage
-    ),
-    AutoRoute(
-      page: AddPatientPage
-    ),
+    AutoRoute(page: AddDoctorPage),
+    AutoRoute(page: AddPatientPage),
     AutoRoute(
       page: AddMedicalStorePage,
+    ),
+    AutoRoute(
+      page: PatientHomePage,
     ),
   ],
 )

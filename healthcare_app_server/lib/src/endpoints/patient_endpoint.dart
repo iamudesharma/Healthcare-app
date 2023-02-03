@@ -17,13 +17,24 @@ class PatientEndpoint extends Endpoint {
     final userId = await session.auth.authenticatedUserId;
     session.log("Getting patient: $userId");
 
-    final data = await Patient.findById(
+    var cacheKey = 'UserData-$userId';
+
+    // Try to retrieve the object from the cache
+    var patient = await session.caches.local.get<Patient>(cacheKey);
+
+    final data = await Patient.find(
       session,
-      userId!,
+      where: (value) => value.userId.equals(userId),
     );
 
     if (data != null) {
-      return data;
+      await session.caches.local.put(
+        cacheKey,
+        data[0],
+        lifetime: Duration(minutes: 20),
+      );
+
+      return data[0];
     } else {
       return null;
     }

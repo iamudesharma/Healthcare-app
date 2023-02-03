@@ -5,6 +5,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:healthcare_app_flutter/features/patient/pages/patient_home_page.dart';
 import 'package:healthcare_app_flutter/routes/app_route.dart';
 import 'package:healthcare_app_flutter/routes/route_guard.dart';
 import 'package:healthcare_app_flutter/widgets/button_with_border.dart';
@@ -174,29 +175,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: FutureBuilder<List<Medicine?>>(
-          future: client.medicine.getMedicines(),
-          builder: (context, snap) {
-            if (snap.hasData) {
-              return ListView.builder(
-                itemCount: snap.data!.length,
-                itemBuilder: (context, index) {
-                  return Text(snap.data![index]!.name);
-                },
-              );
-            }
-            return GestureDetector(
-              onTap: () async {},
-              child: const Text(
-                "Home Page",
-              ),
-            );
-          },
-        ),
-      ),
-    );
+    return const Scaffold(body: PatientHomePage());
   }
 }
 
