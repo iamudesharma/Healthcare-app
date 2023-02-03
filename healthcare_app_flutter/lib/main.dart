@@ -176,23 +176,26 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: FutureBuilder<List<Medicine?>>(
-              future: client.medicine.getMedicines(),
-              builder: (context, snap) {
-                if (snap.hasData) {
-                  return ListView.builder(
-                    itemCount: snap.data!.length,
-                    itemBuilder: (context, index) {
-                      return Text(snap.data![index]!.name);
-                    },
-                  );
-                }
-                return GestureDetector(
-                    onTap: () async {},
-                    child: const Text(
-                      "Home Page",
-                    ));
-              })),
+        child: FutureBuilder<List<Medicine?>>(
+          future: client.medicine.getMedicines(),
+          builder: (context, snap) {
+            if (snap.hasData) {
+              return ListView.builder(
+                itemCount: snap.data!.length,
+                itemBuilder: (context, index) {
+                  return Text(snap.data![index]!.name);
+                },
+              );
+            }
+            return GestureDetector(
+              onTap: () async {},
+              child: const Text(
+                "Home Page",
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
@@ -210,7 +213,7 @@ class SignInPage extends StatelessWidget {
         child: SignInWithEmailButton(
           caller: sessionManager.caller,
           onSignedIn: () {
-            AutoRouter.of(context).push(SetupRoute());
+            AutoRouter.of(context).push(const SetupRoute());
           },
         ),
       ),
