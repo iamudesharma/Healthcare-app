@@ -28,8 +28,9 @@ late SessionManager sessionManager;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   client = Client(
-    'http://localhost:8080/',
+    'http://10.0.2.2:8080/',
     authenticationKeyManager: FlutterAuthenticationKeyManager(),
   )..connectivityMonitor = FlutterConnectivityMonitor();
 
@@ -45,7 +46,7 @@ void main() async {
         AppDependency.clientProvider.overrideWithValue(client),
         AppDependency.sessionManagerProvider.overrideWithValue(sessionManager),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -270,7 +271,26 @@ class _SetupPageState extends State<SetupPage> {
                 : ElevatedButton(
                     child: const Text("Save"),
                     onPressed: () {
-                      AutoRouter.of(context).push(const HomeRoute());
+                      switch (_selected) {
+                        case 0:
+                          AutoRouter.of(context)
+                              .push(const AddMedicalStoreRoute());
+
+                          break;
+
+                        case 1:
+                          AutoRouter.of(context).push(const AddPatientRoute());
+
+                          break;
+
+                        case 2:
+                          AutoRouter.of(context).push(const AddDoctorRoute());
+
+                          break;
+
+                        default:
+                          AutoRouter.of(context).push(const HomeRoute());
+                      }
                     },
                   )
           ],
@@ -286,17 +306,16 @@ class _SetupPageState extends State<SetupPage> {
   ];
 }
 
-void CheckUser(int userId, BuildContext context) async {
-  final router = AutoRouter.of(context);
+Future<void> checkUser(int userId, Ref ref) async {
+  final router = ref.watch(AppDependency.routeProvider);
+
   if (await client.patient.currentPatient() == null) {
     if (await client.doctor.currentDoctor() == null) {
-      // if (await client.m.currentMedicalShop()==null) {
-
-      //   AutoRouter.of(context).push(const SetupRoute());
+      router.push(const SetupRoute());
     } else {
-      router.push(const HomeRoute());
+      // router.push(const HomeRoute());
     }
   } else {
-    router.push(const HomeRoute());
+    // router.push(const HomeRoute());
   }
 }
