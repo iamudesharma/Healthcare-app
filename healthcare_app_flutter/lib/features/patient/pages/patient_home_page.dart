@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 import 'package:healthcare_app_flutter/dependency/app_dependency.dart';
-import 'package:healthcare_app_flutter/main.dart';
 
 import '../../../routes/app_route.dart';
 
@@ -26,7 +25,7 @@ class _PatientHomePageState extends ConsumerState<PatientHomePage> {
     super.initState();
   }
 
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     final patientData = ref.watch(patientProvider);
