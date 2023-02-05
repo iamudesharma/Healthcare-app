@@ -111,7 +111,8 @@ CREATE TABLE "patient" (
   "createdAt" timestamp without time zone NOT NULL,
   "userId" integer NOT NULL,
   "address" text,
-  "phoneNo" integer
+  "phoneNo" integer,
+  "geoPoint" json
 );
 
 ALTER TABLE ONLY "patient"

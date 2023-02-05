@@ -12,3 +12,4 @@ fields:
   userId: int
   address: String?
   phoneNo: int?
+  geoPoint: GeoPoint?

@@ -62,7 +62,7 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
   }
 
   String? _gender;
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final patient = ref.watch(AppDependency.clientProvider).patient;

@@ -7,6 +7,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
+import 'protocol.dart' as _i2;
 
 class Patient extends _i1.TableRow {
   Patient({
@@ -20,6 +21,7 @@ class Patient extends _i1.TableRow {
     required this.userId,
     this.address,
     this.phoneNo,
+    this.geoPoint,
   }) : super(id);
 
   factory Patient.fromJson(
@@ -44,6 +46,8 @@ class Patient extends _i1.TableRow {
           .deserialize<String?>(jsonSerialization['address']),
       phoneNo:
           serializationManager.deserialize<int?>(jsonSerialization['phoneNo']),
+      geoPoint: serializationManager
+          .deserialize<_i2.GeoPoint?>(jsonSerialization['geoPoint']),
     );
   }
 
@@ -67,6 +71,8 @@ class Patient extends _i1.TableRow {
 
   int? phoneNo;
 
+  _i2.GeoPoint? geoPoint;
+
   @override
   String get tableName => 'patient';
   @override
@@ -82,6 +88,7 @@ class Patient extends _i1.TableRow {
       'userId': userId,
       'address': address,
       'phoneNo': phoneNo,
+      'geoPoint': geoPoint,
     };
   }
 
@@ -98,6 +105,7 @@ class Patient extends _i1.TableRow {
       'userId': userId,
       'address': address,
       'phoneNo': phoneNo,
+      'geoPoint': geoPoint,
     };
   }
 
@@ -114,6 +122,7 @@ class Patient extends _i1.TableRow {
       'userId': userId,
       'address': address,
       'phoneNo': phoneNo,
+      'geoPoint': geoPoint,
     };
   }
 
@@ -152,6 +161,9 @@ class Patient extends _i1.TableRow {
         return;
       case 'phoneNo':
         phoneNo = value;
+        return;
+      case 'geoPoint':
+        geoPoint = value;
         return;
       default:
         throw UnimplementedError();
@@ -295,6 +307,8 @@ class PatientTable extends _i1.Table {
 
   final phoneNo = _i1.ColumnInt('phoneNo');
 
+  final geoPoint = _i1.ColumnSerializable('geoPoint');
+
   @override
   List<_i1.Column> get columns => [
         id,
@@ -307,6 +321,7 @@ class PatientTable extends _i1.Table {
         userId,
         address,
         phoneNo,
+        geoPoint,
       ];
 }
 

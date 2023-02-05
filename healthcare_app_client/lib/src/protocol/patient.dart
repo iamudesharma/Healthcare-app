@@ -7,6 +7,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
+import 'protocol.dart' as _i2;
 
 class Patient extends _i1.SerializableEntity {
   Patient({
@@ -20,6 +21,7 @@ class Patient extends _i1.SerializableEntity {
     required this.userId,
     this.address,
     this.phoneNo,
+    this.geoPoint,
   });
 
   factory Patient.fromJson(
@@ -44,6 +46,8 @@ class Patient extends _i1.SerializableEntity {
           .deserialize<String?>(jsonSerialization['address']),
       phoneNo:
           serializationManager.deserialize<int?>(jsonSerialization['phoneNo']),
+      geoPoint: serializationManager
+          .deserialize<_i2.GeoPoint?>(jsonSerialization['geoPoint']),
     );
   }
 
@@ -70,6 +74,8 @@ class Patient extends _i1.SerializableEntity {
 
   int? phoneNo;
 
+  _i2.GeoPoint? geoPoint;
+
   @override
   Map<String, dynamic> toJson() {
     return {
@@ -83,6 +89,7 @@ class Patient extends _i1.SerializableEntity {
       'userId': userId,
       'address': address,
       'phoneNo': phoneNo,
+      'geoPoint': geoPoint,
     };
   }
 }
