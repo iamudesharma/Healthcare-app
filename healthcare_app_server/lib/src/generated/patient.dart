@@ -18,6 +18,8 @@ class Patient extends _i1.TableRow {
     this.height,
     required this.createdAt,
     required this.userId,
+    this.address,
+    this.phoneNo,
   }) : super(id);
 
   factory Patient.fromJson(
@@ -38,6 +40,10 @@ class Patient extends _i1.TableRow {
           .deserialize<DateTime>(jsonSerialization['createdAt']),
       userId:
           serializationManager.deserialize<int>(jsonSerialization['userId']),
+      address: serializationManager
+          .deserialize<String?>(jsonSerialization['address']),
+      phoneNo:
+          serializationManager.deserialize<int?>(jsonSerialization['phoneNo']),
     );
   }
 
@@ -57,6 +63,10 @@ class Patient extends _i1.TableRow {
 
   int userId;
 
+  String? address;
+
+  int? phoneNo;
+
   @override
   String get tableName => 'patient';
   @override
@@ -70,6 +80,8 @@ class Patient extends _i1.TableRow {
       'height': height,
       'createdAt': createdAt,
       'userId': userId,
+      'address': address,
+      'phoneNo': phoneNo,
     };
   }
 
@@ -84,6 +96,8 @@ class Patient extends _i1.TableRow {
       'height': height,
       'createdAt': createdAt,
       'userId': userId,
+      'address': address,
+      'phoneNo': phoneNo,
     };
   }
 
@@ -98,6 +112,8 @@ class Patient extends _i1.TableRow {
       'height': height,
       'createdAt': createdAt,
       'userId': userId,
+      'address': address,
+      'phoneNo': phoneNo,
     };
   }
 
@@ -130,6 +146,12 @@ class Patient extends _i1.TableRow {
         return;
       case 'userId':
         userId = value;
+        return;
+      case 'address':
+        address = value;
+        return;
+      case 'phoneNo':
+        phoneNo = value;
         return;
       default:
         throw UnimplementedError();
@@ -269,6 +291,10 @@ class PatientTable extends _i1.Table {
 
   final userId = _i1.ColumnInt('userId');
 
+  final address = _i1.ColumnString('address');
+
+  final phoneNo = _i1.ColumnInt('phoneNo');
+
   @override
   List<_i1.Column> get columns => [
         id,
@@ -279,6 +305,8 @@ class PatientTable extends _i1.Table {
         height,
         createdAt,
         userId,
+        address,
+        phoneNo,
       ];
 }
 

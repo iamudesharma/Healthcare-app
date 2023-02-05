@@ -10,4 +10,5 @@ fields:
   height: String?
   createdAt: DateTime
   userId: int
-  
+  address: String?
+  phoneNo: int?

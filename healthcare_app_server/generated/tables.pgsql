@@ -109,7 +109,9 @@ CREATE TABLE "patient" (
   "weight" text,
   "height" text,
   "createdAt" timestamp without time zone NOT NULL,
-  "userId" integer NOT NULL
+  "userId" integer NOT NULL,
+  "address" text,
+  "phoneNo" integer
 );
 
 ALTER TABLE ONLY "patient"

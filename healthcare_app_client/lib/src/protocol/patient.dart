@@ -18,6 +18,8 @@ class Patient extends _i1.SerializableEntity {
     this.height,
     required this.createdAt,
     required this.userId,
+    this.address,
+    this.phoneNo,
   });
 
   factory Patient.fromJson(
@@ -38,6 +40,10 @@ class Patient extends _i1.SerializableEntity {
           .deserialize<DateTime>(jsonSerialization['createdAt']),
       userId:
           serializationManager.deserialize<int>(jsonSerialization['userId']),
+      address: serializationManager
+          .deserialize<String?>(jsonSerialization['address']),
+      phoneNo:
+          serializationManager.deserialize<int?>(jsonSerialization['phoneNo']),
     );
   }
 
@@ -60,6 +66,10 @@ class Patient extends _i1.SerializableEntity {
 
   int userId;
 
+  String? address;
+
+  int? phoneNo;
+
   @override
   Map<String, dynamic> toJson() {
     return {
@@ -71,6 +81,8 @@ class Patient extends _i1.SerializableEntity {
       'height': height,
       'createdAt': createdAt,
       'userId': userId,
+      'address': address,
+      'phoneNo': phoneNo,
     };
   }
 }

@@ -22,12 +22,12 @@ class PatientEndpoint extends Endpoint {
     // Try to retrieve the object from the cache
     var patient = await session.caches.local.get<Patient>(cacheKey);
 
-    final data = await Patient.find(
-      session,
-      where: (value) => value.userId.equals(userId),
-    );
+    if (patient == null) {
+      final data = await Patient.find(
+        session,
+        where: (value) => value.userId.equals(userId),
+      );
 
-    if (data != null) {
       await session.caches.local.put(
         cacheKey,
         data[0],
@@ -36,7 +36,7 @@ class PatientEndpoint extends Endpoint {
 
       return data[0];
     } else {
-      return null;
+      return patient;
     }
   }
 
