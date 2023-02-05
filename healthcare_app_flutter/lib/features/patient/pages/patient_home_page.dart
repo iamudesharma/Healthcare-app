@@ -37,11 +37,17 @@ class _PatientHomePageState extends ConsumerState<PatientHomePage> {
               currentAccountPicture: const CircleAvatar(
                 backgroundColor: Colors.amber,
               ),
-              accountEmail: const Text("Udesh@gmail.com"),
-              accountName: const Text("Udesh"),
+              accountEmail: Text(ref
+                      .read(AppDependency.sessionManagerProvider)
+                      .signedInUser
+                      ?.email ??
+                  ""),
+              accountName: Text(patientData.value?.name??""),
               otherAccountsPictures: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    AutoRouter.of(context).push(AddPatientRoute(isEdit: true));
+                  },
                   child: const Center(child: Icon(Icons.edit)),
                 )
               ],
@@ -56,10 +62,11 @@ class _PatientHomePageState extends ConsumerState<PatientHomePage> {
             title: Text("Settings"),
           ),
           ListTile(
-            title: Text("Logout"),
+            title: const Text("Logout"),
             onTap: () async {
               await ref.read(AppDependency.sessionManagerProvider).signOut();
 
+              // ignore: use_build_context_synchronously
               await AutoRouter.of(context).replace(const SignInRoute());
             },
           ),

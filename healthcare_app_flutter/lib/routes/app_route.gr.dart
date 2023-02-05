@@ -47,9 +47,14 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     AddPatientRoute.name: (routeData) {
+      final args = routeData.argsAs<AddPatientRouteArgs>(
+          orElse: () => const AddPatientRouteArgs());
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const AddPatientPage(),
+        child: AddPatientPage(
+          key: args.key,
+          isEdit: args.isEdit,
+        ),
       );
     },
     AddMedicalStoreRoute.name: (routeData) {
@@ -150,14 +155,36 @@ class AddDoctorRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [AddPatientPage]
-class AddPatientRoute extends PageRouteInfo<void> {
-  const AddPatientRoute()
-      : super(
+class AddPatientRoute extends PageRouteInfo<AddPatientRouteArgs> {
+  AddPatientRoute({
+    Key? key,
+    bool? isEdit = false,
+  }) : super(
           AddPatientRoute.name,
           path: '/add-patient-page',
+          args: AddPatientRouteArgs(
+            key: key,
+            isEdit: isEdit,
+          ),
         );
 
   static const String name = 'AddPatientRoute';
+}
+
+class AddPatientRouteArgs {
+  const AddPatientRouteArgs({
+    this.key,
+    this.isEdit = false,
+  });
+
+  final Key? key;
+
+  final bool? isEdit;
+
+  @override
+  String toString() {
+    return 'AddPatientRouteArgs{key: $key, isEdit: $isEdit}';
+  }
 }
 
 /// generated route for

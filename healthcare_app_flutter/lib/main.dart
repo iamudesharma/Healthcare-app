@@ -261,7 +261,7 @@ class _SetupPageState extends State<SetupPage> {
                           break;
 
                         case 1:
-                          AutoRouter.of(context).push(const AddPatientRoute());
+                          AutoRouter.of(context).push(AddPatientRoute());
 
                           break;
 

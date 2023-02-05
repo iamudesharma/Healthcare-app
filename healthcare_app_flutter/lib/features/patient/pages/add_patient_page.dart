@@ -1,13 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:healthcare_app_client/healthcare_app_client.dart';
 
+import 'package:healthcare_app_client/healthcare_app_client.dart';
 import 'package:healthcare_app_flutter/dependency/app_dependency.dart';
+import 'package:healthcare_app_flutter/features/patient/pages/patient_home_page.dart';
 import 'package:healthcare_app_flutter/main.dart';
 
 class AddPatientPage extends ConsumerStatefulWidget {
-  const AddPatientPage({super.key});
+  const AddPatientPage({
+    super.key,
+    this.isEdit = false,
+  });
+
+  final bool? isEdit;
 
   @override
   ConsumerState<AddPatientPage> createState() => _AddPatientPageState();
@@ -24,14 +30,35 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
 
   @override
   void initState() {
-    _nameController = TextEditingController();
-    _ageController = TextEditingController();
-    _weightController = TextEditingController();
-    _heightController = TextEditingController();
-    _addressController = TextEditingController();
-    _phoneController = TextEditingController();
+    if (widget.isEdit!) {
+      isEditTrue();
+    } else {
+      _nameController = TextEditingController();
+      _ageController = TextEditingController();
+      _weightController = TextEditingController();
+      _heightController = TextEditingController();
+      _addressController = TextEditingController();
+      _phoneController = TextEditingController();
+    }
 
     super.initState();
+  }
+
+  isEditTrue() async {
+    final patient = ref.read(patientProvider).value;
+
+    _nameController = TextEditingController(text: patient?.name);
+    _ageController = TextEditingController(text: patient?.age.toString());
+    _weightController = TextEditingController(
+      text: patient?.weight.toString(),
+    );
+    _heightController = TextEditingController(
+      text: patient?.height.toString(),
+    );
+    _addressController = TextEditingController(
+      text: "",
+    );
+    _phoneController = TextEditingController(text: "");
   }
 
   String? _gender;
