@@ -7,7 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 import 'package:healthcare_app_flutter/dependency/app_dependency.dart';
 import 'package:healthcare_app_flutter/features/patient/pages/patient_home_page.dart';
+import 'package:healthcare_app_flutter/helpers/image_picker_helper.dart';
 import 'package:healthcare_app_flutter/main.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddPatientPage extends ConsumerStatefulWidget {
   const AddPatientPage({
@@ -88,25 +90,52 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                 Center(
                   child: GestureDetector(
                     onTap: () async {
-// String path = "path";
+                      final file = await ImagePickerHelper.getImage(
+                          imageSource: ImageSource.camera);
 
-//                       var uploadDescription = await ref
-//                           .read(AppDependency.clientProvider)
-//                           .patient
-//                           .getUploadDescription("path");
+                      if (file != null) {
+                        final _image = await file.readAsBytes();
 
-//                       if (uploadDescription != null) {
-//                         var uploader = FileUploader(uploadDescription);
-//                         await uploader.upload(path.codeUnits);
-//                         var success =
-//                             await client.patient.verifyUpload('myfile');
-//                       }
+                        String path = file.path;
+
+                        print("Path: $path");
+
+                        var uploadDescription = await ref
+                            .read(AppDependency.clientProvider)
+                            .patient
+                            .getUploadDescription(path)
+                            .then((value) {
+                          print("Value: $value");
+                        });
+
+                        if (uploadDescription != null) {
+                          var uploader = FileUploader(uploadDescription);
+                          await uploader
+                              .uploadByteData(_image.buffer.asByteData())
+                              .then(
+                            (value) {
+                              print("Uploaded $value");
+                            },
+                          );
+                          var success = await client.patient.verifyUpload(path);
+                          print("Success: $success");
+                          // print("sn dkj");
+
+                          // final url = await client.patient.getPublicUrl(
+                          //     "/data/user/0/com.example.healthcare_app_flutter/cache/bf27a25e-cce0-44c2-92be-286595a493766591032310226248515.jpg");
+
+                          // print("URL: $url");
+                          // print("URL: ${url?.path}");
+
+                          // print("sn dkj");
+                        }
+                      }
                     },
-                    child: Badge(
+                    child: const Badge(
                       isLabelVisible: true,
                       label: Text("Upload Image"),
                       alignment: AlignmentDirectional(10, 90),
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         radius: 50,
                       ),
                     ),

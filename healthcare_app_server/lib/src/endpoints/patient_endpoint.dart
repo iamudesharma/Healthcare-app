@@ -93,4 +93,11 @@ class PatientEndpoint extends Endpoint {
       path: path,
     );
   }
+
+  Future<Uri?> getPublicUrl(Session session, String path) async {
+    return await session.storage.getPublicUrl(
+      storageId: 'public',
+      path: path,
+    );
+  }
 }

@@ -280,6 +280,24 @@ class Endpoints extends _i1.EndpointDispatch {
             params['path'],
           ),
         ),
+        'getPublicUrl': _i1.MethodConnector(
+          name: 'getPublicUrl',
+          params: {
+            'path': _i1.ParameterDescription(
+              name: 'path',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['patient'] as _i4.PatientEndpoint).getPublicUrl(
+            session,
+            params['path'],
+          ),
+        ),
       },
     );
     modules['serverpod_auth'] = _i8.Endpoints()..initializeEndpoints(server);

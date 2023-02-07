@@ -137,6 +137,12 @@ class _EndpointPatient extends _i1.EndpointRef {
         'verifyUpload',
         {'path': path},
       );
+
+  _i2.Future<Uri?> getPublicUrl(String path) => caller.callServerEndpoint<Uri?>(
+        'patient',
+        'getPublicUrl',
+        {'path': path},
+      );
 }
 
 class _Modules {
