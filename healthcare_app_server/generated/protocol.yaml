@@ -12,3 +12,6 @@ patient:
   - cratePatient:
   - currentPatient:
   - getPatient:
+  - updatePatient:
+  - getUploadDescription:
+  - verifyUpload:

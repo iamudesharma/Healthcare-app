@@ -117,6 +117,26 @@ class _EndpointPatient extends _i1.EndpointRef {
         'getPatient',
         {},
       );
+
+  _i2.Future<bool> updatePatient(_i5.Patient patient) =>
+      caller.callServerEndpoint<bool>(
+        'patient',
+        'updatePatient',
+        {'patient': patient},
+      );
+
+  _i2.Future<String?> getUploadDescription(String path) =>
+      caller.callServerEndpoint<String?>(
+        'patient',
+        'getUploadDescription',
+        {'path': path},
+      );
+
+  _i2.Future<bool> verifyUpload(String path) => caller.callServerEndpoint<bool>(
+        'patient',
+        'verifyUpload',
+        {'path': path},
+      );
 }
 
 class _Modules {

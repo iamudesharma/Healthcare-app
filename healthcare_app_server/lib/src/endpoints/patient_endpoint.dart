@@ -28,10 +28,16 @@ class PatientEndpoint extends Endpoint {
         where: (value) => value.userId.equals(userId),
       );
 
+      if (data == null || data.isEmpty) {
+        return null;
+      }
+
+      patient = data.first;
+
       await session.caches.local.put(
         cacheKey,
         data[0],
-        lifetime: Duration(minutes: 20),
+        lifetime: Duration(minutes: 5),
       );
 
       return data[0];
@@ -53,6 +59,38 @@ class PatientEndpoint extends Endpoint {
   }
 
   @override
-  // TODO: implement requireLogin
   bool get requireLogin => true;
+
+  Future<bool> updatePatient(
+    Session session,
+    Patient patient,
+  ) async {
+    final userId = await session.auth.authenticatedUserId;
+
+    session.log("Updating patient: ${patient.age} ${patient.name}");
+    var cacheKey = 'UserData-$userId';
+
+    await session.caches.local.invalidateKey(cacheKey);
+
+    await session.caches.local.put(
+      cacheKey,
+      patient,
+      lifetime: Duration(minutes: 5),
+    );
+    return await Patient.update(session, patient);
+  }
+
+  Future<String?> getUploadDescription(Session session, String path) async {
+    return await session.storage.createDirectFileUploadDescription(
+      storageId: 'public',
+      path: path,
+    );
+  }
+
+  Future<bool> verifyUpload(Session session, String path) async {
+    return await session.storage.verifyDirectFileUpload(
+      storageId: 'public',
+      path: path,
+    );
+  }
 }

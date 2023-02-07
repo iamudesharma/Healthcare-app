@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -56,9 +58,13 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
       text: patient?.height.toString(),
     );
     _addressController = TextEditingController(
-      text: "",
+      text: patient?.address,
     );
-    _phoneController = TextEditingController(text: "");
+    _phoneController = TextEditingController(text: patient?.phoneNo.toString());
+
+    // setState(() {
+    //   _gender = patient!.gender;
+    // });
   }
 
   String? _gender;
@@ -78,6 +84,34 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const SizedBox(height: 30),
+                Center(
+                  child: GestureDetector(
+                    onTap: () async {
+// String path = "path";
+
+//                       var uploadDescription = await ref
+//                           .read(AppDependency.clientProvider)
+//                           .patient
+//                           .getUploadDescription("path");
+
+//                       if (uploadDescription != null) {
+//                         var uploader = FileUploader(uploadDescription);
+//                         await uploader.upload(path.codeUnits);
+//                         var success =
+//                             await client.patient.verifyUpload('myfile');
+//                       }
+                    },
+                    child: Badge(
+                      isLabelVisible: true,
+                      label: Text("Upload Image"),
+                      alignment: AlignmentDirectional(10, 90),
+                      child: const CircleAvatar(
+                        radius: 50,
+                      ),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 30),
                 CustomTextField(
                   validator: (p0) {
@@ -115,6 +149,7 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                 ),
                 const SizedBox(height: 10),
                 TextFieldDropDown<String>(
+                  value: "Male",
                   validator: <String>(p0) {
                     if (p0!.isEmpty) {
                       return 'Gender is required';
@@ -123,7 +158,11 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                   },
                   label: "Gender",
                   items: const <String>["Male", "Female", "Other"],
-                  onChanged: <Sting>(p0) {},
+                  onChanged: <Sting>(p0) {
+                    setState(() {
+                      _gender = p0;
+                    });
+                  },
                 ),
                 const SizedBox(height: 10),
                 CustomTextField(
@@ -161,28 +200,52 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
-                  child: const Text("Save"),
+                  child: Text(widget.isEdit! ? "Update" : "Save"),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      await patient.cratePatient(Patient(
-                          name: _nameController.text,
-                          age: int.parse(
-                            _ageController.text,
+                      if (widget.isEdit!) {
+                        await patient.updatePatient(
+                          Patient(
+                            name: _nameController.text,
+                            age: int.parse(
+                              _ageController.text,
+                            ),
+                            address: _addressController.text,
+                            geoPoint: GeoPoint(
+                              lat: 10,
+                              long: 10,
+                              id: Random().nextInt(100000),
+                            ),
+                            phoneNo: int.parse(_phoneController.text),
+                            createdAt: DateTime.now(),
+                            gender: _gender ??
+                                ref.read(patientProvider).value!.gender,
+                            height: _heightController.text,
+                            weight: _weightController.text,
+                            userId: sessionManager.signedInUser!.id!,
                           ),
-                          createdAt: DateTime.now(),
-                          gender: _gender ?? "",
-                          height: _heightController.text,
-                          weight: _weightController.text,
-                          userId: sessionManager.signedInUser!.id!));
-                      // patient.addPatient(
-                      //   name: _nameController.text,
-                      //   age: int.parse(_ageController.text),
-                      //   weight: double.parse(_weightController.text),
-                      //   height: double.parse(_heightController.text),
-                      //   address: _addressController.text,
-                      //   phone: _phoneController.text,
-                      // );
-                      // Navigator.of(context).pop();
+                        );
+                      } else {
+                        await patient.cratePatient(
+                          Patient(
+                            name: _nameController.text,
+                            age: int.parse(
+                              _ageController.text,
+                            ),
+                            address: _addressController.text,
+                            geoPoint: GeoPoint(
+                                lat: 10,
+                                long: 10,
+                                id: Random().nextInt(100000)),
+                            phoneNo: int.parse(_phoneController.text),
+                            createdAt: DateTime.now(),
+                            gender: _gender ?? "",
+                            height: _heightController.text,
+                            weight: _weightController.text,
+                            userId: sessionManager.signedInUser!.id!,
+                          ),
+                        );
+                      }
                     }
                   },
                 )
@@ -247,8 +310,10 @@ class TextFieldDropDown<T> extends StatelessWidget {
     required this.onChanged,
     this.validator,
     required this.label,
+    required this.value,
   }) : super(key: key);
 
+  final T? value;
   final List<T> items;
   final String label;
   final String? Function(T?)? validator;
@@ -257,6 +322,7 @@ class TextFieldDropDown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
+      value: value,
       validator: validator,
       decoration: InputDecoration(
         isDense: true,

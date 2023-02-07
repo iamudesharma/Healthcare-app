@@ -225,6 +225,61 @@ class Endpoints extends _i1.EndpointDispatch {
           ) async =>
               (endpoints['patient'] as _i4.PatientEndpoint).getPatient(session),
         ),
+        'updatePatient': _i1.MethodConnector(
+          name: 'updatePatient',
+          params: {
+            'patient': _i1.ParameterDescription(
+              name: 'patient',
+              type: _i1.getType<_i7.Patient>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['patient'] as _i4.PatientEndpoint).updatePatient(
+            session,
+            params['patient'],
+          ),
+        ),
+        'getUploadDescription': _i1.MethodConnector(
+          name: 'getUploadDescription',
+          params: {
+            'path': _i1.ParameterDescription(
+              name: 'path',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['patient'] as _i4.PatientEndpoint)
+                  .getUploadDescription(
+            session,
+            params['path'],
+          ),
+        ),
+        'verifyUpload': _i1.MethodConnector(
+          name: 'verifyUpload',
+          params: {
+            'path': _i1.ParameterDescription(
+              name: 'path',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['patient'] as _i4.PatientEndpoint).verifyUpload(
+            session,
+            params['path'],
+          ),
+        ),
       },
     );
     modules['serverpod_auth'] = _i8.Endpoints()..initializeEndpoints(server);
