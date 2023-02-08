@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:healthcare_app_server/src/generated/protocol.dart';
 import 'package:serverpod/server.dart';
 import 'package:serverpod/serverpod.dart';
@@ -94,10 +96,19 @@ class PatientEndpoint extends Endpoint {
     );
   }
 
-  Future<Uri?> getPublicUrl(Session session, String path) async {
-    return await session.storage.getPublicUrl(
+  Future<ByteData?> getPublicUrl(Session session, String path) async {
+    return await session.storage.retrieveFile(
       storageId: 'public',
       path: path,
+    );
+  }
+
+  Future<void> StoreFile(
+      Session session, String path, ByteData byteData) async {
+    return await session.storage.storeFile(
+      storageId: 'public',
+      path: path,
+      byteData: byteData,
     );
   }
 }

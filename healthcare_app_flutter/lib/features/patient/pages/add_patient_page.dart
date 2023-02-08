@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -69,6 +71,8 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
     // });
   }
 
+  Uint8List? image;
+
   String? _gender;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
@@ -98,46 +102,67 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
 
                         String path = file.path;
 
-                        print("Path: $path");
-
                         var uploadDescription = await ref
                             .read(AppDependency.clientProvider)
                             .patient
-                            .getUploadDescription(path)
-                            .then((value) {
-                          print("Value: $value");
+                            .StoreFile(path, _image.buffer.asByteData());
+
+                        print("sn dkj");
+
+                        final url = await client.patient.getPublicUrl(path);
+                        // "/data/user/0/com.example.healthcare_app_flutter/cache/bf27a25e-cce0-44c2-92be-286595a493766591032310226248515.jpg");
+
+                        print("URL: $url");
+                        print("URL: ${url?.buffer.asByteData()}");
+
+                        setState(() {
+                          image =
+                              Uint8List.view(url!.buffer.asByteData().buffer);
                         });
-
-                        if (uploadDescription != null) {
-                          var uploader = FileUploader(uploadDescription);
-                          await uploader
-                              .uploadByteData(_image.buffer.asByteData())
-                              .then(
-                            (value) {
-                              print("Uploaded $value");
-                            },
-                          );
-                          var success = await client.patient.verifyUpload(path);
-                          print("Success: $success");
-                          // print("sn dkj");
-
-                          // final url = await client.patient.getPublicUrl(
-                          //     "/data/user/0/com.example.healthcare_app_flutter/cache/bf27a25e-cce0-44c2-92be-286595a493766591032310226248515.jpg");
-
-                          // print("URL: $url");
-                          // print("URL: ${url?.path}");
-
-                          // print("sn dkj");
-                        }
+                        print("sn dkj");
                       }
+                      // final client = ref.read(AppDependency.clientProvider);
+                      //   .then((value) async {
+                      // print("Value: $value");
+
+                      // if (value != null) {
+                      //   var uploader = FileUploader(value);
+                      //   await uploader
+                      //       .uploadByteData(_image.buffer.asByteData())
+                      //       .then(
+                      //     (value) {
+                      //       print("Uploaded $value");
+                      //     },
+                      //   );
+                      //   var success =
+                      //       await client.patient.verifyUpload(path);
+                      //   print("Success: $success");
+                      // print("sn dkj");
+
+                      // final url = await client.patient.getPublicUrl(
+                      //     "/data/user/0/com.example.healthcare_app_flutter/cache/bf27a25e-cce0-44c2-92be-286595a493766591032310226248515.jpg");
+
+                      // print("URL: $url");
+                      // print("URL: ${url?.path}");
+
+                      // print("sn dkj");
+                      // }
+                      // });
+
+                      // print("sn dkj");
                     },
-                    child: const Badge(
+                    child: Badge(
                       isLabelVisible: true,
                       label: Text("Upload Image"),
                       alignment: AlignmentDirectional(10, 90),
-                      child: CircleAvatar(
-                        radius: 50,
-                      ),
+                      child: image == null
+                          ? CircleAvatar(
+                              radius: 50,
+                            )
+                          : CircleAvatar(
+                              radius: 50,
+                              backgroundImage: MemoryImage(image!),
+                            ),
                     ),
                   ),
                 ),

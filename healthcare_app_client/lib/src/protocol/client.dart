@@ -11,9 +11,10 @@ import 'dart:async' as _i2;
 import 'package:healthcare_app_client/src/protocol/doctor.dart' as _i3;
 import 'package:healthcare_app_client/src/protocol/medicine.dart' as _i4;
 import 'package:healthcare_app_client/src/protocol/patient.dart' as _i5;
-import 'package:serverpod_auth_client/module.dart' as _i6;
-import 'dart:io' as _i7;
-import 'protocol.dart' as _i8;
+import 'dart:typed_data' as _i6;
+import 'package:serverpod_auth_client/module.dart' as _i7;
+import 'dart:io' as _i8;
+import 'protocol.dart' as _i9;
 
 class _EndpointDoctor extends _i1.EndpointRef {
   _EndpointDoctor(_i1.EndpointCaller caller) : super(caller);
@@ -138,29 +139,43 @@ class _EndpointPatient extends _i1.EndpointRef {
         {'path': path},
       );
 
-  _i2.Future<Uri?> getPublicUrl(String path) => caller.callServerEndpoint<Uri?>(
+  _i2.Future<_i6.ByteData?> getPublicUrl(String path) =>
+      caller.callServerEndpoint<_i6.ByteData?>(
         'patient',
         'getPublicUrl',
         {'path': path},
+      );
+
+  _i2.Future<void> StoreFile(
+    String path,
+    _i6.ByteData byteData,
+  ) =>
+      caller.callServerEndpoint<void>(
+        'patient',
+        'StoreFile',
+        {
+          'path': path,
+          'byteData': byteData,
+        },
       );
 }
 
 class _Modules {
   _Modules(Client client) {
-    auth = _i6.Caller(client);
+    auth = _i7.Caller(client);
   }
 
-  late final _i6.Caller auth;
+  late final _i7.Caller auth;
 }
 
 class Client extends _i1.ServerpodClient {
   Client(
     String host, {
-    _i7.SecurityContext? context,
+    _i8.SecurityContext? context,
     _i1.AuthenticationKeyManager? authenticationKeyManager,
   }) : super(
           host,
-          _i8.Protocol(),
+          _i9.Protocol(),
           context: context,
           authenticationKeyManager: authenticationKeyManager,
         ) {

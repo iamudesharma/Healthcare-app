@@ -13,7 +13,8 @@ import '../endpoints/patient_endpoint.dart' as _i4;
 import 'package:healthcare_app_server/src/generated/doctor.dart' as _i5;
 import 'package:healthcare_app_server/src/generated/medicine.dart' as _i6;
 import 'package:healthcare_app_server/src/generated/patient.dart' as _i7;
-import 'package:serverpod_auth_server/module.dart' as _i8;
+import 'dart:typed_data' as _i8;
+import 'package:serverpod_auth_server/module.dart' as _i9;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -298,8 +299,32 @@ class Endpoints extends _i1.EndpointDispatch {
             params['path'],
           ),
         ),
+        'StoreFile': _i1.MethodConnector(
+          name: 'StoreFile',
+          params: {
+            'path': _i1.ParameterDescription(
+              name: 'path',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'byteData': _i1.ParameterDescription(
+              name: 'byteData',
+              type: _i1.getType<_i8.ByteData>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['patient'] as _i4.PatientEndpoint).StoreFile(
+            session,
+            params['path'],
+            params['byteData'],
+          ),
+        ),
       },
     );
-    modules['serverpod_auth'] = _i8.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i9.Endpoints()..initializeEndpoints(server);
   }
 }

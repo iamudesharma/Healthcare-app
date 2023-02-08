@@ -16,3 +16,4 @@ patient:
   - getUploadDescription:
   - verifyUpload:
   - getPublicUrl:
+  - StoreFile:
