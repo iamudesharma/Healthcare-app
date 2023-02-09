@@ -112,7 +112,8 @@ CREATE TABLE "patient" (
   "userId" integer NOT NULL,
   "address" text,
   "phoneNo" integer,
-  "geoPoint" json
+  "geoPoint" json,
+  "image" text
 );
 
 ALTER TABLE ONLY "patient"

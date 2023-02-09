@@ -13,3 +13,4 @@ fields:
   address: String?
   phoneNo: int?
   geoPoint: GeoPoint?
+  image: String?

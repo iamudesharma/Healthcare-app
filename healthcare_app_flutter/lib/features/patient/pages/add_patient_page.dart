@@ -72,6 +72,7 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
   }
 
   Uint8List? image;
+  String? _imagePath;
 
   String? _gender;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -94,6 +95,7 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                 Center(
                   child: GestureDetector(
                     onTap: () async {
+                      final patient = ref.read(patientProvider).value;
                       final file = await ImagePickerHelper.getImage(
                           imageSource: ImageSource.camera);
 
@@ -118,45 +120,25 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                         setState(() {
                           image =
                               Uint8List.view(url!.buffer.asByteData().buffer);
+
+                          _imagePath = path;
                         });
-                        print("sn dkj");
+
+                        // patient!.image = path;
+
+                        // await ref
+                        //     .read(AppDependency.clientProvider)
+                        //     .patient
+                        //     .updatePatient(patient);
+                        // print("sn dkj");
                       }
-                      // final client = ref.read(AppDependency.clientProvider);
-                      //   .then((value) async {
-                      // print("Value: $value");
-
-                      // if (value != null) {
-                      //   var uploader = FileUploader(value);
-                      //   await uploader
-                      //       .uploadByteData(_image.buffer.asByteData())
-                      //       .then(
-                      //     (value) {
-                      //       print("Uploaded $value");
-                      //     },
-                      //   );
-                      //   var success =
-                      //       await client.patient.verifyUpload(path);
-                      //   print("Success: $success");
-                      // print("sn dkj");
-
-                      // final url = await client.patient.getPublicUrl(
-                      //     "/data/user/0/com.example.healthcare_app_flutter/cache/bf27a25e-cce0-44c2-92be-286595a493766591032310226248515.jpg");
-
-                      // print("URL: $url");
-                      // print("URL: ${url?.path}");
-
-                      // print("sn dkj");
-                      // }
-                      // });
-
-                      // print("sn dkj");
                     },
                     child: Badge(
                       isLabelVisible: true,
-                      label: Text("Upload Image"),
-                      alignment: AlignmentDirectional(10, 90),
+                      label: const Text("Upload Image"),
+                      alignment: const AlignmentDirectional(10, 90),
                       child: image == null
-                          ? CircleAvatar(
+                          ? const CircleAvatar(
                               radius: 50,
                             )
                           : CircleAvatar(
@@ -282,6 +264,8 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                       } else {
                         await patient.cratePatient(
                           Patient(
+                            
+                            image: _imagePath ?? "",
                             name: _nameController.text,
                             age: int.parse(
                               _ageController.text,

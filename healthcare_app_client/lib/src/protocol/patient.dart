@@ -22,6 +22,7 @@ class Patient extends _i1.SerializableEntity {
     this.address,
     this.phoneNo,
     this.geoPoint,
+    this.image,
   });
 
   factory Patient.fromJson(
@@ -48,6 +49,8 @@ class Patient extends _i1.SerializableEntity {
           serializationManager.deserialize<int?>(jsonSerialization['phoneNo']),
       geoPoint: serializationManager
           .deserialize<_i2.GeoPoint?>(jsonSerialization['geoPoint']),
+      image:
+          serializationManager.deserialize<String?>(jsonSerialization['image']),
     );
   }
 
@@ -76,6 +79,8 @@ class Patient extends _i1.SerializableEntity {
 
   _i2.GeoPoint? geoPoint;
 
+  String? image;
+
   @override
   Map<String, dynamic> toJson() {
     return {
@@ -90,6 +95,7 @@ class Patient extends _i1.SerializableEntity {
       'address': address,
       'phoneNo': phoneNo,
       'geoPoint': geoPoint,
+      'image': image,
     };
   }
 }

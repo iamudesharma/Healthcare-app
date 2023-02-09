@@ -22,6 +22,7 @@ class Patient extends _i1.TableRow {
     this.address,
     this.phoneNo,
     this.geoPoint,
+    this.image,
   }) : super(id);
 
   factory Patient.fromJson(
@@ -48,6 +49,8 @@ class Patient extends _i1.TableRow {
           serializationManager.deserialize<int?>(jsonSerialization['phoneNo']),
       geoPoint: serializationManager
           .deserialize<_i2.GeoPoint?>(jsonSerialization['geoPoint']),
+      image:
+          serializationManager.deserialize<String?>(jsonSerialization['image']),
     );
   }
 
@@ -73,6 +76,8 @@ class Patient extends _i1.TableRow {
 
   _i2.GeoPoint? geoPoint;
 
+  String? image;
+
   @override
   String get tableName => 'patient';
   @override
@@ -89,6 +94,7 @@ class Patient extends _i1.TableRow {
       'address': address,
       'phoneNo': phoneNo,
       'geoPoint': geoPoint,
+      'image': image,
     };
   }
 
@@ -106,6 +112,7 @@ class Patient extends _i1.TableRow {
       'address': address,
       'phoneNo': phoneNo,
       'geoPoint': geoPoint,
+      'image': image,
     };
   }
 
@@ -123,6 +130,7 @@ class Patient extends _i1.TableRow {
       'address': address,
       'phoneNo': phoneNo,
       'geoPoint': geoPoint,
+      'image': image,
     };
   }
 
@@ -164,6 +172,9 @@ class Patient extends _i1.TableRow {
         return;
       case 'geoPoint':
         geoPoint = value;
+        return;
+      case 'image':
+        image = value;
         return;
       default:
         throw UnimplementedError();
@@ -309,6 +320,8 @@ class PatientTable extends _i1.Table {
 
   final geoPoint = _i1.ColumnSerializable('geoPoint');
 
+  final image = _i1.ColumnString('image');
+
   @override
   List<_i1.Column> get columns => [
         id,
@@ -322,6 +335,7 @@ class PatientTable extends _i1.Table {
         address,
         phoneNo,
         geoPoint,
+        image,
       ];
 }
 
