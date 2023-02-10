@@ -13,8 +13,8 @@ class Patient extends _i1.SerializableEntity {
   Patient({
     this.id,
     required this.name,
-    required this.age,
-    required this.gender,
+    this.age,
+    this.gender,
     this.weight,
     this.height,
     required this.createdAt,
@@ -32,9 +32,9 @@ class Patient extends _i1.SerializableEntity {
     return Patient(
       id: serializationManager.deserialize<int?>(jsonSerialization['id']),
       name: serializationManager.deserialize<String>(jsonSerialization['name']),
-      age: serializationManager.deserialize<int>(jsonSerialization['age']),
-      gender:
-          serializationManager.deserialize<String>(jsonSerialization['gender']),
+      age: serializationManager.deserialize<int?>(jsonSerialization['age']),
+      gender: serializationManager
+          .deserialize<String?>(jsonSerialization['gender']),
       weight: serializationManager
           .deserialize<String?>(jsonSerialization['weight']),
       height: serializationManager
@@ -61,9 +61,9 @@ class Patient extends _i1.SerializableEntity {
 
   String name;
 
-  int age;
+  int? age;
 
-  String gender;
+  String? gender;
 
   String? weight;
 

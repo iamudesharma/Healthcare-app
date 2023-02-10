@@ -4,8 +4,8 @@ class: Patient
 table: patient
 fields:
   name: String
-  age: int
-  gender: String
+  age: int?
+  gender: String?
   weight: String?
   height: String?
   createdAt: DateTime

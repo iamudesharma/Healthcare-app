@@ -1,3 +1,15 @@
 {
-    "dart.flutterSdkPath": "/Users/udeshsharma/fvm/versions/stable"
+    "dart.flutterSdkPath": "/Users/udeshsharma/fvm/versions/stable",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 8090,
+            "driver": "PostgreSQL",
+            "name": "test",
+            "database": "healthcare_app",
+            "username": "postgres",
+            "password": "sH6ONPLcZrza2dWZWSnXcM2z-qbWQ119"
+        }
+    ]
 }

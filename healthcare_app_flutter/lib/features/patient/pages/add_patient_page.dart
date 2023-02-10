@@ -242,6 +242,7 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                       if (widget.isEdit!) {
                         await patient.updatePatient(
                           Patient(
+                            image: _imagePath ?? "",
                             name: _nameController.text,
                             age: int.parse(
                               _ageController.text,
@@ -262,27 +263,25 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                           ),
                         );
                       } else {
-                        await patient.cratePatient(
-                          Patient(
-                            
-                            image: _imagePath ?? "",
-                            name: _nameController.text,
-                            age: int.parse(
-                              _ageController.text,
-                            ),
-                            address: _addressController.text,
-                            geoPoint: GeoPoint(
-                                lat: 10,
-                                long: 10,
-                                id: Random().nextInt(100000)),
-                            phoneNo: int.parse(_phoneController.text),
-                            createdAt: DateTime.now(),
-                            gender: _gender ?? "",
-                            height: _heightController.text,
-                            weight: _weightController.text,
-                            userId: sessionManager.signedInUser!.id!,
+                        final _patient = Patient(
+                          id: 0,
+                          image: _imagePath,
+                          name: _nameController.text,
+                          age: int.parse(
+                            _ageController.text,
                           ),
+                          address: _addressController.text,
+                          geoPoint: GeoPoint(
+                              lat: 10, long: 10, id: Random().nextInt(100000)),
+                          phoneNo: int.parse(_phoneController.text),
+                          createdAt: DateTime.now(),
+                          gender: _gender ?? "",
+                          height: _heightController.text,
+                          weight: _weightController.text,
+                          userId: sessionManager.signedInUser!.id ?? 0,
                         );
+
+                        await patient.cratePatient(_patient);
                       }
                     }
                   },

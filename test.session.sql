@@ -104,8 +104,8 @@ ALTER TABLE ONLY "inventory"
 CREATE TABLE "patient" (
   "id" serial,
   "name" text NOT NULL,
-  "age" integer,
-  "gender" text,
+  "age" integer NOT NULL,
+  "gender" text NOT NULL,
   "weight" text,
   "height" text,
   "createdAt" timestamp without time zone NOT NULL,
