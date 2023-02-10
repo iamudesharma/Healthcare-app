@@ -305,6 +305,10 @@ class CustomTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final TextEditingController controller;
+  final bool? readOnly;
+  final VoidCallback? onTap;
+
+  final int? maxLines;
   const CustomTextField({
     Key? key,
     required this.label,
@@ -316,11 +320,17 @@ class CustomTextField extends StatelessWidget {
     this.textInputAction,
     this.keyboardType,
     required this.controller,
+    this.maxLines,
+    this.onTap,
+    this.readOnly=false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
+      onTap: onTap,
+      readOnly: readOnly!,
       controller: controller,
       keyboardType: keyboardType ?? TextInputType.text,
       textInputAction: textInputAction ?? TextInputAction.send,
