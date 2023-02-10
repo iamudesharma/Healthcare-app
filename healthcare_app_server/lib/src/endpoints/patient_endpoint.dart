@@ -69,16 +69,11 @@ class PatientEndpoint extends Endpoint {
   ) async {
     final userId = await session.auth.authenticatedUserId;
 
-    session.log("Updating patient: ${patient.age} ${patient.name}");
+    session.log("Updating patient: ${patient.age} ${patient.image}");
     var cacheKey = 'UserData-$userId';
 
-    await session.caches.local.invalidateKey(cacheKey);
+    await session.caches.local.clear();
 
-    await session.caches.local.put(
-      cacheKey,
-      patient,
-      lifetime: Duration(minutes: 5),
-    );
     return await Patient.update(session, patient);
   }
 

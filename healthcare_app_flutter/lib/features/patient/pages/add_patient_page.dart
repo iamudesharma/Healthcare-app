@@ -240,6 +240,7 @@ class _AddPatientPageState extends ConsumerState<AddPatientPage> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       if (widget.isEdit!) {
+                        print("sn dkj $_imagePath");
                         await patient.updatePatient(
                           Patient(
                             image: _imagePath ?? "",
@@ -322,7 +323,7 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     this.maxLines,
     this.onTap,
-    this.readOnly=false,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
