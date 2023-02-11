@@ -12,7 +12,9 @@ CREATE TABLE "chemists" (
   "closeTime" timestamp without time zone,
   "email" text,
   "phoneNo" integer,
-  "userId" integer NOT NULL
+  "userId" integer NOT NULL,
+  "latitude" double precision,
+  "longitude" double precision
 );
 
 ALTER TABLE ONLY "chemists"

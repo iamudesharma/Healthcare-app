@@ -21,6 +21,8 @@ class Chemists extends _i1.SerializableEntity {
     this.email,
     this.phoneNo,
     required this.userId,
+    this.latitude,
+    this.longitude,
   });
 
   factory Chemists.fromJson(
@@ -46,6 +48,10 @@ class Chemists extends _i1.SerializableEntity {
           serializationManager.deserialize<int?>(jsonSerialization['phoneNo']),
       userId:
           serializationManager.deserialize<int>(jsonSerialization['userId']),
+      latitude: serializationManager
+          .deserialize<double?>(jsonSerialization['latitude']),
+      longitude: serializationManager
+          .deserialize<double?>(jsonSerialization['longitude']),
     );
   }
 
@@ -72,6 +78,10 @@ class Chemists extends _i1.SerializableEntity {
 
   int userId;
 
+  double? latitude;
+
+  double? longitude;
+
   @override
   Map<String, dynamic> toJson() {
     return {
@@ -85,6 +95,8 @@ class Chemists extends _i1.SerializableEntity {
       'email': email,
       'phoneNo': phoneNo,
       'userId': userId,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 }

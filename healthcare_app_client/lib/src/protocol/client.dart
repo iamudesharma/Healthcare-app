@@ -44,6 +44,12 @@ class _EndpointChemists extends _i1.EndpointRef {
         {'name': name},
       );
 
+  _i2.Future<void> getChemistsGeo() => caller.callServerEndpoint<void>(
+        'chemists',
+        'getChemistsGeo',
+        {},
+      );
+
   _i2.Future<void> updateChemists(_i3.Chemists chemists) =>
       caller.callServerEndpoint<void>(
         'chemists',

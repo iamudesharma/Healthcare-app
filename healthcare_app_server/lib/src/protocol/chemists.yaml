@@ -12,6 +12,8 @@ fields:
   email: String?
   phoneNo: int?
   userId: int
+  latitude: double?
+  longitude: double?
   # medicines: List<Medicine?>
 
 

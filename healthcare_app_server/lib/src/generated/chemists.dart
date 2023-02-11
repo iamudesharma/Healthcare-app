@@ -21,6 +21,8 @@ class Chemists extends _i1.TableRow {
     this.email,
     this.phoneNo,
     required this.userId,
+    this.latitude,
+    this.longitude,
   }) : super(id);
 
   factory Chemists.fromJson(
@@ -46,6 +48,10 @@ class Chemists extends _i1.TableRow {
           serializationManager.deserialize<int?>(jsonSerialization['phoneNo']),
       userId:
           serializationManager.deserialize<int>(jsonSerialization['userId']),
+      latitude: serializationManager
+          .deserialize<double?>(jsonSerialization['latitude']),
+      longitude: serializationManager
+          .deserialize<double?>(jsonSerialization['longitude']),
     );
   }
 
@@ -69,6 +75,10 @@ class Chemists extends _i1.TableRow {
 
   int userId;
 
+  double? latitude;
+
+  double? longitude;
+
   @override
   String get tableName => 'chemists';
   @override
@@ -84,6 +94,8 @@ class Chemists extends _i1.TableRow {
       'email': email,
       'phoneNo': phoneNo,
       'userId': userId,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 
@@ -100,6 +112,8 @@ class Chemists extends _i1.TableRow {
       'email': email,
       'phoneNo': phoneNo,
       'userId': userId,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 
@@ -116,6 +130,8 @@ class Chemists extends _i1.TableRow {
       'email': email,
       'phoneNo': phoneNo,
       'userId': userId,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 
@@ -154,6 +170,12 @@ class Chemists extends _i1.TableRow {
         return;
       case 'userId':
         userId = value;
+        return;
+      case 'latitude':
+        latitude = value;
+        return;
+      case 'longitude':
+        longitude = value;
         return;
       default:
         throw UnimplementedError();
@@ -297,6 +319,10 @@ class ChemistsTable extends _i1.Table {
 
   final userId = _i1.ColumnInt('userId');
 
+  final latitude = _i1.ColumnDouble('latitude');
+
+  final longitude = _i1.ColumnDouble('longitude');
+
   @override
   List<_i1.Column> get columns => [
         id,
@@ -309,6 +335,8 @@ class ChemistsTable extends _i1.Table {
         email,
         phoneNo,
         userId,
+        latitude,
+        longitude,
       ];
 }
 

@@ -27,7 +27,7 @@ class _PatientHomePageState extends ConsumerState<PatientHomePage> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
-  Widget build(BuildContext context) {
+Widget build(BuildContext context) {
     final patientData = ref.watch(patientProvider);
     return Scaffold(
       drawer: Drawer(

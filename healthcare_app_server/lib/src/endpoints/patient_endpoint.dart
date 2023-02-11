@@ -18,34 +18,12 @@ class PatientEndpoint extends Endpoint {
   ) async {
     final userId = await session.auth.authenticatedUserId;
     session.log("Getting patient: $userId");
+    final data = await Patient.find(
+      session,
+      where: (value) => value.userId.equals(userId),
+    );
 
-    var cacheKey = 'UserData-$userId';
-
-    // Try to retrieve the object from the cache
-    var patient = await session.caches.local.get<Patient>(cacheKey);
-
-    if (patient == null) {
-      final data = await Patient.find(
-        session,
-        where: (value) => value.userId.equals(userId),
-      );
-
-      if (data == null || data.isEmpty) {
-        return null;
-      }
-
-      patient = data.first;
-
-      await session.caches.local.put(
-        cacheKey,
-        data[0],
-        lifetime: Duration(minutes: 5),
-      );
-
-      return data[0];
-    } else {
-      return patient;
-    }
+    return data[0];
   }
 
   Future<List<Patient>> getPatient(
@@ -106,4 +84,6 @@ class PatientEndpoint extends Endpoint {
       byteData: byteData,
     );
   }
+
+  
 }
