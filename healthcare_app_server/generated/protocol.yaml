@@ -2,7 +2,6 @@ chemists:
   - addChemists:
   - currentChemists:
   - getChemists:
-  - getChemistsGeo:
   - updateChemists:
 doctor:
   - addDoctor:

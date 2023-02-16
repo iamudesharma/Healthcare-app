@@ -14,7 +14,8 @@ CREATE TABLE "chemists" (
   "phoneNo" integer,
   "userId" integer NOT NULL,
   "latitude" double precision,
-  "longitude" double precision
+  "longitude" double precision,
+  "invertory" json NOT NULL
 );
 
 ALTER TABLE ONLY "chemists"
