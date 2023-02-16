@@ -24,15 +24,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  serverpod_flutter: ^1.0.0
+  serverpod_flutter: ^1.0.1
   healthcare_app_client:
     path: ../healthcare_app_client
   # flex_color_scheme: ^6.1.2
   flutter_riverpod: ^2.1.3
  
-  cupertino_icons: ^1.0.2
-  serverpod_auth_shared_flutter: ^1.0.0
-  serverpod_auth_email_flutter: ^1.0.0
+  cupertino_icons: ^1.0.5
+  serverpod_auth_shared_flutter: ^1.0.1
+  serverpod_auth_email_flutter: ^1.0.1
   geolocator: ^9.0.2
   auto_route: ^5.0.4
   flex_color_scheme: ^7.0.0-dev.2
