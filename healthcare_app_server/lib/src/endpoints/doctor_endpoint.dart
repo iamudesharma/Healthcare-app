@@ -11,13 +11,13 @@ class DoctorEndpoint extends Endpoint {
     final userId = await session.auth.authenticatedUserId;
     session.log("Getting doctor: $userId");
 
-    final data = await Doctor.findById(
+    final data = await Doctor.find(
       session,
-      userId!,
+      where: (p0) => p0.id.equals(userId),
     );
 
-    if (data != null) {
-      return data;
+    if (data.isNotEmpty) {
+      return data[0];
     } else {
       return null;
     }
