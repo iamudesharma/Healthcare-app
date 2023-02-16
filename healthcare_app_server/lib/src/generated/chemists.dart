@@ -23,6 +23,7 @@ class Chemists extends _i1.TableRow {
     required this.userId,
     this.latitude,
     this.longitude,
+    required this.invertory,
   }) : super(id);
 
   factory Chemists.fromJson(
@@ -52,6 +53,8 @@ class Chemists extends _i1.TableRow {
           .deserialize<double?>(jsonSerialization['latitude']),
       longitude: serializationManager
           .deserialize<double?>(jsonSerialization['longitude']),
+      invertory: serializationManager
+          .deserialize<List<_i2.Inventory?>>(jsonSerialization['invertory']),
     );
   }
 
@@ -79,6 +82,8 @@ class Chemists extends _i1.TableRow {
 
   double? longitude;
 
+  List<_i2.Inventory?> invertory;
+
   @override
   String get tableName => 'chemists';
   @override
@@ -96,6 +101,7 @@ class Chemists extends _i1.TableRow {
       'userId': userId,
       'latitude': latitude,
       'longitude': longitude,
+      'invertory': invertory,
     };
   }
 
@@ -114,6 +120,7 @@ class Chemists extends _i1.TableRow {
       'userId': userId,
       'latitude': latitude,
       'longitude': longitude,
+      'invertory': invertory,
     };
   }
 
@@ -132,6 +139,7 @@ class Chemists extends _i1.TableRow {
       'userId': userId,
       'latitude': latitude,
       'longitude': longitude,
+      'invertory': invertory,
     };
   }
 
@@ -176,6 +184,9 @@ class Chemists extends _i1.TableRow {
         return;
       case 'longitude':
         longitude = value;
+        return;
+      case 'invertory':
+        invertory = value;
         return;
       default:
         throw UnimplementedError();
@@ -323,6 +334,8 @@ class ChemistsTable extends _i1.Table {
 
   final longitude = _i1.ColumnDouble('longitude');
 
+  final invertory = _i1.ColumnSerializable('invertory');
+
   @override
   List<_i1.Column> get columns => [
         id,
@@ -337,6 +350,7 @@ class ChemistsTable extends _i1.Table {
         userId,
         latitude,
         longitude,
+        invertory,
       ];
 }
 

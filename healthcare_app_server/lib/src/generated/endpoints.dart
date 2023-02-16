@@ -97,16 +97,6 @@ class Endpoints extends _i1.EndpointDispatch {
             params['name'],
           ),
         ),
-        'getChemistsGeo': _i1.MethodConnector(
-          name: 'getChemistsGeo',
-          params: {},
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['chemists'] as _i2.ChemistsEndpoint)
-                  .getChemistsGeo(session),
-        ),
         'updateChemists': _i1.MethodConnector(
           name: 'updateChemists',
           params: {
