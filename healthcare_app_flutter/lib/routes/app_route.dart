@@ -10,6 +10,7 @@ import 'package:healthcare_app_flutter/main.dart';
 import 'package:healthcare_app_flutter/routes/route_guard.dart';
 
 import '../features/features.dart';
+import '../features/medical/pages/medical_home_page.dart';
 import '../features/patient/pages/patient_home_page.dart';
 
 // part 'package:healthcare_app_flutter/routes/app_route.gr.dart';
@@ -34,6 +35,9 @@ final appRouteProvider = Provider<AppRouter>((ref) {
     ),
     AutoRoute(
       page: PatientHomePage,
+    ),
+    AutoRoute(
+      page: MedicalHomePage,
     ),
   ],
 )

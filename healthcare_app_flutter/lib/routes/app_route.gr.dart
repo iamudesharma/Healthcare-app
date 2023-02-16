@@ -58,15 +58,26 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     AddMedicalStoreRoute.name: (routeData) {
+      final args = routeData.argsAs<AddMedicalStoreRouteArgs>(
+          orElse: () => const AddMedicalStoreRouteArgs());
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const AddMedicalStorePage(),
+        child: AddMedicalStorePage(
+          key: args.key,
+          isEdit: args.isEdit,
+        ),
       );
     },
     PatientHomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const PatientHomePage(),
+      );
+    },
+    MedicalHomeRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const MedicalHomePage(),
       );
     },
   };
@@ -101,6 +112,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           PatientHomeRoute.name,
           path: '/patient-home-page',
+        ),
+        RouteConfig(
+          MedicalHomeRoute.name,
+          path: '/medical-home-page',
         ),
       ];
 }
@@ -189,14 +204,36 @@ class AddPatientRouteArgs {
 
 /// generated route for
 /// [AddMedicalStorePage]
-class AddMedicalStoreRoute extends PageRouteInfo<void> {
-  const AddMedicalStoreRoute()
-      : super(
+class AddMedicalStoreRoute extends PageRouteInfo<AddMedicalStoreRouteArgs> {
+  AddMedicalStoreRoute({
+    Key? key,
+    bool? isEdit = false,
+  }) : super(
           AddMedicalStoreRoute.name,
           path: '/add-medical-store-page',
+          args: AddMedicalStoreRouteArgs(
+            key: key,
+            isEdit: isEdit,
+          ),
         );
 
   static const String name = 'AddMedicalStoreRoute';
+}
+
+class AddMedicalStoreRouteArgs {
+  const AddMedicalStoreRouteArgs({
+    this.key,
+    this.isEdit = false,
+  });
+
+  final Key? key;
+
+  final bool? isEdit;
+
+  @override
+  String toString() {
+    return 'AddMedicalStoreRouteArgs{key: $key, isEdit: $isEdit}';
+  }
 }
 
 /// generated route for
@@ -209,4 +246,16 @@ class PatientHomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'PatientHomeRoute';
+}
+
+/// generated route for
+/// [MedicalHomePage]
+class MedicalHomeRoute extends PageRouteInfo<void> {
+  const MedicalHomeRoute()
+      : super(
+          MedicalHomeRoute.name,
+          path: '/medical-home-page',
+        );
+
+  static const String name = 'MedicalHomeRoute';
 }

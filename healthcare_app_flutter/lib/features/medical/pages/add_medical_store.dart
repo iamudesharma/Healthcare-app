@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 import 'package:healthcare_app_flutter/dependency/app_dependency.dart';
+import 'package:healthcare_app_flutter/main.dart';
 import 'package:intl/intl.dart';
 import 'package:healthcare_app_flutter/features/patient/patient.dart';
 
@@ -107,6 +108,10 @@ class _AddMedicalStorePageState extends ConsumerState<AddMedicalStorePage> {
                   if (widget.isEdit!) {
                   } else {
                     final _chemists = Chemists(
+                      invertory: [],
+                      email: sessionManager.signedInUser?.email,
+                      latitude: 100.8800,
+                      longitude: 10.00019,
                       userId: ref
                           .read(AppDependency.sessionManagerProvider)
                           .signedInUser!

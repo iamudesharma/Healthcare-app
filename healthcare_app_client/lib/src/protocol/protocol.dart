@@ -14,11 +14,12 @@ import 'geopoint.dart' as _i4;
 import 'invertory.dart' as _i5;
 import 'medicine.dart' as _i6;
 import 'patient.dart' as _i7;
-import 'package:healthcare_app_client/src/protocol/chemists.dart' as _i8;
-import 'package:healthcare_app_client/src/protocol/doctor.dart' as _i9;
-import 'package:healthcare_app_client/src/protocol/medicine.dart' as _i10;
-import 'package:healthcare_app_client/src/protocol/patient.dart' as _i11;
-import 'package:serverpod_auth_client/module.dart' as _i12;
+import 'protocol.dart' as _i8;
+import 'package:healthcare_app_client/src/protocol/chemists.dart' as _i9;
+import 'package:healthcare_app_client/src/protocol/doctor.dart' as _i10;
+import 'package:healthcare_app_client/src/protocol/medicine.dart' as _i11;
+import 'package:healthcare_app_client/src/protocol/patient.dart' as _i12;
+import 'package:serverpod_auth_client/module.dart' as _i13;
 export 'chemists.dart';
 export 'doctor.dart';
 export 'geopoint.dart';
@@ -85,24 +86,28 @@ class Protocol extends _i1.SerializationManager {
       return (data as List).map((e) => deserialize<String?>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i8.Chemists>) {
-      return (data as List).map((e) => deserialize<_i8.Chemists>(e)).toList()
+    if (t == List<_i8.Inventory?>) {
+      return (data as List).map((e) => deserialize<_i8.Inventory?>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i9.Doctor>) {
-      return (data as List).map((e) => deserialize<_i9.Doctor>(e)).toList()
+    if (t == List<_i9.Chemists>) {
+      return (data as List).map((e) => deserialize<_i9.Chemists>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i10.Medicine?>) {
-      return (data as List).map((e) => deserialize<_i10.Medicine?>(e)).toList()
+    if (t == List<_i10.Doctor>) {
+      return (data as List).map((e) => deserialize<_i10.Doctor>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i11.Patient>) {
-      return (data as List).map((e) => deserialize<_i11.Patient>(e)).toList()
+    if (t == List<_i11.Medicine?>) {
+      return (data as List).map((e) => deserialize<_i11.Medicine?>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i12.Patient>) {
+      return (data as List).map((e) => deserialize<_i12.Patient>(e)).toList()
           as dynamic;
     }
     try {
-      return _i12.Protocol().deserialize<T>(data, t);
+      return _i13.Protocol().deserialize<T>(data, t);
     } catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -110,7 +115,7 @@ class Protocol extends _i1.SerializationManager {
   @override
   String? getClassNameForObject(Object data) {
     String? className;
-    className = _i12.Protocol().getClassNameForObject(data);
+    className = _i13.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
@@ -139,7 +144,7 @@ class Protocol extends _i1.SerializationManager {
   dynamic deserializeByClassName(Map<String, dynamic> data) {
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);
-      return _i12.Protocol().deserializeByClassName(data);
+      return _i13.Protocol().deserializeByClassName(data);
     }
     if (data['className'] == 'Chemists') {
       return deserialize<_i2.Chemists>(data['data']);
