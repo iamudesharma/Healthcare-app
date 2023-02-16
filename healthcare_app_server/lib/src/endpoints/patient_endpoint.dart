@@ -23,7 +23,11 @@ class PatientEndpoint extends Endpoint {
       where: (value) => value.userId.equals(userId),
     );
 
-    return data[0];
+    if (data.isEmpty) {
+      return null;
+    } else {
+      return data[0];
+    }
   }
 
   Future<List<Patient>> getPatient(
@@ -84,6 +88,4 @@ class PatientEndpoint extends Endpoint {
       byteData: byteData,
     );
   }
-
-  
 }
