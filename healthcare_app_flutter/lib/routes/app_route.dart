@@ -9,6 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_flutter/main.dart';
 import 'package:healthcare_app_flutter/routes/route_guard.dart';
 
+import '../app/main_home_page.dart';
+import '../app/setup_page.dart';
+import '../auth/sign_in_page.dart';
 import '../features/features.dart';
 import '../features/medical/pages/medical_home_page.dart';
 import '../features/patient/pages/patient_home_page.dart';

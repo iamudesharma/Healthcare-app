@@ -44,10 +44,10 @@ class MedicalHomePage extends ConsumerWidget {
               ],
               otherAccountsPicturesSize: const Size(60, 30)),
           const ListTile(
-            title: Text("Order History"),
+            title: Text("Add Medicine"),
           ),
           const ListTile(
-            title: Text("Doctor Appointments"),
+            title: Text("Order History"),
           ),
           const ListTile(
             title: Text("Settings"),

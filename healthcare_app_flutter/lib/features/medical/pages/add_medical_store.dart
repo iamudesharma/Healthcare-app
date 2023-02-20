@@ -129,6 +129,8 @@ class _AddMedicalStorePageState extends ConsumerState<AddMedicalStorePage> {
                       name: _nameController.text,
                       images: [],
                     );
+
+                    print(_chemists.toJson());
                     await ref
                         .read(AppDependency.clientProvider)
                         .chemists

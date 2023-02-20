@@ -21,16 +21,16 @@ class AuthGuard extends AutoRouteGuard {
 
       // await checkUser(sessionManager.signedInUser!.id!, ref);
 
-      // if (await client.patient.currentPatient() == null) {
-      // if (await client.doctor.currentDoctor() == null) {
-      if (await client.chemists.currentChemists() == null) {
-        router.push(const SetupRoute());
+      if (await client.patient.currentPatient() == null) {
+        // if (await client.doctor.currentDoctor() == null) {
+        if (await client.chemists.currentChemists() == null) {
+          router.push(const SetupRoute());
+        } else {
+          resolver.next(true);
+        }
       } else {
         resolver.next(true);
       }
-      // } else {
-      //   resolver.next(true);
-      // }
       // } else {
       //   resolver.next(true);
       // }
