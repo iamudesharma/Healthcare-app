@@ -6,7 +6,7 @@ fields:
   medicineId: int, parent=medicine
   price: int
   stock: int
-  chemistsId: int, parent=chemists
+
 
   
 

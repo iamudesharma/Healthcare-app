@@ -14,7 +14,6 @@ class Inventory extends _i1.TableRow {
     required this.medicineId,
     required this.price,
     required this.stock,
-    required this.chemistsId,
   }) : super(id);
 
   factory Inventory.fromJson(
@@ -27,8 +26,6 @@ class Inventory extends _i1.TableRow {
           .deserialize<int>(jsonSerialization['medicineId']),
       price: serializationManager.deserialize<int>(jsonSerialization['price']),
       stock: serializationManager.deserialize<int>(jsonSerialization['stock']),
-      chemistsId: serializationManager
-          .deserialize<int>(jsonSerialization['chemistsId']),
     );
   }
 
@@ -40,8 +37,6 @@ class Inventory extends _i1.TableRow {
 
   int stock;
 
-  int chemistsId;
-
   @override
   String get tableName => 'inventory';
   @override
@@ -51,7 +46,6 @@ class Inventory extends _i1.TableRow {
       'medicineId': medicineId,
       'price': price,
       'stock': stock,
-      'chemistsId': chemistsId,
     };
   }
 
@@ -62,7 +56,6 @@ class Inventory extends _i1.TableRow {
       'medicineId': medicineId,
       'price': price,
       'stock': stock,
-      'chemistsId': chemistsId,
     };
   }
 
@@ -73,7 +66,6 @@ class Inventory extends _i1.TableRow {
       'medicineId': medicineId,
       'price': price,
       'stock': stock,
-      'chemistsId': chemistsId,
     };
   }
 
@@ -94,9 +86,6 @@ class Inventory extends _i1.TableRow {
         return;
       case 'stock':
         stock = value;
-        return;
-      case 'chemistsId':
-        chemistsId = value;
         return;
       default:
         throw UnimplementedError();
@@ -228,15 +217,12 @@ class InventoryTable extends _i1.Table {
 
   final stock = _i1.ColumnInt('stock');
 
-  final chemistsId = _i1.ColumnInt('chemistsId');
-
   @override
   List<_i1.Column> get columns => [
         id,
         medicineId,
         price,
         stock,
-        chemistsId,
       ];
 }
 
