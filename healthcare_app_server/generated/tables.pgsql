@@ -15,7 +15,7 @@ CREATE TABLE "chemists" (
   "userId" integer NOT NULL,
   "latitude" double precision,
   "longitude" double precision,
-  "invertory" json NOT NULL
+  "invertory" json
 );
 
 ALTER TABLE ONLY "chemists"

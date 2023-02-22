@@ -23,7 +23,7 @@ class Chemists extends _i1.TableRow {
     required this.userId,
     this.latitude,
     this.longitude,
-    required this.invertory,
+    this.invertory,
   }) : super(id);
 
   factory Chemists.fromJson(
@@ -54,7 +54,7 @@ class Chemists extends _i1.TableRow {
       longitude: serializationManager
           .deserialize<double?>(jsonSerialization['longitude']),
       invertory: serializationManager
-          .deserialize<List<_i2.Inventory?>>(jsonSerialization['invertory']),
+          .deserialize<List<_i2.Inventory>?>(jsonSerialization['invertory']),
     );
   }
 
@@ -82,7 +82,7 @@ class Chemists extends _i1.TableRow {
 
   double? longitude;
 
-  List<_i2.Inventory?> invertory;
+  List<_i2.Inventory>? invertory;
 
   @override
   String get tableName => 'chemists';

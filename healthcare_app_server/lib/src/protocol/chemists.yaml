@@ -14,7 +14,9 @@ fields:
   userId: int
   latitude: double?
   longitude: double?
-  invertory: List<Inventory?>
+  invertory: List<Inventory>? 
+  
+
   # medicines: List<Medicine?>
 
 
