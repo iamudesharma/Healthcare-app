@@ -82,14 +82,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i7.Patient?>()) {
       return (data != null ? _i7.Patient.fromJson(data, this) : null) as T;
     }
+    if (t == _i1.getType<List<_i8.Inventory?>?>()) {
+      return (data != null
+          ? (data as List).map((e) => deserialize<_i8.Inventory?>(e)).toList()
+          : null) as dynamic;
+    }
     if (t == List<String?>) {
       return (data as List).map((e) => deserialize<String?>(e)).toList()
           as dynamic;
-    }
-    if (t == _i1.getType<List<_i8.Inventory>?>()) {
-      return (data != null
-          ? (data as List).map((e) => deserialize<_i8.Inventory>(e)).toList()
-          : null) as dynamic;
     }
     if (t == List<_i9.Chemists>) {
       return (data as List).map((e) => deserialize<_i9.Chemists>(e)).toList()

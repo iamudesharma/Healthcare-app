@@ -6,7 +6,7 @@ fields:
   name: String
   address: String?
   geoPoint: GeoPoint?
-  images: List<String?>
+  images: String?
   openTime: DateTime?
   closeTime: DateTime?
   email: String?
@@ -14,7 +14,7 @@ fields:
   userId: int
   latitude: double?
   longitude: double?
-  invertory: List<Inventory>? 
+  invertory: List<Inventory?>? 
   
 
   # medicines: List<Medicine?>

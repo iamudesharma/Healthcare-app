@@ -108,27 +108,25 @@ class _AddMedicalStorePageState extends ConsumerState<AddMedicalStorePage> {
                   if (widget.isEdit!) {
                   } else {
                     final _chemists = Chemists(
-                      invertory: [],
-                      email: sessionManager.signedInUser?.email,
-                      latitude: 100.8800,
-                      longitude: 10.00019,
-                      userId: ref
-                          .read(AppDependency.sessionManagerProvider)
-                          .signedInUser!
-                          .id!,
-                      address: _addressController.text,
-                      closeTime:
-                          DateFormat.jm().parse(_closeTimeController.text),
-                      geoPoint: GeoPoint(
-                        lat: 10,
-                        long: 20,
-                        id: Random().nextInt(1000),
-                      ),
-                      openTime: DateFormat.jm().parse(_openTimeController.text),
-                      phoneNo: int.parse(_phoneController.text),
-                      name: _nameController.text,
-                      images: [],
-                    );
+                        email: sessionManager.signedInUser?.email,
+                        latitude: 100.8800,
+                        longitude: 10.00019,
+                        userId: sessionManager.signedInUser!.id!,
+                        // address: _addressController.text,
+                        closeTime:
+                            DateFormat.jm().parse(_closeTimeController.text),
+                        geoPoint: GeoPoint(
+                          lat: 10,
+                          long: 20,
+                          id: Random().nextInt(1000),
+                        ),
+                        openTime:
+                            DateFormat.jm().parse(_openTimeController.text),
+                        phoneNo: 90000000,
+                        name: "Medical Store",
+                        address: "Address",
+                        images:
+                            "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin");
 
                     print(_chemists.toJson());
                     await ref

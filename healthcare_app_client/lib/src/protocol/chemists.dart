@@ -15,7 +15,7 @@ class Chemists extends _i1.SerializableEntity {
     required this.name,
     this.address,
     this.geoPoint,
-    required this.images,
+    this.images,
     this.openTime,
     this.closeTime,
     this.email,
@@ -38,7 +38,7 @@ class Chemists extends _i1.SerializableEntity {
       geoPoint: serializationManager
           .deserialize<_i2.GeoPoint?>(jsonSerialization['geoPoint']),
       images: serializationManager
-          .deserialize<List<String?>>(jsonSerialization['images']),
+          .deserialize<String?>(jsonSerialization['images']),
       openTime: serializationManager
           .deserialize<DateTime?>(jsonSerialization['openTime']),
       closeTime: serializationManager
@@ -54,7 +54,7 @@ class Chemists extends _i1.SerializableEntity {
       longitude: serializationManager
           .deserialize<double?>(jsonSerialization['longitude']),
       invertory: serializationManager
-          .deserialize<List<_i2.Inventory>?>(jsonSerialization['invertory']),
+          .deserialize<List<_i2.Inventory?>?>(jsonSerialization['invertory']),
     );
   }
 
@@ -69,7 +69,7 @@ class Chemists extends _i1.SerializableEntity {
 
   _i2.GeoPoint? geoPoint;
 
-  List<String?> images;
+  String? images;
 
   DateTime? openTime;
 
@@ -85,7 +85,7 @@ class Chemists extends _i1.SerializableEntity {
 
   double? longitude;
 
-  List<_i2.Inventory>? invertory;
+  List<_i2.Inventory?>? invertory;
 
   @override
   Map<String, dynamic> toJson() {

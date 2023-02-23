@@ -15,7 +15,7 @@ class Chemists extends _i1.TableRow {
     required this.name,
     this.address,
     this.geoPoint,
-    required this.images,
+    this.images,
     this.openTime,
     this.closeTime,
     this.email,
@@ -38,7 +38,7 @@ class Chemists extends _i1.TableRow {
       geoPoint: serializationManager
           .deserialize<_i2.GeoPoint?>(jsonSerialization['geoPoint']),
       images: serializationManager
-          .deserialize<List<String?>>(jsonSerialization['images']),
+          .deserialize<String?>(jsonSerialization['images']),
       openTime: serializationManager
           .deserialize<DateTime?>(jsonSerialization['openTime']),
       closeTime: serializationManager
@@ -54,7 +54,7 @@ class Chemists extends _i1.TableRow {
       longitude: serializationManager
           .deserialize<double?>(jsonSerialization['longitude']),
       invertory: serializationManager
-          .deserialize<List<_i2.Inventory>?>(jsonSerialization['invertory']),
+          .deserialize<List<_i2.Inventory?>?>(jsonSerialization['invertory']),
     );
   }
 
@@ -66,7 +66,7 @@ class Chemists extends _i1.TableRow {
 
   _i2.GeoPoint? geoPoint;
 
-  List<String?> images;
+  String? images;
 
   DateTime? openTime;
 
@@ -82,7 +82,7 @@ class Chemists extends _i1.TableRow {
 
   double? longitude;
 
-  List<_i2.Inventory>? invertory;
+  List<_i2.Inventory?>? invertory;
 
   @override
   String get tableName => 'chemists';
@@ -318,7 +318,7 @@ class ChemistsTable extends _i1.Table {
 
   final geoPoint = _i1.ColumnSerializable('geoPoint');
 
-  final images = _i1.ColumnSerializable('images');
+  final images = _i1.ColumnString('images');
 
   final openTime = _i1.ColumnDateTime('openTime');
 

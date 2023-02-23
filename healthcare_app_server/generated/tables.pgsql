@@ -7,7 +7,7 @@ CREATE TABLE "chemists" (
   "name" text NOT NULL,
   "address" text,
   "geoPoint" json,
-  "images" json NOT NULL,
+  "images" text,
   "openTime" timestamp without time zone,
   "closeTime" timestamp without time zone,
   "email" text,
