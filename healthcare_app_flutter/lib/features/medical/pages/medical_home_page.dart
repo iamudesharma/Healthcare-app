@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_client/healthcare_app_client.dart';
+import 'package:healthcare_app_flutter/features/patient/patient.dart';
 
 import '../../../dependency/app_dependency.dart';
 import '../../../routes/app_route.dart';
@@ -43,7 +44,10 @@ class MedicalHomePage extends ConsumerWidget {
                 )
               ],
               otherAccountsPicturesSize: const Size(60, 30)),
-          const ListTile(
+          ListTile(
+            onTap: () {
+              AutoRouter.of(context).pushWidget(const AddMedicine());
+            },
             title: Text("Add Medicine"),
           ),
           const ListTile(
@@ -84,11 +88,55 @@ class MedicalHomePage extends ConsumerWidget {
   }
 }
 
-class AddMedicine extends StatelessWidget {
+final searchMedicineProvider =
+    FutureProvider.family<List<Medicine?>?, String>((ref, query) async {
+  return await ref
+      .read(AppDependency.clientProvider)
+      .medicine
+      .searchMedicine(query);
+});
+
+class AddMedicine extends ConsumerStatefulWidget {
   const AddMedicine({super.key});
 
   @override
+  ConsumerState<AddMedicine> createState() => _AddMedicineState();
+}
+
+class _AddMedicineState extends ConsumerState<AddMedicine> {
+  TextEditingController _searchContreller = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    final searchMedicine = ref.watch(searchMedicineProvider("viread"));
+    return Scaffold(
+      body: Column(children: [
+        CustomTextField(
+          label: "Seacrh ",
+          controller: _searchContreller,
+          onChanged: (p0) {
+            print(p0);
+
+            ref.read(searchMedicineProvider(p0!));
+          },
+        ),
+        Container(
+          height: 100,
+          child: searchMedicine.when(
+            data: (data) => data == null
+                ? Container()
+                : ListView.builder(
+                    itemCount: data?.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(data?[index]?.name ?? ""),
+                      );
+                    }),
+            error: (error, stackTrace) => Container(),
+            loading: () => const Center(child: CircularProgressIndicator()),
+          ),
+        )
+      ]),
+    );
   }
 }

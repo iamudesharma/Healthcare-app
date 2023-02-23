@@ -12,3 +12,7 @@ fields:
   generic: String?
   condition: String?
 
+indexes:
+  medicine_name_idx:
+    fields: name    
+

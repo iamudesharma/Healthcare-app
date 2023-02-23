@@ -73,6 +73,8 @@ CREATE TABLE "medicine" (
 ALTER TABLE ONLY "medicine"
   ADD CONSTRAINT medicine_pkey PRIMARY KEY (id);
 
+CREATE INDEX medicine_name_idx ON "medicine" USING btree ("name");
+
 
 --
 -- Class Inventory as table inventory
