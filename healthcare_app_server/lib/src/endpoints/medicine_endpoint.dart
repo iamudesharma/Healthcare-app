@@ -20,6 +20,22 @@ class MedicineEndpoint extends Endpoint {
     );
   }
 
+  Future<List<Medicine?>?> searchMedicine(Session session, String query,
+      {int? limit}) async {
+    final data = await Medicine.find(
+      session,
+      where: (p0) => p0.name.equals(query),
+      limit: limit ?? 10,
+      useCache: true,
+    );
+
+    if (data.isNotEmpty) {
+      return data;
+    } else {
+      return null;
+    }
+  }
+
   @override
   bool get requireLogin => true;
 }

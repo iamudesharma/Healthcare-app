@@ -83,3 +83,12 @@ class MedicalHomePage extends ConsumerWidget {
     );
   }
 }
+
+class AddMedicine extends StatelessWidget {
+  const AddMedicine({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold();
+  }
+}

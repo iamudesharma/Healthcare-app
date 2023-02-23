@@ -13,6 +13,7 @@ doctor:
 medicine:
   - addMedicine:
   - getMedicines:
+  - searchMedicine:
 patient:
   - cratePatient:
   - currentPatient:
