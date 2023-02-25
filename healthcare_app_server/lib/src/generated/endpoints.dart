@@ -285,6 +285,25 @@ class Endpoints extends _i1.EndpointDispatch {
             limit: params['limit'],
           ),
         ),
+        'searchSuggestionsForMedicine': _i1.MethodConnector(
+          name: 'searchSuggestionsForMedicine',
+          params: {
+            'query': _i1.ParameterDescription(
+              name: 'query',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['medicine'] as _i4.MedicineEndpoint)
+                  .searchSuggestionsForMedicine(
+            session,
+            params['query'],
+          ),
+        ),
       },
     );
     connectors['patient'] = _i1.EndpointConnector(

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_client/healthcare_app_client.dart';
@@ -89,12 +90,28 @@ class MedicalHomePage extends ConsumerWidget {
 }
 
 final searchMedicineProvider =
-    FutureProvider.family<List<Medicine?>?, String>((ref, query) async {
-  return await ref
-      .read(AppDependency.clientProvider)
-      .medicine
-      .searchMedicine(query);
+    ChangeNotifierProvider.family<SearchMedicine, String>((ref, query) {
+  return SearchMedicine(ref, query);
 });
+
+class SearchMedicine extends ChangeNotifier {
+  final Ref ref;
+  final String query;
+
+  SearchMedicine(this.ref, this.query);
+
+  List<Medicine?>? medicineList = [];
+
+  Future<List<Medicine?>?> searchMedicine() async {
+    medicineList = await ref
+        .read(AppDependency.clientProvider)
+        .medicine
+        .searchMedicine(query);
+    notifyListeners();
+
+    return medicineList;
+  }
+}
 
 class AddMedicine extends ConsumerStatefulWidget {
   const AddMedicine({super.key});
@@ -104,39 +121,42 @@ class AddMedicine extends ConsumerStatefulWidget {
 }
 
 class _AddMedicineState extends ConsumerState<AddMedicine> {
-  TextEditingController _searchContreller = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    ref.read(searchMedicineProvider("Rybreva")).searchMedicine();
+  }
 
   @override
   Widget build(BuildContext context) {
     final searchMedicine = ref.watch(searchMedicineProvider("viread"));
-    return Scaffold(
-      body: Column(children: [
-        CustomTextField(
-          label: "Seacrh ",
-          controller: _searchContreller,
-          onChanged: (p0) {
-            print(p0);
-
-            ref.read(searchMedicineProvider(p0!));
-          },
-        ),
-        Container(
-          height: 100,
-          child: searchMedicine.when(
-            data: (data) => data == null
+    return SafeArea(
+      child: Scaffold(
+        body: Column(children: [
+          CustomTextField(
+            label: "Search ",
+            controller: _searchController,
+            onChanged: (p0) async {
+              await ref.read(searchMedicineProvider(p0!)).searchMedicine();
+            },
+          ),
+          SizedBox(
+            height: 500,
+            child: searchMedicine.medicineList!.isEmpty
                 ? Container()
                 : ListView.builder(
-                    itemCount: data?.length,
+                    itemCount: searchMedicine.medicineList?.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(data?[index]?.name ?? ""),
+                        title: Text(
+                            searchMedicine.medicineList?[index]?.name ?? ""),
                       );
                     }),
-            error: (error, stackTrace) => Container(),
-            loading: () => const Center(child: CircularProgressIndicator()),
-          ),
-        )
-      ]),
+          )
+        ]),
+      ),
     );
   }
 }

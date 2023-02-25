@@ -72,6 +72,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   void didChangeDependencies() async {
+    client.medicine.searchSuggestionsForMedicine("norvir");
     /* Your blah blah code here */
 
     // ByteData data = await rootBundle.load(
@@ -81,43 +82,43 @@ class _MyAppState extends ConsumerState<MyApp> {
 
     // for (var table in excel.tables.keys) {
     //   for (var i = 9; i < excel.tables[table]!.rows.length; i++) {
-        //     // print(excel.tables[table]!.rows[i][1]?.value);
-        //     // print(excel.tables[table]!.rows[i][2]?.value);
+    //     // print(excel.tables[table]!.rows[i][1]?.value);
+    //     // print(excel.tables[table]!.rows[i][2]?.value);
 
-        //     // print(excel.tables[table]!.rows[i][4]?.value);
-        //     // print(excel.tables[table]!.rows[i][8]?.value);
-        //     // print(excel.tables[table]!.rows[i][10]?.value);
-        //     // print(excel.tables[table]!.rows[i][24]?.value);
-        //     // print(excel.tables[table]!.rows[i][25]?.value);
-        //     // print(excel.tables[table]!.rows[i][29]?.value);
+    //     // print(excel.tables[table]!.rows[i][4]?.value);
+    //     // print(excel.tables[table]!.rows[i][8]?.value);
+    //     // print(excel.tables[table]!.rows[i][10]?.value);
+    //     // print(excel.tables[table]!.rows[i][24]?.value);
+    //     // print(excel.tables[table]!.rows[i][25]?.value);
+    //     // print(excel.tables[table]!.rows[i][29]?.value);
 
-      //   if (i < 200) {
-      //     if (excel.tables[table]!.rows[i][1]?.value != null) {
-      //       await client.medicine.addMedicine(
-      //         Medicine(
-      //           images: [],
-      //           name: excel.tables[table]!.rows[i][1]?.value.toString() ?? '',
-      //           therapeuticArea:
-      //               excel.tables[table]!.rows[i][2]?.value.toString(),
-      //           activeSubstance:
-      //               excel.tables[table]!.rows[i][4]?.value.toString(),
-      //           atcCode: excel.tables[table]!.rows[i][8]?.value.toString(),
-      //           generic: excel.tables[table]!.rows[i][10]?.value.toString(),
-      //           condition: excel.tables[table]!.rows[i][24]?.value.toString(),
-      //           description: excel.tables[table]!.rows[i][29]?.value.toString(),
-      //         ),
-      //       );
-      //     }
+    // if (i < 200) {
+    // if (excel.tables[table]!.rows[i][1]?.value != null) {
+    //   await client.medicine.addMedicine(
+    //     Medicine(
+    //       images: [],
+    //       name: excel.tables[table]!.rows[i][1]?.value.toString().toLowerCase() ?? '',
+    //       therapeuticArea:
+    //           excel.tables[table]!.rows[i][2]?.value.toString(),
+    //       activeSubstance:
+    //           excel.tables[table]!.rows[i][4]?.value.toString(),
+    //       atcCode: excel.tables[table]!.rows[i][8]?.value.toString(),
+    //       generic: excel.tables[table]!.rows[i][10]?.value.toString(),
+    //       condition: excel.tables[table]!.rows[i][24]?.value.toString(),
+    //       description: excel.tables[table]!.rows[i][29]?.value.toString(),
+    //     ),
+    //   );
+    // }
 
-      //     await Future.delayed(const Duration(milliseconds: 500));
-      //   }
-      // }
-      //   // for (var row in excel.tables[table]!.rows) {
-      //   //   print(row[1]?.value);
-      //   //   print(row[3]?.value);
-      //   //   print(row[8]?.value);
-      //   //   print(row[9]?.value);
-      //   // }
+    // await Future.delayed(const Duration(milliseconds: 500));
+    // }
+    // }
+    //   // for (var row in excel.tables[table]!.rows) {
+    //   //   print(row[1]?.value);
+    //   //   print(row[3]?.value);
+    //   //   print(row[8]?.value);
+    //   //   print(row[9]?.value);
+    //   // }
     // }
     super.didChangeDependencies();
   }

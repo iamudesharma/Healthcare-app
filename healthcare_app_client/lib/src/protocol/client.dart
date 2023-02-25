@@ -139,6 +139,13 @@ class _EndpointMedicine extends _i1.EndpointRef {
           'limit': limit,
         },
       );
+
+  _i2.Future<List<String>?> searchSuggestionsForMedicine(String query) =>
+      caller.callServerEndpoint<List<String>?>(
+        'medicine',
+        'searchSuggestionsForMedicine',
+        {'query': query},
+      );
 }
 
 class _EndpointPatient extends _i1.EndpointRef {
