@@ -143,6 +143,8 @@ class _AddMedicineState extends ConsumerState<AddMedicine> {
     super.initState();
   }
 
+  // bool _addInv = false;
+
   @override
   Widget build(BuildContext context) {
     final searchMedicine = ref.watch(searchMedicineProvider);

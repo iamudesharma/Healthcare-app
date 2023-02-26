@@ -4,13 +4,24 @@ table: medicine
 
 fields:
   name: String
-  images: List<String?>
+  category: String? 
   description: String?
-  therapeuticArea: String?
-  activeSubstance: String?
-  atcCode: String?
-  generic: String?
-  condition: String?
+  subCategory: String?
+  idCode: int
+  image: String?
+  manufactures: String?
+  packaging: String?
+  pack_info: String?
+  introduction: String?
+  benefits: String?
+  howToUse: String?
+  safetyAdvise: String?
+  ingredients: String?
+  manufactureAddress: String?
+  countryOfOrigin: String?
+  medicineType: String?
+  useOf: String?
+
 
 indexes:
   medicine_name_idx:

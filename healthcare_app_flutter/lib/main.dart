@@ -70,8 +70,42 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
   }
 
+  Future addExcetFrom() async {
+    ByteData data = await rootBundle.load(
+        "healthcare_app_flutter/assets/OTC_Sample_WorldWideData_Org.xlsx");
+    var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    var excel = Excel.decodeBytes(bytes);
+
+    for (var table in excel.tables.keys) {
+      for (var i = 9; i < excel.tables[table]!.rows.length; i++) {
+        if (excel.tables[table]!.rows[i][1]?.value != null) {
+          await client.medicine.addMedicine(
+            Medicine(
+              images: [],
+              name: excel.tables[table]!.rows[i][1]?.value
+                      .toString()
+                      .toLowerCase() ??
+                  '',
+              therapeuticArea:
+                  excel.tables[table]!.rows[i][2]?.value.toString(),
+              activeSubstance:
+                  excel.tables[table]!.rows[i][0]?.value.toString(),
+              atcCode: excel.tables[table]!.rows[i][8]?.value.toString(),
+              generic: excel.tables[table]!.rows[i][10]?.value.toString(),
+              condition: excel.tables[table]!.rows[i][24]?.value.toString(),
+              description: excel.tables[table]!.rows[i][29]?.value.toString(),
+            ),
+          );
+        }
+
+        await Future.delayed(const Duration(milliseconds: 500));
+      }
+    }
+  }
+
   @override
   void didChangeDependencies() async {
+    // await addExcetFrom();
     /* Your blah blah code here */
 
     // ByteData data = await rootBundle.load(

@@ -12,13 +12,23 @@ class Medicine extends _i1.SerializableEntity {
   Medicine({
     this.id,
     required this.name,
-    required this.images,
+    this.category,
     this.description,
-    this.therapeuticArea,
-    this.activeSubstance,
-    this.atcCode,
-    this.generic,
-    this.condition,
+    this.subCategory,
+    required this.idCode,
+    this.image,
+    this.manufactures,
+    this.packaging,
+    this.pack_info,
+    this.introduction,
+    this.benefits,
+    this.howToUse,
+    this.safetyAdvise,
+    this.ingredients,
+    this.manufactureAddress,
+    this.countryOfOrigin,
+    this.medicineType,
+    this.useOf,
   });
 
   factory Medicine.fromJson(
@@ -28,20 +38,40 @@ class Medicine extends _i1.SerializableEntity {
     return Medicine(
       id: serializationManager.deserialize<int?>(jsonSerialization['id']),
       name: serializationManager.deserialize<String>(jsonSerialization['name']),
-      images: serializationManager
-          .deserialize<List<String?>>(jsonSerialization['images']),
+      category: serializationManager
+          .deserialize<String?>(jsonSerialization['category']),
       description: serializationManager
           .deserialize<String?>(jsonSerialization['description']),
-      therapeuticArea: serializationManager
-          .deserialize<String?>(jsonSerialization['therapeuticArea']),
-      activeSubstance: serializationManager
-          .deserialize<String?>(jsonSerialization['activeSubstance']),
-      atcCode: serializationManager
-          .deserialize<String?>(jsonSerialization['atcCode']),
-      generic: serializationManager
-          .deserialize<String?>(jsonSerialization['generic']),
-      condition: serializationManager
-          .deserialize<String?>(jsonSerialization['condition']),
+      subCategory: serializationManager
+          .deserialize<String?>(jsonSerialization['subCategory']),
+      idCode:
+          serializationManager.deserialize<int>(jsonSerialization['idCode']),
+      image:
+          serializationManager.deserialize<String?>(jsonSerialization['image']),
+      manufactures: serializationManager
+          .deserialize<String?>(jsonSerialization['manufactures']),
+      packaging: serializationManager
+          .deserialize<String?>(jsonSerialization['packaging']),
+      pack_info: serializationManager
+          .deserialize<String?>(jsonSerialization['pack_info']),
+      introduction: serializationManager
+          .deserialize<String?>(jsonSerialization['introduction']),
+      benefits: serializationManager
+          .deserialize<String?>(jsonSerialization['benefits']),
+      howToUse: serializationManager
+          .deserialize<String?>(jsonSerialization['howToUse']),
+      safetyAdvise: serializationManager
+          .deserialize<String?>(jsonSerialization['safetyAdvise']),
+      ingredients: serializationManager
+          .deserialize<String?>(jsonSerialization['ingredients']),
+      manufactureAddress: serializationManager
+          .deserialize<String?>(jsonSerialization['manufactureAddress']),
+      countryOfOrigin: serializationManager
+          .deserialize<String?>(jsonSerialization['countryOfOrigin']),
+      medicineType: serializationManager
+          .deserialize<String?>(jsonSerialization['medicineType']),
+      useOf:
+          serializationManager.deserialize<String?>(jsonSerialization['useOf']),
     );
   }
 
@@ -52,32 +82,62 @@ class Medicine extends _i1.SerializableEntity {
 
   String name;
 
-  List<String?> images;
+  String? category;
 
   String? description;
 
-  String? therapeuticArea;
+  String? subCategory;
 
-  String? activeSubstance;
+  int idCode;
 
-  String? atcCode;
+  String? image;
 
-  String? generic;
+  String? manufactures;
 
-  String? condition;
+  String? packaging;
+
+  String? pack_info;
+
+  String? introduction;
+
+  String? benefits;
+
+  String? howToUse;
+
+  String? safetyAdvise;
+
+  String? ingredients;
+
+  String? manufactureAddress;
+
+  String? countryOfOrigin;
+
+  String? medicineType;
+
+  String? useOf;
 
   @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
-      'images': images,
+      'category': category,
       'description': description,
-      'therapeuticArea': therapeuticArea,
-      'activeSubstance': activeSubstance,
-      'atcCode': atcCode,
-      'generic': generic,
-      'condition': condition,
+      'subCategory': subCategory,
+      'idCode': idCode,
+      'image': image,
+      'manufactures': manufactures,
+      'packaging': packaging,
+      'pack_info': pack_info,
+      'introduction': introduction,
+      'benefits': benefits,
+      'howToUse': howToUse,
+      'safetyAdvise': safetyAdvise,
+      'ingredients': ingredients,
+      'manufactureAddress': manufactureAddress,
+      'countryOfOrigin': countryOfOrigin,
+      'medicineType': medicineType,
+      'useOf': useOf,
     };
   }
 }

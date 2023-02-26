@@ -87,10 +87,6 @@ class Protocol extends _i1.SerializationManager {
           ? (data as List).map((e) => deserialize<_i8.Inventory?>(e)).toList()
           : null) as dynamic;
     }
-    if (t == List<String?>) {
-      return (data as List).map((e) => deserialize<String?>(e)).toList()
-          as dynamic;
-    }
     if (t == List<_i9.Chemists>) {
       return (data as List).map((e) => deserialize<_i9.Chemists>(e)).toList()
           as dynamic;

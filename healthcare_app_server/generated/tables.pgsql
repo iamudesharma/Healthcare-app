@@ -61,13 +61,23 @@ ALTER TABLE ONLY "geopoint"
 CREATE TABLE "medicine" (
   "id" serial,
   "name" text NOT NULL,
-  "images" json NOT NULL,
+  "category" text,
   "description" text,
-  "therapeuticArea" text,
-  "activeSubstance" text,
-  "atcCode" text,
-  "generic" text,
-  "condition" text
+  "subCategory" text,
+  "idCode" integer NOT NULL,
+  "image" text,
+  "manufactures" text,
+  "packaging" text,
+  "pack_info" text,
+  "introduction" text,
+  "benefits" text,
+  "howToUse" text,
+  "safetyAdvise" text,
+  "ingredients" text,
+  "manufactureAddress" text,
+  "countryOfOrigin" text,
+  "medicineType" text,
+  "useOf" text
 );
 
 ALTER TABLE ONLY "medicine"
