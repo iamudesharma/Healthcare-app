@@ -105,6 +105,7 @@ class SearchMedicine extends ChangeNotifier {
   );
 
   List<String>? medicineList = [];
+  Medicine? medicine;
 
   Future<List<String?>?> searchMedicine(String? query) async {
     medicineList = await ref
@@ -114,6 +115,16 @@ class SearchMedicine extends ChangeNotifier {
     notifyListeners();
 
     return medicineList;
+  }
+
+  Future<Medicine?> getMedicine(String? query) async {
+    medicine = await ref
+        .read(AppDependency.clientProvider)
+        .medicine
+        .searchMedicine(query!);
+    notifyListeners();
+
+    return medicine;
   }
 }
 
@@ -146,13 +157,25 @@ class _AddMedicineState extends ConsumerState<AddMedicine> {
             },
           ),
           SizedBox(
-            height: 500,
+            height: 300,
             child: searchMedicine.medicineList!.isEmpty
                 ? Container()
                 : ListView.builder(
                     itemCount: searchMedicine.medicineList?.length,
                     itemBuilder: (context, index) {
                       return ListTile(
+                        onTap: () async {
+                          _searchController.clear();
+
+                          await ref
+                              .read(searchMedicineProvider.notifier)
+                              .getMedicine(searchMedicine.medicineList?[index]);
+
+                          ref
+                              .read(searchMedicineProvider.notifier)
+                              .medicineList = [];
+                          print(searchMedicine.medicine?.name);
+                        },
                         title: Text(searchMedicine.medicineList?[index] ?? ""),
                       );
                     }),
