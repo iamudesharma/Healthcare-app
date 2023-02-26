@@ -72,7 +72,6 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   void didChangeDependencies() async {
-    client.medicine.searchSuggestionsForMedicine("norvir");
     /* Your blah blah code here */
 
     // ByteData data = await rootBundle.load(

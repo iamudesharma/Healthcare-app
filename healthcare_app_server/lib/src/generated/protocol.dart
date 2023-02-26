@@ -103,11 +103,6 @@ class Protocol extends _i1.SerializationManagerServer {
       return (data as List).map((e) => deserialize<_i11.Medicine?>(e)).toList()
           as dynamic;
     }
-    if (t == _i1.getType<List<_i11.Medicine?>?>()) {
-      return (data != null
-          ? (data as List).map((e) => deserialize<_i11.Medicine?>(e)).toList()
-          : null) as dynamic;
-    }
     if (t == _i1.getType<List<String>?>()) {
       return (data != null
           ? (data as List).map((e) => deserialize<String>(e)).toList()

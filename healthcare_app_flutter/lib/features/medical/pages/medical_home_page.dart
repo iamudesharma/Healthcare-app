@@ -89,24 +89,28 @@ class MedicalHomePage extends ConsumerWidget {
   }
 }
 
-final searchMedicineProvider =
-    ChangeNotifierProvider.family<SearchMedicine, String>((ref, query) {
-  return SearchMedicine(ref, query);
+final searchMedicineProvider = ChangeNotifierProvider<SearchMedicine>((
+  ref,
+) {
+  return SearchMedicine(
+    ref,
+  );
 });
 
 class SearchMedicine extends ChangeNotifier {
   final Ref ref;
-  final String query;
 
-  SearchMedicine(this.ref, this.query);
+  SearchMedicine(
+    this.ref,
+  );
 
-  List<Medicine?>? medicineList = [];
+  List<String>? medicineList = [];
 
-  Future<List<Medicine?>?> searchMedicine() async {
+  Future<List<String?>?> searchMedicine(String? query) async {
     medicineList = await ref
         .read(AppDependency.clientProvider)
         .medicine
-        .searchMedicine(query);
+        .searchSuggestionsForMedicine(query!);
     notifyListeners();
 
     return medicineList;
@@ -126,12 +130,11 @@ class _AddMedicineState extends ConsumerState<AddMedicine> {
   @override
   void initState() {
     super.initState();
-    ref.read(searchMedicineProvider("Rybreva")).searchMedicine();
   }
 
   @override
   Widget build(BuildContext context) {
-    final searchMedicine = ref.watch(searchMedicineProvider("viread"));
+    final searchMedicine = ref.watch(searchMedicineProvider);
     return SafeArea(
       child: Scaffold(
         body: Column(children: [
@@ -139,7 +142,7 @@ class _AddMedicineState extends ConsumerState<AddMedicine> {
             label: "Search ",
             controller: _searchController,
             onChanged: (p0) async {
-              await ref.read(searchMedicineProvider(p0!)).searchMedicine();
+              await ref.read(searchMedicineProvider).searchMedicine(p0!);
             },
           ),
           SizedBox(
@@ -150,8 +153,7 @@ class _AddMedicineState extends ConsumerState<AddMedicine> {
                     itemCount: searchMedicine.medicineList?.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(
-                            searchMedicine.medicineList?[index]?.name ?? ""),
+                        title: Text(searchMedicine.medicineList?[index] ?? ""),
                       );
                     }),
           )

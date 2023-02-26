@@ -127,11 +127,11 @@ class _EndpointMedicine extends _i1.EndpointRef {
         {},
       );
 
-  _i2.Future<List<_i5.Medicine?>?> searchMedicine(
+  _i2.Future<_i5.Medicine?> searchMedicine(
     String query, {
     int? limit,
   }) =>
-      caller.callServerEndpoint<List<_i5.Medicine?>?>(
+      caller.callServerEndpoint<_i5.Medicine?>(
         'medicine',
         'searchMedicine',
         {
