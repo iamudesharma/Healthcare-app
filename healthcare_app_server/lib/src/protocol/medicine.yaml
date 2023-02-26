@@ -3,7 +3,7 @@ class: Medicine
 table: medicine
 
 fields:
-  name: String
+  name: String?
   category: String? 
   description: String?
   subCategory: String?

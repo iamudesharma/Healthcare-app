@@ -11,7 +11,7 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 class Medicine extends _i1.SerializableEntity {
   Medicine({
     this.id,
-    required this.name,
+    this.name,
     this.category,
     this.description,
     this.subCategory,
@@ -37,7 +37,8 @@ class Medicine extends _i1.SerializableEntity {
   ) {
     return Medicine(
       id: serializationManager.deserialize<int?>(jsonSerialization['id']),
-      name: serializationManager.deserialize<String>(jsonSerialization['name']),
+      name:
+          serializationManager.deserialize<String?>(jsonSerialization['name']),
       category: serializationManager
           .deserialize<String?>(jsonSerialization['category']),
       description: serializationManager
@@ -80,7 +81,7 @@ class Medicine extends _i1.SerializableEntity {
   /// the id will be null.
   int? id;
 
-  String name;
+  String? name;
 
   String? category;
 

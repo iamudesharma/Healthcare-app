@@ -14,7 +14,7 @@ import 'package:healthcare_app_flutter/widgets/button_with_border.dart';
 import 'package:serverpod_auth_email_flutter/serverpod_auth_email_flutter.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
-
+import 'dart:developer' as dev;
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 
 import 'dependency/app_dependency.dart';
@@ -71,8 +71,8 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 
   Future addExcetFrom() async {
-    ByteData data = await rootBundle.load(
-        "healthcare_app_flutter/assets/OTC_Sample_WorldWideData_Org.xlsx");
+    ByteData data =
+        await rootBundle.load("assets/Drug_Sample_WorldWideData_Org.xlsx");
     var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     var excel = Excel.decodeBytes(bytes);
 
@@ -81,21 +81,70 @@ class _MyAppState extends ConsumerState<MyApp> {
         if (excel.tables[table]!.rows[i][1]?.value != null) {
           await client.medicine.addMedicine(
             Medicine(
-              images: [],
-              name: excel.tables[table]!.rows[i][1]?.value
-                      .toString()
-                      .toLowerCase() ??
-                  '',
-              therapeuticArea:
-                  excel.tables[table]!.rows[i][2]?.value.toString(),
-              activeSubstance:
-                  excel.tables[table]!.rows[i][0]?.value.toString(),
-              atcCode: excel.tables[table]!.rows[i][8]?.value.toString(),
-              generic: excel.tables[table]!.rows[i][10]?.value.toString(),
-              condition: excel.tables[table]!.rows[i][24]?.value.toString(),
-              description: excel.tables[table]!.rows[i][29]?.value.toString(),
+              idCode: excel.tables[table]!.rows[i][0]?.value,
+              // category: excel.tables[table]!.rows[i][1]?.value.toString(),
+              // subCategory: excel.tables[table]!.rows[i][2]?.value.toString(),
+              image: excel.tables[table]!.rows[i][1]?.value.toString(),
+              name: excel.tables[table]!.rows[i][2]?.value
+                  .toString()
+                  .toLowerCase(),
+              manufactures: excel.tables[table]!.rows[i][3]?.value.toString(),
+              medicineType: excel.tables[table]!.rows[i][5]?.value.toString(),
+              packaging: excel.tables[table]!.rows[i][13]?.value.toString(),
+              pack_info: excel.tables[table]!.rows[i][14]?.value.toString(),
+              description: excel.tables[table]!.rows[i][9]?.value.toString(),
+              introduction: excel.tables[table]!.rows[i][7]?.value.toString(),
+              useOf: excel.tables[table]!.rows[i][25]?.value.toString(),
+              benefits: excel.tables[table]!.rows[i][8]?.value.toString(),
+              howToUse: excel.tables[table]!.rows[i][10]?.value.toString(),
+              safetyAdvise: excel.tables[table]!.rows[i][11]?.value.toString(),
+              ingredients: excel.tables[table]!.rows[i][4]?.value.toString(),
+              manufactureAddress:
+                  excel.tables[table]!.rows[i][33]?.value.toString(),
+              countryOfOrigin:
+                  excel.tables[table]!.rows[i][34]?.value.toString(),
+              category: excel.tables[table]!.rows[i][23]?.value.toString(),
+//OTC or Prescription
+              // idCode: excel.tables[table]!.rows[i][0]?.value,
+              // category: excel.tables[table]!.rows[i][1]?.value.toString(),
+              // subCategory: excel.tables[table]!.rows[i][2]?.value.toString(),
+              // image: excel.tables[table]!.rows[i][4]?.value.toString(),
+              // name: excel.tables[table]!.rows[i][5]?.value
+              //     .toString()
+              //     .toLowerCase(),
+              // manufactures: excel.tables[table]!.rows[i][6]?.value.toString(),
+              // packaging: excel.tables[table]!.rows[i][7]?.value.toString(),
+              // pack_info: excel.tables[table]!.rows[i][8]?.value.toString(),
+              // description: excel.tables[table]!.rows[i][14]?.value.toString(),
+              // introduction:
+              //     excel.tables[table]!.rows[i][17]?.value.toString(),
+              // useOf: excel.tables[table]!.rows[i][18]?.value.toString(),
+              // benefits: excel.tables[table]!.rows[i][19]?.value.toString(),
+              // howToUse: excel.tables[table]!.rows[i][21]?.value.toString(),
+              // safetyAdvise:
+              //     excel.tables[table]!.rows[i][23]?.value.toString(),
+              // ingredients: excel.tables[table]!.rows[i][25]?.value.toString(),
+              // manufactureAddress:
+              //     excel.tables[table]!.rows[i][27]?.value.toString(),
+              // countryOfOrigin:
+              //     excel.tables[table]!.rows[i][29]?.value.toString(),
+              // medicineType: excel.tables[table]!.rows[i][3]?.value.toString()
+              // // images: [],
+              // name: excel.tables[table]!.rows[i][1]?.value
+              //         .toString()
+              //         .toLowerCase() ??
+              //     '',
+              // therapeuticArea:
+              //     excel.tables[table]!.rows[i][2]?.value.toString(),
+              // activeSubstance:
+              //     excel.tables[table]!.rows[i][0]?.value.toString(),
+              // atcCode: excel.tables[table]!.rows[i][8]?.value.toString(),
+              // generic: excel.tables[table]!.rows[i][10]?.value.toString(),
+              // condition: excel.tables[table]!.rows[i][24]?.value.toString(),
+              // description: excel.tables[table]!.rows[i][29]?.value.toString(),
             ),
           );
+          dev.log("index : $i");
         }
 
         await Future.delayed(const Duration(milliseconds: 500));

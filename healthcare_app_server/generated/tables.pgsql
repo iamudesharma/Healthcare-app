@@ -60,7 +60,7 @@ ALTER TABLE ONLY "geopoint"
 
 CREATE TABLE "medicine" (
   "id" serial,
-  "name" text NOT NULL,
+  "name" text,
   "category" text,
   "description" text,
   "subCategory" text,

@@ -11,7 +11,7 @@ import 'package:serverpod/serverpod.dart' as _i1;
 class Medicine extends _i1.TableRow {
   Medicine({
     int? id,
-    required this.name,
+    this.name,
     this.category,
     this.description,
     this.subCategory,
@@ -37,7 +37,8 @@ class Medicine extends _i1.TableRow {
   ) {
     return Medicine(
       id: serializationManager.deserialize<int?>(jsonSerialization['id']),
-      name: serializationManager.deserialize<String>(jsonSerialization['name']),
+      name:
+          serializationManager.deserialize<String?>(jsonSerialization['name']),
       category: serializationManager
           .deserialize<String?>(jsonSerialization['category']),
       description: serializationManager
@@ -77,7 +78,7 @@ class Medicine extends _i1.TableRow {
 
   static final t = MedicineTable();
 
-  String name;
+  String? name;
 
   String? category;
 
