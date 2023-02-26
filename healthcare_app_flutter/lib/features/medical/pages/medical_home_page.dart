@@ -50,7 +50,7 @@ class MedicalHomePage extends ConsumerWidget {
             onTap: () {
               AutoRouter.of(context).pushWidget(const AddMedicine());
             },
-            title: Text("Add Medicine"),
+            title: const Text("Add Medicine"),
           ),
           const ListTile(
             title: Text("Order History"),
@@ -162,89 +162,148 @@ class _AddMedicineState extends ConsumerState<AddMedicine> {
         appBar: AppBar(),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
-            CustomTextField(
-              suffixIcon: InkWell(
-                  onTap: () {
-                    _searchController.clear();
-                    ref.read(searchMedicineProvider.notifier).clear();
-                  },
-                  child: const Icon(Icons.clear_outlined)),
-              label: "Search ",
-              controller: _searchController,
-              onChanged: (p0) async {
-                await ref.read(searchMedicineProvider).searchMedicine(p0!);
-              },
-              enabled: true,
-            ),
-            SizedBox(
-              height: 300,
-              child: searchMedicine.medicineList!.isEmpty
+          child: SingleChildScrollView(
+            child: Column(children: [
+              CustomTextField(
+                suffixIcon: InkWell(
+                    onTap: () {
+                      _searchController.clear();
+                      ref.read(searchMedicineProvider.notifier).clear();
+                    },
+                    child: const Icon(Icons.clear_outlined)),
+                label: "Search ",
+                controller: _searchController,
+                onChanged: (p0) async {
+                  await ref.read(searchMedicineProvider).searchMedicine(p0!);
+                },
+                enabled: true,
+              ),
+              searchMedicine.medicineList!.isEmpty
                   ? Container()
-                  : ListView.builder(
-                      itemCount: searchMedicine.medicineList?.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () async {
-                            _searchController.clear();
+                  : SizedBox(
+                      height: 300,
+                      child: ListView.builder(
+                        itemCount: searchMedicine.medicineList?.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            onTap: () async {
+                              _searchController.clear();
 
-                            await ref
-                                .read(searchMedicineProvider.notifier)
-                                .getMedicine(
-                                    searchMedicine.medicineList?[index]);
+                              await ref
+                                  .read(searchMedicineProvider.notifier)
+                                  .getMedicine(
+                                      searchMedicine.medicineList?[index]);
 
-                            ref.read(searchMedicineProvider.notifier).clear();
+                              ref.read(searchMedicineProvider.notifier).clear();
 
-                            if (kDebugMode) {
-                              print(searchMedicine.medicine?.name);
-                            }
-                          },
-                          title:
-                              Text(searchMedicine.medicineList?[index] ?? ""),
-                        );
-                      },
-                    ),
-            ),
-            addInv
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      CustomTextField(
-                        label: "Price",
-                        controller: _priceController,
-                      ),
-                      CustomTextField(
-                        label: "Quantity",
-                        controller: _stockController,
-                      ),
-                      CustomTextField(
-                        label: "discount",
-                        controller: _discountController,
-                      ),
-                      TextButton(
-                        child: const Text("Add Medicine"),
-                        onPressed: () async{
-                          Inventory inventory = Inventory(
-                            medicineId: searchMedicine.medicine!.id!,
-                            price: int.parse(_priceController.text),
-                            storeId: sessionManager.signedInUser!.id!,
-                            discount: _discountController.text.isEmpty
-                                ? 0
-                                : int.parse(_discountController.text),
-                            medicine: searchMedicine.medicine!,
-                            stock: _stockController.text.isEmpty
-                                ? 0
-                                : int.parse(_stockController.text),
+                              if (kDebugMode) {
+                                print(searchMedicine.medicine?.name);
+                              }
+
+                              setState(() {
+                                addInv = true;
+                              });
+                            },
+                            title:
+                                Text(searchMedicine.medicineList?[index] ?? ""),
                           );
-
-
-// await client.
                         },
-                      )
-                    ],
-                  )
-                : Container()
-          ]),
+                      ),
+                    ),
+              addInv
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          height: 200,
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(children: [
+                            const Placeholder(
+                              fallbackHeight: 120,
+                              fallbackWidth: 150,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  searchMedicine.medicine!.name ?? "",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                Text(
+                                    searchMedicine.medicine!.ingredients ?? ""),
+                                SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width - 180,
+                                    child: Text(
+                                      searchMedicine.medicine!.description ??
+                                          "",
+                                      maxLines: 7,
+                                      overflow: TextOverflow.ellipsis,
+                                    ))
+                              ],
+                            )
+                          ]),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CustomTextField(
+                          label: "Price",
+                          controller: _priceController,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CustomTextField(
+                          label: "Quantity",
+                          controller: _stockController,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CustomTextField(
+                          label: "discount",
+                          controller: _discountController,
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        ElevatedButton(
+                          child: const Text("Add Medicine"),
+                          onPressed: () async {
+                            Inventory inventory = Inventory(
+                              medicineId: searchMedicine.medicine!.id!,
+                              price: int.parse(_priceController.text),
+                              storeId: sessionManager.signedInUser!.id!,
+                              discount: _discountController.text.isEmpty
+                                  ? 0
+                                  : int.parse(_discountController.text),
+                              medicine: searchMedicine.medicine!,
+                              stock: _stockController.text.isEmpty
+                                  ? 0
+                                  : int.parse(_stockController.text),
+                            );
+
+                            await client.inventory.addToInventory(inventory);
+
+                            // await client.
+                          },
+                        )
+                      ],
+                    )
+                  : Container()
+            ]),
+          ),
         ),
       ),
     );
