@@ -94,7 +94,10 @@ CREATE TABLE "inventory" (
   "id" serial,
   "medicineId" integer NOT NULL,
   "price" integer NOT NULL,
-  "stock" integer NOT NULL
+  "stock" integer,
+  "storeId" integer NOT NULL,
+  "discount" integer,
+  "medicine" json
 );
 
 ALTER TABLE ONLY "inventory"

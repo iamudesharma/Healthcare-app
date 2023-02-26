@@ -9,14 +9,16 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/chemists_endpoint.dart' as _i2;
 import '../endpoints/doctor_endpoint.dart' as _i3;
-import '../endpoints/medicine_endpoint.dart' as _i4;
-import '../endpoints/patient_endpoint.dart' as _i5;
-import 'package:healthcare_app_server/src/generated/chemists.dart' as _i6;
-import 'package:healthcare_app_server/src/generated/doctor.dart' as _i7;
-import 'package:healthcare_app_server/src/generated/medicine.dart' as _i8;
-import 'package:healthcare_app_server/src/generated/patient.dart' as _i9;
-import 'dart:typed_data' as _i10;
-import 'package:serverpod_auth_server/module.dart' as _i11;
+import '../endpoints/inventory_endpoint.dart' as _i4;
+import '../endpoints/medicine_endpoint.dart' as _i5;
+import '../endpoints/patient_endpoint.dart' as _i6;
+import 'package:healthcare_app_server/src/generated/chemists.dart' as _i7;
+import 'package:healthcare_app_server/src/generated/doctor.dart' as _i8;
+import 'package:healthcare_app_server/src/generated/invertory.dart' as _i9;
+import 'package:healthcare_app_server/src/generated/medicine.dart' as _i10;
+import 'package:healthcare_app_server/src/generated/patient.dart' as _i11;
+import 'dart:typed_data' as _i12;
+import 'package:serverpod_auth_server/module.dart' as _i13;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -34,13 +36,19 @@ class Endpoints extends _i1.EndpointDispatch {
           'doctor',
           null,
         ),
-      'medicine': _i4.MedicineEndpoint()
+      'inventory': _i4.InventoryEndpoint()
+        ..initialize(
+          server,
+          'inventory',
+          null,
+        ),
+      'medicine': _i5.MedicineEndpoint()
         ..initialize(
           server,
           'medicine',
           null,
         ),
-      'patient': _i5.PatientEndpoint()
+      'patient': _i6.PatientEndpoint()
         ..initialize(
           server,
           'patient',
@@ -56,7 +64,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'chemists': _i1.ParameterDescription(
               name: 'chemists',
-              type: _i1.getType<_i6.Chemists>(),
+              type: _i1.getType<_i7.Chemists>(),
               nullable: false,
             )
           },
@@ -102,7 +110,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'chemists': _i1.ParameterDescription(
               name: 'chemists',
-              type: _i1.getType<_i6.Chemists>(),
+              type: _i1.getType<_i7.Chemists>(),
               nullable: false,
             )
           },
@@ -126,7 +134,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'doctor': _i1.ParameterDescription(
               name: 'doctor',
-              type: _i1.getType<_i7.Doctor>(),
+              type: _i1.getType<_i8.Doctor>(),
               nullable: false,
             )
           },
@@ -214,7 +222,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'doctor': _i1.ParameterDescription(
               name: 'doctor',
-              type: _i1.getType<_i7.Doctor>(),
+              type: _i1.getType<_i8.Doctor>(),
               nullable: false,
             )
           },
@@ -229,6 +237,48 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['inventory'] = _i1.EndpointConnector(
+      name: 'inventory',
+      endpoint: endpoints['inventory']!,
+      methodConnectors: {
+        'addToInventory': _i1.MethodConnector(
+          name: 'addToInventory',
+          params: {
+            'inventory': _i1.ParameterDescription(
+              name: 'inventory',
+              type: _i1.getType<_i9.Inventory>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['inventory'] as _i4.InventoryEndpoint).addToInventory(
+            session,
+            params['inventory'],
+          ),
+        ),
+        'updateInventory': _i1.MethodConnector(
+          name: 'updateInventory',
+          params: {
+            'inventory': _i1.ParameterDescription(
+              name: 'inventory',
+              type: _i1.getType<_i9.Inventory>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['inventory'] as _i4.InventoryEndpoint).updateInventory(
+            session,
+            params['inventory'],
+          ),
+        ),
+      },
+    );
     connectors['medicine'] = _i1.EndpointConnector(
       name: 'medicine',
       endpoint: endpoints['medicine']!,
@@ -238,7 +288,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'medicine': _i1.ParameterDescription(
               name: 'medicine',
-              type: _i1.getType<_i8.Medicine>(),
+              type: _i1.getType<_i10.Medicine>(),
               nullable: false,
             )
           },
@@ -246,7 +296,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['medicine'] as _i4.MedicineEndpoint).addMedicine(
+              (endpoints['medicine'] as _i5.MedicineEndpoint).addMedicine(
             session,
             params['medicine'],
           ),
@@ -258,7 +308,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['medicine'] as _i4.MedicineEndpoint)
+              (endpoints['medicine'] as _i5.MedicineEndpoint)
                   .getMedicines(session),
         ),
         'searchMedicine': _i1.MethodConnector(
@@ -279,7 +329,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['medicine'] as _i4.MedicineEndpoint).searchMedicine(
+              (endpoints['medicine'] as _i5.MedicineEndpoint).searchMedicine(
             session,
             params['query'],
             limit: params['limit'],
@@ -298,7 +348,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['medicine'] as _i4.MedicineEndpoint)
+              (endpoints['medicine'] as _i5.MedicineEndpoint)
                   .searchSuggestionsForMedicine(
             session,
             params['query'],
@@ -315,7 +365,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'patient': _i1.ParameterDescription(
               name: 'patient',
-              type: _i1.getType<_i9.Patient>(),
+              type: _i1.getType<_i11.Patient>(),
               nullable: false,
             )
           },
@@ -323,7 +373,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['patient'] as _i5.PatientEndpoint).cratePatient(
+              (endpoints['patient'] as _i6.PatientEndpoint).cratePatient(
             session,
             params['patient'],
           ),
@@ -335,7 +385,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['patient'] as _i5.PatientEndpoint)
+              (endpoints['patient'] as _i6.PatientEndpoint)
                   .currentPatient(session),
         ),
         'getPatient': _i1.MethodConnector(
@@ -345,14 +395,14 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['patient'] as _i5.PatientEndpoint).getPatient(session),
+              (endpoints['patient'] as _i6.PatientEndpoint).getPatient(session),
         ),
         'updatePatient': _i1.MethodConnector(
           name: 'updatePatient',
           params: {
             'patient': _i1.ParameterDescription(
               name: 'patient',
-              type: _i1.getType<_i9.Patient>(),
+              type: _i1.getType<_i11.Patient>(),
               nullable: false,
             )
           },
@@ -360,7 +410,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['patient'] as _i5.PatientEndpoint).updatePatient(
+              (endpoints['patient'] as _i6.PatientEndpoint).updatePatient(
             session,
             params['patient'],
           ),
@@ -378,7 +428,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['patient'] as _i5.PatientEndpoint)
+              (endpoints['patient'] as _i6.PatientEndpoint)
                   .getUploadDescription(
             session,
             params['path'],
@@ -397,7 +447,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['patient'] as _i5.PatientEndpoint).verifyUpload(
+              (endpoints['patient'] as _i6.PatientEndpoint).verifyUpload(
             session,
             params['path'],
           ),
@@ -415,7 +465,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['patient'] as _i5.PatientEndpoint).getPublicUrl(
+              (endpoints['patient'] as _i6.PatientEndpoint).getPublicUrl(
             session,
             params['path'],
           ),
@@ -430,7 +480,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'byteData': _i1.ParameterDescription(
               name: 'byteData',
-              type: _i1.getType<_i10.ByteData>(),
+              type: _i1.getType<_i12.ByteData>(),
               nullable: false,
             ),
           },
@@ -438,7 +488,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['patient'] as _i5.PatientEndpoint).StoreFile(
+              (endpoints['patient'] as _i6.PatientEndpoint).StoreFile(
             session,
             params['path'],
             params['byteData'],
@@ -446,6 +496,6 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    modules['serverpod_auth'] = _i11.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i13.Endpoints()..initializeEndpoints(server);
   }
 }

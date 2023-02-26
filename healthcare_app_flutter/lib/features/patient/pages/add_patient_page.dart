@@ -5,13 +5,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 import 'package:healthcare_app_flutter/dependency/app_dependency.dart';
 import 'package:healthcare_app_flutter/features/patient/pages/patient_home_page.dart';
 import 'package:healthcare_app_flutter/helpers/image_picker_helper.dart';
 import 'package:healthcare_app_flutter/main.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AddPatientPage extends ConsumerStatefulWidget {
   const AddPatientPage({
@@ -308,6 +308,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool? readOnly;
   final VoidCallback? onTap;
+  final Widget? suffixIcon;
 
   final int? maxLines;
   const CustomTextField({
@@ -321,9 +322,10 @@ class CustomTextField extends StatelessWidget {
     this.textInputAction,
     this.keyboardType,
     required this.controller,
-    this.maxLines,
-    this.onTap,
     this.readOnly = false,
+    this.onTap,
+    this.suffixIcon,
+    this.maxLines,
   }) : super(key: key);
 
   @override
@@ -341,6 +343,7 @@ class CustomTextField extends StatelessWidget {
       enabled: enabled,
       enableSuggestions: true,
       decoration: InputDecoration(
+        suffixIcon: suffixIcon,
         isDense: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

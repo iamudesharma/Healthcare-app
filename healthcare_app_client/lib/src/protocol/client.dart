@@ -10,12 +10,13 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:healthcare_app_client/src/protocol/chemists.dart' as _i3;
 import 'package:healthcare_app_client/src/protocol/doctor.dart' as _i4;
-import 'package:healthcare_app_client/src/protocol/medicine.dart' as _i5;
-import 'package:healthcare_app_client/src/protocol/patient.dart' as _i6;
-import 'dart:typed_data' as _i7;
-import 'package:serverpod_auth_client/module.dart' as _i8;
-import 'dart:io' as _i9;
-import 'protocol.dart' as _i10;
+import 'package:healthcare_app_client/src/protocol/invertory.dart' as _i5;
+import 'package:healthcare_app_client/src/protocol/medicine.dart' as _i6;
+import 'package:healthcare_app_client/src/protocol/patient.dart' as _i7;
+import 'dart:typed_data' as _i8;
+import 'package:serverpod_auth_client/module.dart' as _i9;
+import 'dart:io' as _i10;
+import 'protocol.dart' as _i11;
 
 class _EndpointChemists extends _i1.EndpointRef {
   _EndpointChemists(_i1.EndpointCaller caller) : super(caller);
@@ -107,31 +108,52 @@ class _EndpointDoctor extends _i1.EndpointRef {
       );
 }
 
+class _EndpointInventory extends _i1.EndpointRef {
+  _EndpointInventory(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'inventory';
+
+  _i2.Future<void> addToInventory(_i5.Inventory inventory) =>
+      caller.callServerEndpoint<void>(
+        'inventory',
+        'addToInventory',
+        {'inventory': inventory},
+      );
+
+  _i2.Future<void> updateInventory(_i5.Inventory inventory) =>
+      caller.callServerEndpoint<void>(
+        'inventory',
+        'updateInventory',
+        {'inventory': inventory},
+      );
+}
+
 class _EndpointMedicine extends _i1.EndpointRef {
   _EndpointMedicine(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'medicine';
 
-  _i2.Future<String?> addMedicine(_i5.Medicine medicine) =>
+  _i2.Future<String?> addMedicine(_i6.Medicine medicine) =>
       caller.callServerEndpoint<String?>(
         'medicine',
         'addMedicine',
         {'medicine': medicine},
       );
 
-  _i2.Future<List<_i5.Medicine?>> getMedicines() =>
-      caller.callServerEndpoint<List<_i5.Medicine?>>(
+  _i2.Future<List<_i6.Medicine?>> getMedicines() =>
+      caller.callServerEndpoint<List<_i6.Medicine?>>(
         'medicine',
         'getMedicines',
         {},
       );
 
-  _i2.Future<_i5.Medicine?> searchMedicine(
+  _i2.Future<_i6.Medicine?> searchMedicine(
     String query, {
     int? limit,
   }) =>
-      caller.callServerEndpoint<_i5.Medicine?>(
+      caller.callServerEndpoint<_i6.Medicine?>(
         'medicine',
         'searchMedicine',
         {
@@ -154,28 +176,28 @@ class _EndpointPatient extends _i1.EndpointRef {
   @override
   String get name => 'patient';
 
-  _i2.Future<void> cratePatient(_i6.Patient patient) =>
+  _i2.Future<void> cratePatient(_i7.Patient patient) =>
       caller.callServerEndpoint<void>(
         'patient',
         'cratePatient',
         {'patient': patient},
       );
 
-  _i2.Future<_i6.Patient?> currentPatient() =>
-      caller.callServerEndpoint<_i6.Patient?>(
+  _i2.Future<_i7.Patient?> currentPatient() =>
+      caller.callServerEndpoint<_i7.Patient?>(
         'patient',
         'currentPatient',
         {},
       );
 
-  _i2.Future<List<_i6.Patient>> getPatient() =>
-      caller.callServerEndpoint<List<_i6.Patient>>(
+  _i2.Future<List<_i7.Patient>> getPatient() =>
+      caller.callServerEndpoint<List<_i7.Patient>>(
         'patient',
         'getPatient',
         {},
       );
 
-  _i2.Future<bool> updatePatient(_i6.Patient patient) =>
+  _i2.Future<bool> updatePatient(_i7.Patient patient) =>
       caller.callServerEndpoint<bool>(
         'patient',
         'updatePatient',
@@ -195,8 +217,8 @@ class _EndpointPatient extends _i1.EndpointRef {
         {'path': path},
       );
 
-  _i2.Future<_i7.ByteData?> getPublicUrl(String path) =>
-      caller.callServerEndpoint<_i7.ByteData?>(
+  _i2.Future<_i8.ByteData?> getPublicUrl(String path) =>
+      caller.callServerEndpoint<_i8.ByteData?>(
         'patient',
         'getPublicUrl',
         {'path': path},
@@ -204,7 +226,7 @@ class _EndpointPatient extends _i1.EndpointRef {
 
   _i2.Future<void> StoreFile(
     String path,
-    _i7.ByteData byteData,
+    _i8.ByteData byteData,
   ) =>
       caller.callServerEndpoint<void>(
         'patient',
@@ -218,25 +240,26 @@ class _EndpointPatient extends _i1.EndpointRef {
 
 class _Modules {
   _Modules(Client client) {
-    auth = _i8.Caller(client);
+    auth = _i9.Caller(client);
   }
 
-  late final _i8.Caller auth;
+  late final _i9.Caller auth;
 }
 
 class Client extends _i1.ServerpodClient {
   Client(
     String host, {
-    _i9.SecurityContext? context,
+    _i10.SecurityContext? context,
     _i1.AuthenticationKeyManager? authenticationKeyManager,
   }) : super(
           host,
-          _i10.Protocol(),
+          _i11.Protocol(),
           context: context,
           authenticationKeyManager: authenticationKeyManager,
         ) {
     chemists = _EndpointChemists(this);
     doctor = _EndpointDoctor(this);
+    inventory = _EndpointInventory(this);
     medicine = _EndpointMedicine(this);
     patient = _EndpointPatient(this);
     modules = _Modules(this);
@@ -245,6 +268,8 @@ class Client extends _i1.ServerpodClient {
   late final _EndpointChemists chemists;
 
   late final _EndpointDoctor doctor;
+
+  late final _EndpointInventory inventory;
 
   late final _EndpointMedicine medicine;
 
@@ -256,6 +281,7 @@ class Client extends _i1.ServerpodClient {
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'chemists': chemists,
         'doctor': doctor,
+        'inventory': inventory,
         'medicine': medicine,
         'patient': patient,
       };

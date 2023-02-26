@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 import 'package:healthcare_app_flutter/features/patient/patient.dart';
+import 'package:healthcare_app_flutter/main.dart';
 
 import '../../../dependency/app_dependency.dart';
 import '../../../routes/app_route.dart';
@@ -117,6 +118,11 @@ class SearchMedicine extends ChangeNotifier {
     return medicineList;
   }
 
+  clear() {
+    medicineList = [];
+    notifyListeners();
+  }
+
   Future<Medicine?> getMedicine(String? query) async {
     medicine = await ref
         .read(AppDependency.clientProvider)
@@ -137,52 +143,109 @@ class AddMedicine extends ConsumerStatefulWidget {
 
 class _AddMedicineState extends ConsumerState<AddMedicine> {
   TextEditingController _searchController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
+  TextEditingController _stockController = TextEditingController();
+  TextEditingController _discountController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
   }
 
-  // bool _addInv = false;
+  bool addInv = false;
 
   @override
   Widget build(BuildContext context) {
     final searchMedicine = ref.watch(searchMedicineProvider);
     return SafeArea(
       child: Scaffold(
-        body: Column(children: [
-          CustomTextField(
-            label: "Search ",
-            controller: _searchController,
-            onChanged: (p0) async {
-              await ref.read(searchMedicineProvider).searchMedicine(p0!);
-            },
-          ),
-          SizedBox(
-            height: 300,
-            child: searchMedicine.medicineList!.isEmpty
-                ? Container()
-                : ListView.builder(
-                    itemCount: searchMedicine.medicineList?.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        onTap: () async {
-                          _searchController.clear();
+        appBar: AppBar(),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(children: [
+            CustomTextField(
+              suffixIcon: InkWell(
+                  onTap: () {
+                    _searchController.clear();
+                    ref.read(searchMedicineProvider.notifier).clear();
+                  },
+                  child: const Icon(Icons.clear_outlined)),
+              label: "Search ",
+              controller: _searchController,
+              onChanged: (p0) async {
+                await ref.read(searchMedicineProvider).searchMedicine(p0!);
+              },
+              enabled: true,
+            ),
+            SizedBox(
+              height: 300,
+              child: searchMedicine.medicineList!.isEmpty
+                  ? Container()
+                  : ListView.builder(
+                      itemCount: searchMedicine.medicineList?.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () async {
+                            _searchController.clear();
 
-                          await ref
-                              .read(searchMedicineProvider.notifier)
-                              .getMedicine(searchMedicine.medicineList?[index]);
+                            await ref
+                                .read(searchMedicineProvider.notifier)
+                                .getMedicine(
+                                    searchMedicine.medicineList?[index]);
 
-                          ref
-                              .read(searchMedicineProvider.notifier)
-                              .medicineList = [];
-                          print(searchMedicine.medicine?.name);
+                            ref.read(searchMedicineProvider.notifier).clear();
+
+                            if (kDebugMode) {
+                              print(searchMedicine.medicine?.name);
+                            }
+                          },
+                          title:
+                              Text(searchMedicine.medicineList?[index] ?? ""),
+                        );
+                      },
+                    ),
+            ),
+            addInv
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      CustomTextField(
+                        label: "Price",
+                        controller: _priceController,
+                      ),
+                      CustomTextField(
+                        label: "Quantity",
+                        controller: _stockController,
+                      ),
+                      CustomTextField(
+                        label: "discount",
+                        controller: _discountController,
+                      ),
+                      TextButton(
+                        child: const Text("Add Medicine"),
+                        onPressed: () async{
+                          Inventory inventory = Inventory(
+                            medicineId: searchMedicine.medicine!.id!,
+                            price: int.parse(_priceController.text),
+                            storeId: sessionManager.signedInUser!.id!,
+                            discount: _discountController.text.isEmpty
+                                ? 0
+                                : int.parse(_discountController.text),
+                            medicine: searchMedicine.medicine!,
+                            stock: _stockController.text.isEmpty
+                                ? 0
+                                : int.parse(_stockController.text),
+                          );
+
+
+// await client.
                         },
-                        title: Text(searchMedicine.medicineList?[index] ?? ""),
-                      );
-                    }),
-          )
-        ]),
+                      )
+                    ],
+                  )
+                : Container()
+          ]),
+        ),
       ),
     );
   }

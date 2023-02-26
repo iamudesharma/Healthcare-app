@@ -7,13 +7,17 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
+import 'protocol.dart' as _i2;
 
 class Inventory extends _i1.TableRow {
   Inventory({
     int? id,
     required this.medicineId,
     required this.price,
-    required this.stock,
+    this.stock,
+    required this.storeId,
+    this.discount,
+    this.medicine,
   }) : super(id);
 
   factory Inventory.fromJson(
@@ -25,7 +29,13 @@ class Inventory extends _i1.TableRow {
       medicineId: serializationManager
           .deserialize<int>(jsonSerialization['medicineId']),
       price: serializationManager.deserialize<int>(jsonSerialization['price']),
-      stock: serializationManager.deserialize<int>(jsonSerialization['stock']),
+      stock: serializationManager.deserialize<int?>(jsonSerialization['stock']),
+      storeId:
+          serializationManager.deserialize<int>(jsonSerialization['storeId']),
+      discount:
+          serializationManager.deserialize<int?>(jsonSerialization['discount']),
+      medicine: serializationManager
+          .deserialize<_i2.Medicine?>(jsonSerialization['medicine']),
     );
   }
 
@@ -35,7 +45,13 @@ class Inventory extends _i1.TableRow {
 
   int price;
 
-  int stock;
+  int? stock;
+
+  int storeId;
+
+  int? discount;
+
+  _i2.Medicine? medicine;
 
   @override
   String get tableName => 'inventory';
@@ -46,6 +62,9 @@ class Inventory extends _i1.TableRow {
       'medicineId': medicineId,
       'price': price,
       'stock': stock,
+      'storeId': storeId,
+      'discount': discount,
+      'medicine': medicine,
     };
   }
 
@@ -56,6 +75,9 @@ class Inventory extends _i1.TableRow {
       'medicineId': medicineId,
       'price': price,
       'stock': stock,
+      'storeId': storeId,
+      'discount': discount,
+      'medicine': medicine,
     };
   }
 
@@ -66,6 +88,9 @@ class Inventory extends _i1.TableRow {
       'medicineId': medicineId,
       'price': price,
       'stock': stock,
+      'storeId': storeId,
+      'discount': discount,
+      'medicine': medicine,
     };
   }
 
@@ -86,6 +111,15 @@ class Inventory extends _i1.TableRow {
         return;
       case 'stock':
         stock = value;
+        return;
+      case 'storeId':
+        storeId = value;
+        return;
+      case 'discount':
+        discount = value;
+        return;
+      case 'medicine':
+        medicine = value;
         return;
       default:
         throw UnimplementedError();
@@ -217,12 +251,21 @@ class InventoryTable extends _i1.Table {
 
   final stock = _i1.ColumnInt('stock');
 
+  final storeId = _i1.ColumnInt('storeId');
+
+  final discount = _i1.ColumnInt('discount');
+
+  final medicine = _i1.ColumnSerializable('medicine');
+
   @override
   List<_i1.Column> get columns => [
         id,
         medicineId,
         price,
         stock,
+        storeId,
+        discount,
+        medicine,
       ];
 }
 

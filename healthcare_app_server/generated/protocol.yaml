@@ -10,6 +10,9 @@ doctor:
   - getDoctorByAge:
   - getDoctorByAgeAndName:
   - updateDoctor:
+inventory:
+  - addToInventory:
+  - updateInventory:
 medicine:
   - addMedicine:
   - getMedicines:
