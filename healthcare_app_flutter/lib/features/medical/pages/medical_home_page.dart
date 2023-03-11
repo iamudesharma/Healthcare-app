@@ -288,6 +288,7 @@ class _AddMedicineState extends ConsumerState<AddMedicine> {
                         ElevatedButton(
                           child: const Text("Add Medicine"),
                           onPressed: () async {
+                            final router = AutoRouter.of(context);
                             Inventory inventory = Inventory(
                               medicineId: searchMedicine.medicine!.id!,
                               price: int.parse(_priceController.text),
@@ -301,7 +302,11 @@ class _AddMedicineState extends ConsumerState<AddMedicine> {
                                   : int.parse(_stockController.text),
                             );
 
-                            await client.inventory.addToInventory(inventory);
+                            await client.inventory
+                                .addToInventory(inventory)
+                                .then((value) {
+                              router.pop();
+                            });
 
                             // await client.
                           },

@@ -22,16 +22,45 @@ class InventoryList extends StatelessWidget {
             );
           }
           if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data?.length,
-              itemBuilder: (BuildContext context, int index) {
-                final item = snapshot.data?[index];
-                return ListTile(
-                  title: Text(item!.medicine!.name!),
-                  // subtitle: Text(item.description),
-                  trailing: Text(item!.price.toString()),
-                );
-              },
+            return Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: ListView.builder(
+                itemCount: snapshot.data?.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = snapshot.data?[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        const CircleAvatar(),
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                                width: 200,
+                                child: Text(item!.medicine!.name ?? '')),
+                            Text("qty: ${item.stock}"),
+                            // Text(item!.m ?? ''),
+                          ],
+                        ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            Text(
+                                "${discounts(item.price, item.discount ?? 0)} Rs"),
+                            Text("${item.discount}% off",
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 10,
+                                )),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
             );
           }
           return const Center(
@@ -41,4 +70,8 @@ class InventoryList extends StatelessWidget {
       ),
     );
   }
+}
+
+discounts(int price, int dis) {
+  return price - (price * dis / 100);
 }
