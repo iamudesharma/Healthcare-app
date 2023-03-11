@@ -13,6 +13,7 @@ doctor:
 inventory:
   - addToInventory:
   - updateInventory:
+  - getInventory:
 medicine:
   - addMedicine:
   - getMedicines:

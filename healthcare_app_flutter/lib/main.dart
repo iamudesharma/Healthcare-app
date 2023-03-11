@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:excel/excel.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -33,7 +35,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   client = Client(
-    'http://10.0.2.2:8080/',
+    'http://${Platform.isAndroid ? "10.0.2.2" : "localhost"}:8080/',
     authenticationKeyManager: FlutterAuthenticationKeyManager(),
   )..connectivityMonitor = FlutterConnectivityMonitor();
 

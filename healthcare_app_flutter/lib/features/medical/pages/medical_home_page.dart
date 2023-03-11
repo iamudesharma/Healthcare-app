@@ -8,6 +8,7 @@ import 'package:healthcare_app_flutter/main.dart';
 
 import '../../../dependency/app_dependency.dart';
 import '../../../routes/app_route.dart';
+import 'inventory_list_page.dart';
 
 final curretMedicalStoreProvider = FutureProvider<Chemists?>((ref) async {
   return await ref
@@ -46,6 +47,12 @@ class MedicalHomePage extends ConsumerWidget {
                 )
               ],
               otherAccountsPicturesSize: const Size(60, 30)),
+          ListTile(
+            onTap: () {
+              AutoRouter.of(context).pushWidget(const InventoryList());
+            },
+            title: const Text("Inventory List"),
+          ),
           ListTile(
             onTap: () {
               AutoRouter.of(context).pushWidget(const AddMedicine());

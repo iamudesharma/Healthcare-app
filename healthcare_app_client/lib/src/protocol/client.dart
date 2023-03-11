@@ -127,6 +127,13 @@ class _EndpointInventory extends _i1.EndpointRef {
         'updateInventory',
         {'inventory': inventory},
       );
+
+  _i2.Future<List<_i5.Inventory>?> getInventory() =>
+      caller.callServerEndpoint<List<_i5.Inventory>?>(
+        'inventory',
+        'getInventory',
+        {},
+      );
 }
 
 class _EndpointMedicine extends _i1.EndpointRef {
