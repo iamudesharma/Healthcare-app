@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 import 'package:healthcare_app_flutter/features/patient/patient.dart';
@@ -24,69 +26,87 @@ class MedicalHomePage extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final medicalData = ref.watch(curretMedicalStoreProvider);
     var _scaffoldKey = GlobalKey<ScaffoldState>();
-    return Scaffold(
-      drawer: Drawer(
-          child: Column(
-        children: [
-          UserAccountsDrawerHeader(
-              currentAccountPicture: const CircleAvatar(
-                backgroundColor: Colors.amber,
-              ),
-              accountEmail: Text(ref
-                      .read(AppDependency.sessionManagerProvider)
-                      .signedInUser
-                      ?.email ??
-                  ""),
-              accountName: Text(medicalData.value?.name ?? ""),
-              otherAccountsPictures: [
-                ElevatedButton(
-                  onPressed: () {
-                    // AutoRouter.of(context).push(AddPatientRoute(isEdit: true));
-                  },
-                  child: const Center(child: Icon(Icons.edit)),
-                )
-              ],
-              otherAccountsPicturesSize: const Size(60, 30)),
-          ListTile(
-            onTap: () {
-              AutoRouter.of(context).pushWidget(const InventoryList());
-            },
-            title: const Text("Inventory List"),
-          ),
-          ListTile(
-            onTap: () {
-              AutoRouter.of(context).pushWidget(const AddMedicine());
-            },
-            title: const Text("Add Medicine"),
-          ),
-          const ListTile(
-            title: Text("Order History"),
-          ),
-          const ListTile(
-            title: Text("Settings"),
-          ),
-          ListTile(
-            title: const Text("Logout"),
-            onTap: () async {
-              await ref.read(AppDependency.sessionManagerProvider).signOut();
-
-              // ignore: use_build_context_synchronously
-              await AutoRouter.of(context).replace(const SignInRoute());
-            },
-          ),
+    return PlatformScaffold(
+      cupertino: (context, platform) => CupertinoPageScaffoldData(),
+      bottomNavBar: PlatformNavBar(
+        itemChanged: (p0) {},
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(PlatformIcons(context).home), label: "Home"),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.person), label: "Profile"),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: "Settings"),
         ],
-      )),
+      ),
+      widgetKey: _scaffoldKey,
+      material: (context, platform) => MaterialScaffoldData(
+        widgetKey: _scaffoldKey,
+        drawer: Drawer(
+            child: Column(
+          children: [
+            UserAccountsDrawerHeader(
+                currentAccountPicture: const CircleAvatar(
+                  backgroundColor: Colors.amber,
+                ),
+                accountEmail: Text(ref
+                        .read(AppDependency.sessionManagerProvider)
+                        .signedInUser
+                        ?.email ??
+                    ""),
+                accountName: Text(medicalData.value?.name ?? ""),
+                otherAccountsPictures: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // AutoRouter.of(context).push(AddPatientRoute(isEdit: true));
+                    },
+                    child: const Center(child: Icon(Icons.edit)),
+                  )
+                ],
+                otherAccountsPicturesSize: const Size(60, 30)),
+            ListTile(
+              onTap: () {
+                AutoRouter.of(context).pushWidget(const InventoryList());
+              },
+              title: const Text("Inventory List"),
+            ),
+            ListTile(
+              onTap: () {
+                AutoRouter.of(context).pushWidget(const AddMedicine());
+              },
+              title: const Text("Add Medicine"),
+            ),
+            const ListTile(
+              title: Text("Order History"),
+            ),
+            const ListTile(
+              title: Text("Settings"),
+            ),
+            ListTile(
+              title: const Text("Logout"),
+              onTap: () async {
+                await ref.read(AppDependency.sessionManagerProvider).signOut();
+
+                // ignore: use_build_context_synchronously
+                await AutoRouter.of(context).replace(const SignInRoute());
+              },
+            ),
+          ],
+        )),
+      ),
       key: _scaffoldKey,
       body: medicalData.when(
         data: (patient) => CustomScrollView(
           slivers: [
-            SliverAppBar(
-              leading: GestureDetector(
-                  onTap: () {
-                    _scaffoldKey.currentState!.openDrawer();
-                  },
-                  child: const Icon(Icons.menu)),
-              title: Text(patient?.name ?? ""),
+            SliverToBoxAdapter(
+              child: PlatformAppBar(
+                leading: GestureDetector(
+                    onTap: () {
+                      _scaffoldKey.currentState!.openDrawer();
+                    },
+                    child: const Icon(Icons.menu)),
+                title: Text(patient?.name ?? ""),
+              ),
             )
           ],
         ),
@@ -165,8 +185,8 @@ class _AddMedicineState extends ConsumerState<AddMedicine> {
   Widget build(BuildContext context) {
     final searchMedicine = ref.watch(searchMedicineProvider);
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(),
+      child: PlatformScaffold(
+        // appBar: AppBar(),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(

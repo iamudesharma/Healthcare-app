@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../routes/app_route.dart';
 import '../widgets/button_with_border.dart';
@@ -16,7 +17,7 @@ class _SetupPageState extends State<SetupPage> {
   int? _selected;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PlatformScaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

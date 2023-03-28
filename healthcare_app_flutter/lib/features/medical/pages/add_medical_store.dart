@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 import 'package:healthcare_app_flutter/dependency/app_dependency.dart';
@@ -41,8 +42,13 @@ class _AddMedicalStorePageState extends ConsumerState<AddMedicalStorePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        cupertino: (context, platform) => CupertinoNavigationBarData(
+          transitionBetweenRoutes: false,
+          title:
+              Text(widget.isEdit! ? "Edit Medical Store" : "Add Medical Store"),
+        ),
         title: const Text('Add Medical Store'),
       ),
       body: Padding(

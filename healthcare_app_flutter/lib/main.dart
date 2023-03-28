@@ -5,9 +5,11 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:excel/excel.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:healthcare_app_flutter/features/patient/pages/patient_home_page.dart';
 import 'package:healthcare_app_flutter/routes/app_route.dart';
@@ -211,43 +213,56 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     final _appRouter = ref.watch(AppDependency.routeProvider);
 
-    return MaterialApp.router(
+    return PlatformApp.router(
+      localizationsDelegates: <LocalizationsDelegate<dynamic>>[
+        DefaultMaterialLocalizations.delegate,
+        DefaultWidgetsLocalizations.delegate,
+        DefaultCupertinoLocalizations.delegate,
+      ],
       // routeInformationParser: _appRouter.,
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       title: 'Serverpod Demo',
-      themeMode: ThemeMode.dark,
-      theme: FlexThemeData.light(
-        scheme: FlexScheme.tealM3,
-        surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-        blendLevel: 9,
-        tabBarStyle: null,
-        subThemesData: const FlexSubThemesData(
-          blendOnLevel: 10,
-          blendOnColors: false,
-          useM2StyleDividerInM3: true,
+      material: (context, platform) => MaterialAppRouterData(
+        themeMode: ThemeMode.dark,
+        theme: FlexThemeData.light(
+          scheme: FlexScheme.tealM3,
+          surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+          blendLevel: 9,
+          tabBarStyle: null,
+          subThemesData: const FlexSubThemesData(
+            blendOnLevel: 10,
+            blendOnColors: false,
+            useM2StyleDividerInM3: true,
+          ),
+          visualDensity: FlexColorScheme.comfortablePlatformDensity,
+          useMaterial3: true,
+          swapLegacyOnMaterial3: true,
+          // To use the playground font, add GoogleFonts package and uncomment
+          // fontFamily: GoogleFonts.notoSans().fontFamily,
         ),
-        visualDensity: FlexColorScheme.comfortablePlatformDensity,
-        useMaterial3: true,
-        swapLegacyOnMaterial3: true,
-        // To use the playground font, add GoogleFonts package and uncomment
-        // fontFamily: GoogleFonts.notoSans().fontFamily,
-      ),
-      darkTheme: FlexThemeData.dark(
-        scheme: FlexScheme.tealM3,
-        surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-        blendLevel: 15,
-        tabBarStyle: null,
-        subThemesData: const FlexSubThemesData(
-          blendOnLevel: 20,
-          useM2StyleDividerInM3: true,
+        darkTheme: FlexThemeData.dark(
+          scheme: FlexScheme.tealM3,
+          surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+          blendLevel: 15,
+          tabBarStyle: null,
+          subThemesData: const FlexSubThemesData(
+            blendOnLevel: 20,
+            useM2StyleDividerInM3: true,
+          ),
+          visualDensity: FlexColorScheme.comfortablePlatformDensity,
+          useMaterial3: true,
+          swapLegacyOnMaterial3: true,
+          // To use the Playground font, add GoogleFonts package and uncomment
+          // fontFamily: GoogleFonts.notoSans().fontFamily,
         ),
-        visualDensity: FlexColorScheme.comfortablePlatformDensity,
-        useMaterial3: true,
-        swapLegacyOnMaterial3: true,
-        // To use the Playground font, add GoogleFonts package and uncomment
-        // fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
+      cupertino: (context, platform) => CupertinoAppRouterData(
+          theme: CupertinoThemeData(
+        primaryColor: FlexColor.tealM3DarkPrimary,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: FlexColor.darkScaffoldBackground,
+      )),
 // If you do not have a themeMode switch, uncomment this line
 // to let the device system mode control the theme mode:
 // themeMode: ThemeMode.system,

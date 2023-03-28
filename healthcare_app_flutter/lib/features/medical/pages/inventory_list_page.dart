@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:healthcare_app_client/healthcare_app_client.dart';
 import 'package:healthcare_app_flutter/main.dart';
 
@@ -7,8 +8,8 @@ class InventoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
         title: const Text('Inventory List'),
       ),
       body: FutureBuilder<List<Inventory>?>(
