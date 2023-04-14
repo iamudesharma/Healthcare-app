@@ -77,7 +77,7 @@ class _$AppRouter extends RootStackRouter {
     MedicalHomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const MedicalHomePage(),
+        child: MedicalHomePage(),
       );
     },
   };

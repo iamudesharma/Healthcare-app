@@ -30,19 +30,21 @@ List<Widget> _screens = [
 ];
 
 class MedicalHomePage extends ConsumerWidget {
-  const MedicalHomePage({super.key});
+  MedicalHomePage({super.key});
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context, ref) {
     final index = ref.watch(_currentScreenProvider.notifier);
 
     final medicalData = ref.watch(curretMedicalStoreProvider);
-    var _scaffoldKey = GlobalKey<ScaffoldState>();
     return PlatformScaffold(
-      cupertino: (context, platform) => CupertinoPageScaffoldData(),
-      bottomNavBar: PlatformNavBar(
-        itemChanged: (p0) {
-          index.update((value) => p0);
+      cupertino: (context, platform) => CupertinoPageScaffoldData(
+          bottomTabBar: CupertinoTabBar(
+        currentIndex: index.state,
+        onTap: (value) {
+          index.update((value) => value);
         },
         items: [
           BottomNavigationBarItem(
@@ -52,8 +54,7 @@ class MedicalHomePage extends ConsumerWidget {
           const BottomNavigationBarItem(
               icon: Icon(Icons.settings), label: "Settings"),
         ],
-      ),
-      // widgetKey: _scaffoldKey,
+      )),
       material: (context, platform) => MaterialScaffoldData(
         widgetKey: _scaffoldKey,
         drawer: Drawer(
