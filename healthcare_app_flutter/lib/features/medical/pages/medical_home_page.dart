@@ -19,17 +19,31 @@ final curretMedicalStoreProvider = FutureProvider<Chemists?>((ref) async {
       .currentChemists();
 });
 
+final _currentScreenProvider = StateProvider<int>((ref) {
+  return 0;
+});
+
+List<Widget> _screens = [
+  Container(),
+  const InventoryList(),
+  const AddMedicine(),
+];
+
 class MedicalHomePage extends ConsumerWidget {
   const MedicalHomePage({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
+    final index = ref.watch(_currentScreenProvider.notifier);
+
     final medicalData = ref.watch(curretMedicalStoreProvider);
     var _scaffoldKey = GlobalKey<ScaffoldState>();
     return PlatformScaffold(
       cupertino: (context, platform) => CupertinoPageScaffoldData(),
       bottomNavBar: PlatformNavBar(
-        itemChanged: (p0) {},
+        itemChanged: (p0) {
+          index.update((value) => p0);
+        },
         items: [
           BottomNavigationBarItem(
               icon: Icon(PlatformIcons(context).home), label: "Home"),
@@ -39,7 +53,7 @@ class MedicalHomePage extends ConsumerWidget {
               icon: Icon(Icons.settings), label: "Settings"),
         ],
       ),
-      widgetKey: _scaffoldKey,
+      // widgetKey: _scaffoldKey,
       material: (context, platform) => MaterialScaffoldData(
         widgetKey: _scaffoldKey,
         drawer: Drawer(
@@ -100,6 +114,9 @@ class MedicalHomePage extends ConsumerWidget {
           slivers: [
             SliverToBoxAdapter(
               child: PlatformAppBar(
+                cupertino: (context, platform) => CupertinoNavigationBarData(
+                  transitionBetweenRoutes: false,
+                ),
                 leading: GestureDetector(
                     onTap: () {
                       _scaffoldKey.currentState!.openDrawer();
@@ -107,6 +124,9 @@ class MedicalHomePage extends ConsumerWidget {
                     child: const Icon(Icons.menu)),
                 title: Text(patient?.name ?? ""),
               ),
+            ),
+            SliverToBoxAdapter(
+              child: _screens[index.state],
             )
           ],
         ),
